@@ -1,6 +1,7 @@
 package com.hustcaster.app.network
 
 import android.util.Log
+import com.hustcaster.app.utils.parseXML
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -22,7 +23,7 @@ fun fetchRssData(url: String) {
         override fun onResponse(call: Call, response: Response) {
             if (response.isSuccessful) {
                 response.body?.string()?.let { xmlData ->
-                    Log.d("rssData", xmlData)
+                    parseXML(xmlData)
                 }
             }
         }
