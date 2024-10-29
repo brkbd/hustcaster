@@ -19,8 +19,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        fetchRssData("https://tomclarkscomicbookworld.libsyn.com/rss")
-        fetchRssData("https://feeds.megaphone.fm/GLT4787413333")
+//        fetchRssData("https://tomclarkscomicbookworld.libsyn.com/rss")
+//        fetchRssData("https://feeds.megaphone.fm/GLT4787413333")
         setContent {
             HustcasterTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
