@@ -7,5 +7,5 @@ data class Feed(
     var pubDate: String = "",
     var author: String = "",
     var imageUrl: String = "",
-    var items: List<FeedItem> = emptyList()
+    val items: MutableList<FeedItem> = mutableListOf()
 )

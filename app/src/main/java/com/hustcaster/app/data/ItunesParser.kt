@@ -1,18 +1,14 @@
 package com.hustcaster.app.data
 
-import android.util.Log
 import org.xmlpull.v1.XmlPullParser
-import org.xmlpull.v1.XmlPullParserFactory
-import java.io.StringReader
 
-private val NSTAG = "itunes"
-private val NSURI = "http://www.itunes.com/dtds/podcast-1.0.dtd"
-private val IMAGE = "image"
-private val IMAGE_HERF = "href"
-private val AUTHOR = "author"
-private val DURATION = "duration"
-private val SUBTITLE = "subtitle"
-private val NEW_FEED_URL = "new-feed-url"
+
+private const val IMAGE = "image"
+private const val IMAGE_HERF = "href"
+private const val AUTHOR = "author"
+private const val DURATION = "duration"
+private const val SUBTITLE = "subtitle"
+private const val ENCLOSURE = "enclosure"
 
 class ItunesParser : FeedParser {
     override fun parse(xmlPullParser: XmlPullParser, state: FeedState) {
@@ -27,6 +23,9 @@ class ItunesParser : FeedParser {
             IMAGE -> if (state.currentFeedItem == null) {
                 state.feed.imageUrl = xmlPullParser.getAttributeValue(null, IMAGE_HERF)
             }
+
+            ENCLOSURE -> state.currentFeedItem?.audioUrl =
+                xmlPullParser.getAttributeValue(null, "url")
         }
     }
 }

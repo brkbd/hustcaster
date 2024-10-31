@@ -1,8 +1,9 @@
 package com.hustcaster.app.data
 
 object FeedParserFactory {
+    private const val ITUNES = "http://www.itunes.com/dtds/podcast-1.0.dtd"
     private val parsers = mapOf(
-        "http://www.itunes.com/dtds/podcast-1.0.dtd" to ItunesParser()
+        ITUNES to ItunesParser()
     )
 
     fun getParser(namespace: String): ItunesParser? = parsers[namespace]
