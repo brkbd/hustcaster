@@ -1,7 +1,6 @@
 package com.hustcaster.app.data
 
-import android.icu.text.CaseMap.Title
-import kotlinx.coroutines.delay
+import android.util.Log
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.StringReader
@@ -11,7 +10,7 @@ private const val TITLE = "title"
 private const val LINK = "link"
 private const val DESCRIPTION = "description"
 private const val PUB_DATE = "pubDate"
-
+private const val ENCLOSURE = "enclosure"
 
 object MainParser {
     private var state: FeedState = FeedState()
@@ -26,7 +25,7 @@ object MainParser {
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
-                        if (parser.namespace != null) {
+                        if (parser.namespace.isNotEmpty()) {
                             FeedParserFactory.getParser(parser.namespace)?.parse(parser, state)
                         } else {
                             val nodeName = parser.name
@@ -54,6 +53,10 @@ object MainParser {
                                     state.currentFeedItem?.pubDate = parser.nextText()
                                 }
 
+
+                                ENCLOSURE -> state.currentFeedItem?.audioUrl =
+                                    parser.getAttributeValue(null, "url")
+
                             }
                         }
                     }
@@ -67,6 +70,11 @@ object MainParser {
                 }
                 eventType = parser.next()
             }
+            Log.d(
+                "MainParser",
+                "feed:{title:${state.feed.title}, items:[item0:{title:${state.feed.items[0].title}" +
+                        ", audioUrl:${state.feed.items[0].audioUrl}, duration:${state.feed.items[0].duration}}]}"
+            )
         } catch (e: Exception) {
             e.printStackTrace()
         }

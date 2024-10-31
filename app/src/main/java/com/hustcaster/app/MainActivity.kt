@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.hustcaster.app.network.fetchRssData
 import com.hustcaster.app.ui.theme.HustcasterTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,7 +19,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 //        fetchRssData("https://tomclarkscomicbookworld.libsyn.com/rss")
-//        fetchRssData("https://feeds.megaphone.fm/GLT4787413333")
+        fetchRssData("https://feeds.megaphone.fm/GLT4787413333")
         setContent {
             HustcasterTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
