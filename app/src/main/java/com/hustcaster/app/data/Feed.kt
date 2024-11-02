@@ -17,7 +17,7 @@ data class Feed(
     @ColumnInfo("description") var description: String = "",
     @ColumnInfo("pub_date") var pubDate: String = "",
     @ColumnInfo("author") val author: String = "",
-    @ColumnInfo("image_url") val imageUrl: String = "",
+    @ColumnInfo("image_url") val imageUrl: String = ""
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("id")

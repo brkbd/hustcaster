@@ -11,10 +11,11 @@ class FeedItemRepository(
         feedItemDao.deleteItem(feedItem)
     }
 
-//    fun isDownloaded(feedItem: FeedItem)
-//    =feedItemDao.isDownloaded(feedItem.itemId)
-
     fun getFeedAndFeedItems() = feedItemDao.getFeedAndFeedItems()
+
+    fun getDownloadedFeedItems() = feedItemDao.getDownloadedFeedItems()
+
+    fun getPlayedFeedItems() = feedItemDao.getPlayedFeedItems()
 
     companion object {
         @Volatile

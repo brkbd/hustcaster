@@ -20,7 +20,9 @@ data class FeedItem(
     @ColumnInfo("subtitle") val subtitle: String = "",
     @ColumnInfo("pub_date") var pubDate: String = "",
     @ColumnInfo("duration") val duration: String = "",
-    @ColumnInfo("audio_url") var audioUrl: String = ""
+    @ColumnInfo("audio_url") var audioUrl: String = "",
+    @ColumnInfo("is_downloaded") var isDownloaded: Boolean = false,
+    @ColumnInfo("is_played") var isPlayed: Boolean = false
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("item_id")
