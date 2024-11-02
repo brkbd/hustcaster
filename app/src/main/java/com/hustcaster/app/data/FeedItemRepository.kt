@@ -18,7 +18,7 @@ class FeedItemRepository(
 
     companion object {
         @Volatile
-        private var instance: FeedItemsRepository? = null
+        private var instance: FeedItemRepository? = null
 
         fun getInstance(feedItemDao: FeedItemDao) =
             instance ?: synchronized(this) {
