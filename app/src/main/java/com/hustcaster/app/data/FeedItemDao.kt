@@ -19,10 +19,12 @@ interface FeedItemDao {
     @Query("select * from feedItems")
     fun queryAllFeedItems(): List<FeedItem>
 
-    @Delete
-    suspend fun deleteItem(item: FeedItem)
-
     @Transaction
     @Query("select * from feeds where id in (select distinct(feed_id) from feedItems)")
     fun getFeedAndFeedItems(): Flow<List<FeedAndFeedItems>>
+
+    //fun isDownloaded():Boolean
+
+    @Delete
+    suspend fun deleteItem(item: FeedItem)
 }
