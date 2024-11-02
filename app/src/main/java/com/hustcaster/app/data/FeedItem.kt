@@ -15,12 +15,12 @@ import androidx.room.PrimaryKey
 )
 data class FeedItem(
     @ColumnInfo("feed_id") val feedId: Long,
-    @ColumnInfo("title") val title: String,
-    @ColumnInfo("description") val description: String,
-    @ColumnInfo("subtitle") val subtitle: String,
-    @ColumnInfo("pub_date") val pubDate: String,
-    @ColumnInfo("duration") val duration: String,
-    @ColumnInfo("audio_url") val audioUrl: String,
+    @ColumnInfo("title") var title: String = "",
+    @ColumnInfo("description") var description: String = "",
+    @ColumnInfo("subtitle") val subtitle: String = "",
+    @ColumnInfo("pub_date") var pubDate: String = "",
+    @ColumnInfo("duration") val duration: String = "",
+    @ColumnInfo("audio_url") var audioUrl: String = "",
     @ColumnInfo("is_downloaded") val isDownload: Boolean = false
 ) {
     @PrimaryKey(autoGenerate = true)

@@ -9,4 +9,9 @@ data class FeedAndFeedItems(
 
     @Relation(parentColumn = "id", entityColumn = "feed_id")
     val items: List<FeedItem> = emptyList()
-)
+){
+    suspend fun saveFeed():Boolean{
+
+        return true
+    }
+}

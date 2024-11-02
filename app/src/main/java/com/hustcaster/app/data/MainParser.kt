@@ -13,15 +13,17 @@ private const val PUB_DATE = "pubDate"
 private const val ENCLOSURE = "enclosure"
 
 object MainParser {
-    private var state: FeedState = FeedState()
+    private lateinit var state: FeedAndFeedItems
     private val factory = XmlPullParserFactory.newInstance()
 
-    fun parse(xmlData: String) {
+    fun parse(xmlData: String, rssUrl: String) {
         try {
+            state = FeedAndFeedItems(Feed(rssUrl))
             factory.isNamespaceAware = true
             val parser = factory.newPullParser()
             parser.setInput(StringReader(xmlData))
             var eventType = parser.eventType
+            var currentItem: FeedItem? = null
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
@@ -30,31 +32,31 @@ object MainParser {
                         } else {
                             val nodeName = parser.name
                             when (nodeName) {
-                                ITEM -> state.currentFeedItem = FeedItem()
-                                TITLE -> if (state.currentFeedItem == null) {
+                                ITEM -> currentItem = FeedItem(state.feed.id)
+                                TITLE -> if (currentItem == null) {
                                     state.feed.title = parser.nextText()
                                 } else {
-                                    state.currentFeedItem?.title = parser.nextText()
+                                    currentItem.title = parser.nextText()
                                 }
 
-                                LINK -> if (state.currentFeedItem == null) {
+                                LINK -> if (currentItem == null) {
                                     state.feed.link = parser.nextText()
                                 }
 
-                                DESCRIPTION -> if (state.currentFeedItem == null) {
+                                DESCRIPTION -> if (currentItem == null) {
                                     state.feed.description = parser.nextText()
                                 } else {
-                                    state.currentFeedItem?.description = parser.nextText()
+                                    currentItem.description = parser.nextText()
                                 }
 
-                                PUB_DATE -> if (state.currentFeedItem == null) {
+                                PUB_DATE -> if (currentItem == null) {
                                     state.feed.pubDate = parser.nextText()
                                 } else {
-                                    state.currentFeedItem?.pubDate = parser.nextText()
+                                    currentItem.pubDate = parser.nextText()
                                 }
 
 
-                                ENCLOSURE -> state.currentFeedItem?.audioUrl =
+                                ENCLOSURE -> currentItem?.audioUrl =
                                     parser.getAttributeValue(null, "url")
 
                             }
@@ -63,18 +65,13 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            state.currentFeedItem?.let { state.feed.items.add(it) }
-                            state.currentFeedItem = null
+                            currentItem?.let { state.items.add(it) }
+                            currentItem = null
                         }
                     }
                 }
                 eventType = parser.next()
             }
-            Log.d(
-                "MainParser",
-                "feed:{title:${state.feed.title}, items:[item0:{title:${state.feed.items[0].title}" +
-                        ", audioUrl:${state.feed.items[0].audioUrl}, duration:${state.feed.items[0].duration}}]}"
-            )
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -22,7 +22,7 @@ fun fetchRssData(url: String) {
         override fun onResponse(call: Call, response: Response) {
             if (response.isSuccessful) {
                 response.body?.string()?.let { xmlData ->
-                    MainParser.parse(xmlData)
+                    MainParser.parse(url, xmlData)
                 }
             }
         }
