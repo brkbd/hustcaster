@@ -1,5 +1,8 @@
 package com.hustcaster.app.data
 
+import javax.inject.Singleton
+
+@Singleton
 class FeedItemRepository(
     private val feedItemDao: FeedItemDao
 ) {

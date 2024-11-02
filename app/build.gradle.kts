@@ -56,6 +56,9 @@ dependencies {
     //database
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler.v250)
+    //dagger
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -73,3 +76,4 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
