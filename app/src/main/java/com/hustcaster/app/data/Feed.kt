@@ -10,13 +10,14 @@ import androidx.room.PrimaryKey
     indices = [Index("id")]
 )
 data class Feed(
-    @ColumnInfo("title") val title: String = "",
-    @ColumnInfo("link") val link: String = "",
-    @ColumnInfo("description") val description: String = "",
-    @ColumnInfo("pub_date") val pubDate: String = "",
-    @ColumnInfo("author") val author: String = "",
-    @ColumnInfo("image_url") val imageUrl: String = "",
-    val items: MutableList<FeedItem> = mutableListOf()
+    //record the rss url to check for updates
+    @ColumnInfo("rss_url") val rssUrl:String,
+    @ColumnInfo("title") val title: String,
+    @ColumnInfo("link") val link: String,
+    @ColumnInfo("description") val description: String,
+    @ColumnInfo("pub_date") val pubDate: String,
+    @ColumnInfo("author") val author: String,
+    @ColumnInfo("image_url") val imageUrl: String,
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("id")

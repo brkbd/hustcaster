@@ -9,14 +9,14 @@ import androidx.room.Update
 @Dao
 interface FeedDao {
     @Insert
-    fun insertFeed(feed: Feed)
+    suspend fun insertFeed(feed: Feed)
 
     @Update
-    fun updateFeed(newFeed: Feed)
+    suspend fun updateFeed(newFeed: Feed)
 
-    @Query("select * from Feed")
+    @Query("select * from feeds")
     fun queryAllFeeds(): List<Feed>
 
     @Delete
-    fun deleteFeed(feed: Feed)
+    suspend fun deleteFeed(feed: Feed)
 }
