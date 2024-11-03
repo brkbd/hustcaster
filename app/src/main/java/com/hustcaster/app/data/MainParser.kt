@@ -72,8 +72,13 @@ object MainParser {
                 }
                 eventType = parser.next()
             }
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun checkUpdates(){
+
     }
 }

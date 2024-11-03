@@ -9,22 +9,12 @@ import java.io.IOException
 
 val client = OkHttpClient()
 
-fun fetchRssData(url: String) {
+fun fetchRssData(url: String): String? {
     val request = Request.Builder()
         .url(url)
         .build()
 
-    client.newCall(request).enqueue(object : okhttp3.Callback {
-        override fun onFailure(call: Call, e: IOException) {
-            e.printStackTrace()
-        }
+    val response = client.newCall(request).execute()
 
-        override fun onResponse(call: Call, response: Response) {
-            if (response.isSuccessful) {
-                response.body?.string()?.let { xmlData ->
-                    MainParser.parse(url, xmlData)
-                }
-            }
-        }
-    })
+    return response.body?.string()
 }
