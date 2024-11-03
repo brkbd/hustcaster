@@ -23,11 +23,14 @@ interface FeedItemDao {
     @Query("select * from feeds where id in (select distinct(feed_id) from feedItems)")
     fun getFeedAndFeedItems(): Flow<List<FeedAndFeedItems>>
 
-    @Query("select * from feedItems where is_downloaded = 1")
+    @Query("select * from feedItems where is_downloaded=1")
     fun getDownloadedFeedItems(): Flow<List<FeedAndFeedItems>>
 
     @Query("select * from feedItems where is_played=1")
     fun getPlayedFeedItems(): Flow<List<FeedAndFeedItems>>
+
+    @Query("select * from feedItems where feed_id=:feedId")
+    fun getEpisodes(feedId: Long): Flow<List<FeedItem>>
 
     @Delete
     suspend fun deleteItem(item: FeedItem)

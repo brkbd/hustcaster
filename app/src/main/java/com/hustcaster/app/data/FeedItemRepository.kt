@@ -20,6 +20,8 @@ class FeedItemRepository(
 
     fun getPlayedFeedItems() = feedItemDao.getPlayedFeedItems()
 
+    fun getEpisodes(feed: Feed) = feedItemDao.getEpisodes(feed.id)
+
     companion object {
         @Volatile
         private var instance: FeedItemRepository? = null
