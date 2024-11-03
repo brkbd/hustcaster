@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FeedDao {
@@ -15,7 +16,7 @@ interface FeedDao {
     suspend fun updateFeed(newFeed: Feed)
 
     @Query("select * from feeds")
-    fun queryAllFeeds(): List<Feed>
+    fun queryAllFeeds(): Flow<List<Feed>>
 
     @Delete
     suspend fun deleteFeed(feed: Feed)
