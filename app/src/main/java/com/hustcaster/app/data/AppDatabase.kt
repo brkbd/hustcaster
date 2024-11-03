@@ -2,10 +2,11 @@ package com.hustcaster.app.data
 
 import android.content.Context
 import androidx.room.Database
+import androidx.room.Entity
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(version = 1, entities = [Feed::class])
+@Database(version = 1, entities = [Feed::class, FeedItem::class])
 abstract class AppDatabase : RoomDatabase() {
     abstract fun feedDao(): FeedDao
     abstract fun feedItemDao(): FeedItemDao

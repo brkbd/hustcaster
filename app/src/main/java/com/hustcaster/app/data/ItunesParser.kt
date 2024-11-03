@@ -14,15 +14,15 @@ class ItunesParser : FeedParser {
     override fun parse(xmlPullParser: XmlPullParser, state: FeedAndFeedItems) {
         val nodeName = xmlPullParser.name
         when (nodeName) {
-            DURATION -> state.currentFeedItem?.duration = xmlPullParser.nextText()
-            AUTHOR -> if (state.currentFeedItem == null) {
-                state.feed.author = xmlPullParser.nextText()
-            }
-
-            SUBTITLE -> state.currentFeedItem?.subtitle = xmlPullParser.nextText()
-            IMAGE -> if (state.currentFeedItem == null) {
-                state.feed.imageUrl = xmlPullParser.getAttributeValue(null, IMAGE_HREF)
-            }
+//            DURATION -> state.currentFeedItem?.duration = xmlPullParser.nextText()
+//            AUTHOR -> if (state.currentFeedItem == null) {
+//                state.feed.author = xmlPullParser.nextText()
+//            }
+//
+//            SUBTITLE -> state.currentFeedItem?.subtitle = xmlPullParser.nextText()
+//            IMAGE -> if (state.currentFeedItem == null) {
+//                state.feed.imageUrl = xmlPullParser.getAttributeValue(null, IMAGE_HREF)
+//            }
 
         }
     }

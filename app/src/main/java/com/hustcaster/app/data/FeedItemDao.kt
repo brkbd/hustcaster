@@ -17,17 +17,19 @@ interface FeedItemDao {
     suspend fun updateItem(item: FeedItem)
 
     @Query("select * from feedItems")
-    fun queryAllFeedItems(): List<FeedItem>
+    fun queryAllFeedItems(): Flow<List<FeedItem>>
 
     @Transaction
     @Query("select * from feeds where id in (select distinct(feed_id) from feedItems)")
     fun getFeedAndFeedItems(): Flow<List<FeedAndFeedItems>>
 
+    @Transaction
     @Query("select * from feedItems where is_downloaded=1")
-    fun getDownloadedFeedItems(): Flow<List<FeedAndFeedItems>>
+    fun getDownloadedFeedItems(): Flow<List<FeedItem>>
 
+    @Transaction
     @Query("select * from feedItems where is_played=1")
-    fun getPlayedFeedItems(): Flow<List<FeedAndFeedItems>>
+    fun getPlayedFeedItems(): Flow<List<FeedItem>>
 
     @Query("select * from feedItems where feed_id=:feedId")
     fun getEpisodes(feedId: Long): Flow<List<FeedItem>>

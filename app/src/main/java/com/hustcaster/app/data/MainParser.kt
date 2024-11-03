@@ -68,7 +68,7 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            currentItem?.let { state.items.add(it) }
+                            currentItem?.let {  }//add item
                             currentItem = null
                         }
                     }
