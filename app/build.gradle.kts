@@ -59,6 +59,8 @@ dependencies {
     //dagger
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    //work-manager
+    implementation(libs.androidx.work.runtime)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

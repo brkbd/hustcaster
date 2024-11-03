@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase
 @Database(version = 1, entities = [Feed::class])
 abstract class AppDatabase : RoomDatabase() {
     abstract fun feedDao(): FeedDao
+    abstract fun feedItemDao(): FeedItemDao
 
     companion object {
         private var instance: AppDatabase? = null
