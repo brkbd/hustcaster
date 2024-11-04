@@ -20,7 +20,7 @@ class FeedRepository(
 
         fun getInstance(feedDao: FeedDao) =
             instance ?: synchronized(this) {
-                instance ?: FeedRepository(feedDao).let { instance = it }
+                instance ?: FeedRepository(feedDao).also { instance = it }
             }
     }
 }

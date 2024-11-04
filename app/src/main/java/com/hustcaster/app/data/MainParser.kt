@@ -95,6 +95,7 @@ object MainParser {
         }
     }
 
+    //need to pass updateRepository
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun checkUpdates(
         state: FeedAndFeedItems,
@@ -160,6 +161,7 @@ object MainParser {
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
                             currentItem?.let { feedItemRepository.saveFeedItem(it) }//add item
+                            //add item to updateRepo
                             currentItem = null
                         }
                     }
