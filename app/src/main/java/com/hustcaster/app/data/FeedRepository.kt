@@ -10,6 +10,8 @@ class FeedRepository(
 
     suspend fun removeFeed(feed: Feed) = feedDao.deleteFeed(feed)
 
+    suspend fun updateFeed(feed: Feed) = feedDao.updateFeed(feed)
+
     fun getAllFeeds() = feedDao.queryAllFeeds()
 
     companion object {

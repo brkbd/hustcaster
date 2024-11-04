@@ -23,7 +23,6 @@ interface FeedItemDao {
     @Query("select * from feeds where id in (select distinct(feed_id) from feedItems)")
     fun getFeedAndFeedItems(): Flow<List<FeedAndFeedItems>>
 
-
     @Transaction
     @Query("select * from feedItems where is_downloaded=1")
     fun getDownloadedFeedItems(): Flow<List<FeedItem>>

@@ -82,9 +82,7 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            if (currentItem != null) {
-                                feedItemRepository.saveFeedItem(currentItem)
-                            }
+                            currentItem?.let { feedItemRepository.saveFeedItem(it) }
                             currentItem = null
                         }
                     }
@@ -98,7 +96,11 @@ object MainParser {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun checkUpdates(state: FeedAndFeedItems) {
+    suspend fun checkUpdates(
+        state: FeedAndFeedItems,
+        feedItemRepository: FeedItemRepository,
+        feedRepository: FeedRepository
+    ) {
         try {
             factory.isNamespaceAware = true
             val parser = factory.newPullParser()
@@ -157,14 +159,14 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            currentItem?.let { }//add item
+                            currentItem?.let { feedItemRepository.saveFeedItem(it) }//add item
                             currentItem = null
                         }
                     }
                 }
                 eventType = parser.next()
             }
-            //update feed
+            feedRepository.updateFeed(state.feed)
         } catch (e: Exception) {
             e.printStackTrace()
         }
