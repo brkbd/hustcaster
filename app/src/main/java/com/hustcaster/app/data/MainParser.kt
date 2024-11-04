@@ -92,15 +92,17 @@ object MainParser {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun checkUpdates(url: String) {
+    fun checkUpdates(state: FeedAndFeedItems) {
         try {
             factory.isNamespaceAware = true
             val parser = factory.newPullParser()
-            val data = fetchRssData(url)
+            val data = fetchRssData(state.feed.rssUrl)
             parser.setInput(StringReader(data))
             var currentItem: FeedItem? = null
             var eventType = parser.eventType
-            while (eventType != XmlPullParser.END_DOCUMENT) {
+            val lastPubDate = state.feed.pubDate
+            var flag = true//decide whether to continue parsing or not
+            while (flag && eventType != XmlPullParser.END_DOCUMENT) {
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
                         if (parser.namespace.isNotEmpty()) {
@@ -128,13 +130,17 @@ object MainParser {
                                 PUB_DATE -> if (currentItem == null) {
                                     //check updates
                                     val pubDate = convertStringToCalendar(parser.nextText())
-                                    if(pubDate?.after(state.feed.pubDate) == true){
-                                        
+                                    if (pubDate?.after(lastPubDate) == false) {
+                                        flag = false
+                                    }else{
+                                        state.feed.pubDate = pubDate
                                     }
                                 } else {
                                     currentItem.pubDate = convertStringToCalendar(parser.nextText())
+                                    if (currentItem.pubDate?.after(lastPubDate) == false) {
+                                        flag = false
+                                    }
                                 }
-
 
                                 ENCLOSURE -> currentItem?.audioUrl =
                                     parser.getAttributeValue(null, "url")
@@ -142,9 +148,17 @@ object MainParser {
                             }
                         }
                     }
+
+                    XmlPullParser.END_TAG -> {
+                        if (parser.name == ITEM) {
+                            currentItem?.let { }//add item
+                            currentItem = null
+                        }
+                    }
                 }
                 eventType = parser.next()
             }
+            //update feed
         } catch (e: Exception) {
             e.printStackTrace()
         }
