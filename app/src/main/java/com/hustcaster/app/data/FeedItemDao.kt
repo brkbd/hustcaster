@@ -31,6 +31,9 @@ interface FeedItemDao {
     @Query("select * from feedItems where is_played=1")
     fun getPlayedFeedItems(): Flow<List<FeedItem>>
 
+    @Query("select * from feedItems where is_updated=1")
+    fun getUpdatedFeedItems(): Flow<List<FeedItem>>
+
     @Query("select * from feedItems where feed_id=:feedId")
     fun getEpisodes(feedId: Long): Flow<List<FeedItem>>
 
