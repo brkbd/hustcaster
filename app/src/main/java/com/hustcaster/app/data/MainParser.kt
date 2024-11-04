@@ -18,13 +18,17 @@ private const val PUB_DATE = "pubDate"
 private const val ENCLOSURE = "enclosure"
 
 object MainParser {
-    private lateinit var state: FeedAndFeedItems
+
     private val factory = XmlPullParserFactory.newInstance()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun parse(rssUrl: String) {
+    suspend fun parse(
+        rssUrl: String,
+        feedItemRepository: FeedItemRepository,
+        feedRepository: FeedRepository
+    ) {
         try {
-            state = FeedAndFeedItems(Feed(rssUrl))
+            val state = FeedAndFeedItems(Feed(rssUrl))
             factory.isNamespaceAware = true
             val parser = factory.newPullParser()
             val xmlData = fetchRssData(rssUrl)
@@ -78,14 +82,16 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            currentItem?.let { }//add item
+                            if (currentItem != null) {
+                                feedItemRepository.saveFeedItem(currentItem)
+                            }
                             currentItem = null
                         }
                     }
                 }
                 eventType = parser.next()
             }
-
+            feedRepository.saveFeed(state.feed)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -132,7 +138,7 @@ object MainParser {
                                     val pubDate = convertStringToCalendar(parser.nextText())
                                     if (pubDate?.after(lastPubDate) == false) {
                                         flag = false
-                                    }else{
+                                    } else {
                                         state.feed.pubDate = pubDate
                                     }
                                 } else {
