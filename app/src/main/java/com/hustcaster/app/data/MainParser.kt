@@ -1,8 +1,11 @@
 package com.hustcaster.app.data
 
+import android.os.Build
 import android.util.Log
 import android.util.Xml
+import androidx.annotation.RequiresApi
 import com.hustcaster.app.network.fetchRssData
+import com.hustcaster.app.utils.convertStringToCalendar
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.StringReader
@@ -18,6 +21,7 @@ object MainParser {
     private lateinit var state: FeedAndFeedItems
     private val factory = XmlPullParserFactory.newInstance()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun parse(rssUrl: String) {
         try {
             state = FeedAndFeedItems(Feed(rssUrl))
@@ -53,9 +57,15 @@ object MainParser {
                                 }
 
                                 PUB_DATE -> if (currentItem == null) {
-                                    state.feed.pubDate = parser.nextText()
+                                    state.feed.pubDate = convertStringToCalendar(parser.nextText())
                                 } else {
-                                    currentItem.pubDate = parser.nextText()
+                                    currentItem.pubDate = convertStringToCalendar(parser.nextText())
+                                    if (state.feed.pubDate == null || state.feed.pubDate!!.before(
+                                            currentItem.pubDate
+                                        )
+                                    ) {
+                                        state.feed.pubDate = currentItem.pubDate
+                                    }
                                 }
 
 
@@ -68,7 +78,7 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            currentItem?.let {  }//add item
+                            currentItem?.let { }//add item
                             currentItem = null
                         }
                     }
@@ -81,6 +91,7 @@ object MainParser {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun checkUpdates(url: String) {
         try {
             factory.isNamespaceAware = true
@@ -115,10 +126,13 @@ object MainParser {
                                 }
 
                                 PUB_DATE -> if (currentItem == null) {
-                                    //check updates logic
-                                    state.feed.pubDate = parser.nextText()
+                                    //check updates
+                                    val pubDate = convertStringToCalendar(parser.nextText())
+                                    if(pubDate?.after(state.feed.pubDate) == true){
+                                        
+                                    }
                                 } else {
-                                    currentItem.pubDate = parser.nextText()
+                                    currentItem.pubDate = convertStringToCalendar(parser.nextText())
                                 }
 
 

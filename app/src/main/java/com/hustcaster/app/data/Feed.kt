@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.Calendar
 
 @Entity(
     tableName = "feeds",
@@ -15,7 +16,7 @@ data class Feed(
     @ColumnInfo("title") var title: String = "",
     @ColumnInfo("link") var link: String = "",
     @ColumnInfo("description") var description: String = "",
-    @ColumnInfo("pub_date") var pubDate: String = "",
+    @ColumnInfo("pub_date") var pubDate: Calendar? = null,
     @ColumnInfo("author") val author: String = "",
     @ColumnInfo("image_url") val imageUrl: String = ""
 ) {

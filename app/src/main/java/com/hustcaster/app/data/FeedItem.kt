@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.Calendar
 
 @Entity(
     tableName = "feedItems",
@@ -18,7 +19,7 @@ data class FeedItem(
     @ColumnInfo("title") var title: String = "",
     @ColumnInfo("description") var description: String = "",
     @ColumnInfo("subtitle") val subtitle: String = "",
-    @ColumnInfo("pub_date") var pubDate: String = "",
+    @ColumnInfo("pub_date") var pubDate: Calendar? = null,
     @ColumnInfo("duration") val duration: String = "",
     @ColumnInfo("audio_url") var audioUrl: String = "",
     @ColumnInfo("is_downloaded") var isDownloaded: Boolean = false,
