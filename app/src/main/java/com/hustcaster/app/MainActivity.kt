@@ -26,8 +26,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 //        fetchRssData("https://tomclarkscomicbookworld.libsyn.com/rss")
 //        fetchRssData("https://feeds.megaphone.fm/GLT4787413333")
-        val calendar= convertStringToCalendar("Tue, 29 Oct 2024 20:00:00 +0000")
-        Log.d("Test","$calendar")
+
         setContent {
             HustcasterTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->

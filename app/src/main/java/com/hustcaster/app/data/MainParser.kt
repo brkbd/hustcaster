@@ -160,8 +160,8 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
+                            currentItem?.isUpdated=true
                             currentItem?.let { feedItemRepository.saveFeedItem(it) }//add item
-                            //add item to updateRepo
                             currentItem = null
                         }
                     }

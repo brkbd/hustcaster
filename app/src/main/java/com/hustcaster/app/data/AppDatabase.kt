@@ -16,6 +16,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun feedItemDao(): FeedItemDao
 
     companion object {
+        @Volatile
         private var instance: AppDatabase? = null
 
         @Synchronized

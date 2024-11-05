@@ -3,8 +3,11 @@ package com.hustcaster.app.workers
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.work.Constraints
 import androidx.work.CoroutineWorker
-import androidx.work.Worker
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.hustcaster.app.data.AppDatabase
 import com.hustcaster.app.data.FeedItemRepository
@@ -14,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 
 class UpdatesWorker(context: Context, workerParameters: WorkerParameters) :
     CoroutineWorker(context, workerParameters) {
@@ -24,12 +28,11 @@ class UpdatesWorker(context: Context, workerParameters: WorkerParameters) :
             val feedRepository = FeedRepository.getInstance(appDatabase.feedDao())
             val feedItemRepository = FeedItemRepository.getInstance(appDatabase.feedItemDao())
             val feedAndFeedItemsList = feedItemRepository.getFeedAndFeedItems()
-            //get updateRepository
             runBlocking {
                 launch {
-                    feedAndFeedItemsList.collect{items->
-                        items.forEach{item->
-                            MainParser.checkUpdates(item,feedItemRepository,feedRepository)
+                    feedAndFeedItemsList.collect { items ->
+                        items.forEach { item ->
+                            MainParser.checkUpdates(item, feedItemRepository, feedRepository)
                         }
                     }
                 }
@@ -40,4 +43,13 @@ class UpdatesWorker(context: Context, workerParameters: WorkerParameters) :
         }
         Result.success()
     }
+}
+
+fun startUpdatesWork(context: Context) {
+    val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .build()
+    val request = PeriodicWorkRequestBuilder<UpdatesWorker>(1, TimeUnit.DAYS)
+        .build()
+    WorkManager.getInstance(context).enqueue(request)
 }
