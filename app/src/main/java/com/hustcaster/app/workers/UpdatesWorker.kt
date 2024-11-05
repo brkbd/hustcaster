@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -18,6 +19,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
+
+const val UPDATE_WORK_TAG = "update_work"
 
 class UpdatesWorker(context: Context, workerParameters: WorkerParameters) :
     CoroutineWorker(context, workerParameters) {
@@ -49,7 +52,12 @@ fun startUpdatesWork(context: Context) {
     val constraints = Constraints.Builder()
         .setRequiredNetworkType(NetworkType.CONNECTED)
         .build()
+
     val request = PeriodicWorkRequestBuilder<UpdatesWorker>(1, TimeUnit.DAYS)
+        .setConstraints(constraints)
         .build()
-    WorkManager.getInstance(context).enqueue(request)
+
+
+    WorkManager.getInstance(context)
+        .enqueueUniquePeriodicWork(UPDATE_WORK_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
 }
