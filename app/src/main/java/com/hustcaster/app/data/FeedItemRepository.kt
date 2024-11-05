@@ -14,6 +14,10 @@ class FeedItemRepository(
         feedItemDao.deleteItem(feedItem)
     }
 
+    suspend fun updateFeedItem(feedItem: FeedItem){
+        feedItemDao.updateItem(feedItem)
+    }
+
     fun getFeedAndFeedItems() = feedItemDao.getFeedAndFeedItems()
 
     fun getDownloadedFeedItems() = feedItemDao.getDownloadedFeedItems()
