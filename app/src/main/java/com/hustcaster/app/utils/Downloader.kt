@@ -31,6 +31,9 @@ class Downloader {
         @Synchronized
         @OptIn(UnstableApi::class)
         fun getDownloadManager(context: Context): DownloadManager {
+            if (downloadManager != null) {
+                return downloadManager as DownloadManager
+            }
             val downloadDirectory = File(context.getExternalFilesDir(null), "exoplayer_downloads")
             val databaseProvider = StandaloneDatabaseProvider(context)
             val cache = SimpleCache(downloadDirectory, NoOpCacheEvictor(), databaseProvider)
@@ -41,6 +44,7 @@ class Downloader {
                 DefaultHttpDataSource.Factory(),
                 Executors.newFixedThreadPool(6)
             ).apply { downloadManager = this }
+
         }
     }
 
@@ -56,22 +60,13 @@ class Downloader {
     }
 
     suspend fun updateFeedItem(
-        downloadManager: DownloadManager,
         feedItem: FeedItem,
         repository: FeedItemRepository
     ) {
         feedItem.isDownloaded = true
-//        feedItem.downloadUrl = getDownloadFilePath(downloadManager, feedItem)
         repository.updateFeedItem(feedItem)
     }
 
-//    private fun getDownloadFilePath(downloadManager: DownloadManager, feedItem: FeedItem): String {
-//        val downloads = downloadManager.currentDownloads
-//        for (episode in downloads) {
-//            if (episode.request.uri.toString() == feedItem.audioUrl) {
-//                return episode.
-//            }
-//        }
-//    }
+
 }
 

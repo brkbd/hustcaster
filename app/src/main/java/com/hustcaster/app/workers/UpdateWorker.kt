@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 
 const val UPDATE_WORK_TAG = "update_work"
 
-class UpdatesWorker(context: Context, workerParameters: WorkerParameters) :
+class UpdateWorker(context: Context, workerParameters: WorkerParameters) :
     CoroutineWorker(context, workerParameters) {
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
@@ -53,7 +53,7 @@ fun startUpdatesWork(context: Context) {
         .setRequiredNetworkType(NetworkType.CONNECTED)
         .build()
 
-    val request = PeriodicWorkRequestBuilder<UpdatesWorker>(1, TimeUnit.DAYS)
+    val request = PeriodicWorkRequestBuilder<UpdateWorker>(1, TimeUnit.DAYS)
         .setConstraints(constraints)
         .build()
 
