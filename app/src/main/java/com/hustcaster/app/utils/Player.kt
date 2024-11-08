@@ -14,15 +14,18 @@ class Player(
 ) {
 
     fun getMediaItem(feedItem: FeedItem): MediaItem {
-        if (!feedItem.isDownloaded){
+        if (!feedItem.isDownloaded) {
             return MediaItem.fromUri(feedItem.audioUrl)
         }
-        val downloads = downloadManager.currentDownloads
-        for (episode in downloads) {
-            if (episode.request.uri.toString() == feedItem.audioUrl) {
-                return episode.request.toMediaItem()
+        val downloadList = downloadManager.currentDownloads
+        for (download in downloadList) {
+            if (download.request.uri.toString() == feedItem.audioUrl
+                && download.state == Download.STATE_COMPLETED
+            ) {
+                return download.request.toMediaItem()
             }
         }
         return MediaItem.fromUri(feedItem.audioUrl)
     }
+
 }
