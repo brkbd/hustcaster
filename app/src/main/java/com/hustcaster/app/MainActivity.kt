@@ -14,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.hustcaster.app.compose.utils.FeedItemView
+import com.hustcaster.app.data.FeedItem
 import com.hustcaster.app.network.fetchRssData
 import com.hustcaster.app.ui.theme.HustcasterTheme
 import com.hustcaster.app.utils.convertStringToCalendar
@@ -30,10 +32,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             HustcasterTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Greeting(name = "Android", modifier = Modifier.padding(innerPadding))
                 }
             }
         }

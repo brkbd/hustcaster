@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">hustcaster</string>
+    <string name="duration">duration</string>
 </resources>

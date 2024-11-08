@@ -18,7 +18,6 @@ data class FeedItem(
     @ColumnInfo("feed_id") val feedId: Long,
     @ColumnInfo("title") var title: String = "",
     @ColumnInfo("description") var description: String = "",
-    @ColumnInfo("subtitle") val subtitle: String = "",
     @ColumnInfo("pub_date") var pubDate: Calendar? = null,
     @ColumnInfo("duration") val duration: String = "",
     @ColumnInfo("audio_url") var audioUrl: String = "",

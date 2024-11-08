@@ -68,6 +68,10 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer.dash)
     implementation(libs.androidx.media3.ui)
 
+    //glide
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+    annotationProcessor(libs.compiler)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
