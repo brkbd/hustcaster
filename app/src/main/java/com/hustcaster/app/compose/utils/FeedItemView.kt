@@ -1,10 +1,7 @@
 package com.hustcaster.app.compose.utils
 
-import android.media.Image
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,8 +14,8 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.hustcaster.app.R
 import com.hustcaster.app.data.FeedItem
-import com.hustcaster.app.network.fetchRssData
 import com.hustcaster.app.ui.theme.HustcasterTheme
+import com.hustcaster.app.utils.dateFormat
 import java.util.Calendar
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -38,7 +35,7 @@ fun FeedItemView(
         Column {
             Text(text = feedItem.title)
             Row {
-                Text(text = feedItem.pubDate.toString())
+                Text(text = dateFormat.format(feedItem.pubDate))
                 Icon(
                     painter = painterResource(id = R.drawable.clock),
                     contentDescription = stringResource(
@@ -53,14 +50,15 @@ fun FeedItemView(
 
 @Preview
 @Composable
-fun FeedItemViewPreview(){
+fun FeedItemViewPreview() {
     HustcasterTheme {
         FeedItemView(
             feedItem = FeedItem(
                 title = "123",
                 pubDate = Calendar.getInstance(),
                 feedId = 1
-            ), pictureUrl = "https://static.libsyn.com/p/assets/c/c/e/a/ccea20418e7aceed27a2322813b393ee/6M_Pod_New_Boink_Vertical_Logo_2024.png"
+            ),
+            pictureUrl = "https://static.libsyn.com/p/assets/c/c/e/a/ccea20418e7aceed27a2322813b393ee/6M_Pod_New_Boink_Vertical_Logo_2024.png"
         )
     }
 }

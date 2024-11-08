@@ -18,6 +18,9 @@ interface FeedDao {
     @Query("select * from feeds")
     fun queryAllFeeds(): Flow<List<Feed>>
 
+    @Query("select image_url from feeds where id=:feedId")
+    fun queryFeedPictureUrlById(feedId: Long): Flow<String>
+
     @Delete
     suspend fun deleteFeed(feed: Feed)
 }

@@ -12,6 +12,8 @@ class FeedRepository(
 
     suspend fun updateFeed(feed: Feed) = feedDao.updateFeed(feed)
 
+    fun getImageUrlByFeedId(feedId: Long) = feedDao.queryFeedPictureUrlById(feedId)
+
     fun getAllFeeds() = feedDao.queryAllFeeds()
 
     companion object {
