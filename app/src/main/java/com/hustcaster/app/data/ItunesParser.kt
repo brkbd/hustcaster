@@ -11,18 +11,21 @@ private const val SUBTITLE = "subtitle"
 
 
 class ItunesParser : FeedParser {
-    override fun parse(xmlPullParser: XmlPullParser, state: PodcastAndEpisodes) {
+    override fun parse(
+        xmlPullParser: XmlPullParser,
+        state: PodcastAndEpisodes,
+        currentItem: Episode?
+    ) {
         val nodeName = xmlPullParser.name
         when (nodeName) {
-//            DURATION -> state.currentFeedItem?.duration = xmlPullParser.nextText()
-//            AUTHOR -> if (state.currentFeedItem == null) {
-//                state.feed.author = xmlPullParser.nextText()
-//            }
-//
-//            SUBTITLE -> state.currentFeedItem?.subtitle = xmlPullParser.nextText()
-//            IMAGE -> if (state.currentFeedItem == null) {
-//                state.feed.imageUrl = xmlPullParser.getAttributeValue(null, IMAGE_HREF)
-//            }
+            DURATION -> currentItem?.duration = xmlPullParser.nextText()
+            AUTHOR -> if (currentItem == null) {
+                state.podcast.author = xmlPullParser.nextText()
+            }
+
+            IMAGE -> if (currentItem == null) {
+                state.podcast.imageUrl = xmlPullParser.getAttributeValue(null, IMAGE_HREF)
+            }
 
         }
     }

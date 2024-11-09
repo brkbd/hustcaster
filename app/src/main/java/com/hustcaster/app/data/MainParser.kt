@@ -37,7 +37,8 @@ object MainParser {
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
                         if (parser.namespace.isNotEmpty()) {
-                            FeedParserFactory.getParser(parser.namespace)?.parse(parser, state)
+                            FeedParserFactory.getParser(parser.namespace)
+                                ?.parse(parser, state, currentItem)
                         } else {
                             val nodeName = parser.name
                             when (nodeName) {
@@ -59,7 +60,8 @@ object MainParser {
                                 }
 
                                 PUB_DATE -> if (currentItem == null) {
-                                    state.podcast.pubDate = convertStringToCalendar(parser.nextText())
+                                    state.podcast.pubDate =
+                                        convertStringToCalendar(parser.nextText())
                                 } else {
                                     currentItem.pubDate = convertStringToCalendar(parser.nextText())
                                     if (state.podcast.pubDate == null || state.podcast.pubDate!!.before(
@@ -113,7 +115,8 @@ object MainParser {
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
                         if (parser.namespace.isNotEmpty()) {
-                            FeedParserFactory.getParser(parser.namespace)?.parse(parser, state)
+                            FeedParserFactory.getParser(parser.namespace)
+                                ?.parse(parser, state, currentItem)
                         } else {
                             val nodeName = parser.name
                             when (nodeName) {
@@ -158,7 +161,7 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            currentItem?.isUpdated=true
+                            currentItem?.isUpdated = true
                             currentItem?.let { episodeRepository.saveEpisode(it) }//add item
                             currentItem = null
                         }

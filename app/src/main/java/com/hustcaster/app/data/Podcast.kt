@@ -17,8 +17,8 @@ data class Podcast(
     @ColumnInfo("link") var link: String = "",
     @ColumnInfo("description") var description: String = "",
     @ColumnInfo("pub_date") var pubDate: Calendar? = null,
-    @ColumnInfo("author") val author: String = "",
-    @ColumnInfo("image_url") val imageUrl: String = ""
+    @ColumnInfo("author") var author: String = "",
+    @ColumnInfo("image_url") var imageUrl: String = ""
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("id")
