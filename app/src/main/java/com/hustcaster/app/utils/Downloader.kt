@@ -69,7 +69,7 @@ class Downloader {
         repository: EpisodeRepository
     ) {
         episode.isDownloaded = true
-        repository.updateFeedItem(episode)
+        repository.updateEpisode(episode)
     }
 
 

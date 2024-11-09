@@ -10,8 +10,8 @@ import com.hustcaster.app.utils.Converters
 @Database(version = 1, entities = [Podcast::class, Episode::class])
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun feedDao(): PodcastDao
-    abstract fun feedItemDao(): EpisodeDao
+    abstract fun podcastDao(): PodcastDao
+    abstract fun episodeDao(): EpisodeDao
 
     companion object {
         @Volatile

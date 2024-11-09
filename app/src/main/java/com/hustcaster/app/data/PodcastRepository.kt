@@ -6,15 +6,15 @@ import javax.inject.Singleton
 class PodcastRepository(
     private val podcastDao: PodcastDao
 ) {
-    suspend fun saveFeed(podcast: Podcast) = podcastDao.insertFeed(podcast)
+    suspend fun savePodcast(podcast: Podcast) = podcastDao.insertPodcast(podcast)
 
-    suspend fun removeFeed(podcast: Podcast) = podcastDao.deleteFeed(podcast)
+    suspend fun removePodcast(podcast: Podcast) = podcastDao.deletePodcast(podcast)
 
-    suspend fun updateFeed(podcast: Podcast) = podcastDao.updateFeed(podcast)
+    suspend fun updatePodcast(podcast: Podcast) = podcastDao.updatePodcast(podcast)
 
-    fun getImageUrlByFeedId(feedId: Long) = podcastDao.queryFeedPictureUrlById(feedId)
+    fun getImageUrlByPodcastId(feedId: Long) = podcastDao.getPodcastPictureUrlById(feedId)
 
-    fun getAllFeeds() = podcastDao.queryAllFeeds()
+    fun getAllPodcasts() = podcastDao.queryAllPodcasts()
 
     companion object {
         @Volatile

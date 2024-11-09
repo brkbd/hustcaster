@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                         episode = Episode(
                             title = "Dodgeball",
                             pubDate = Calendar.getInstance(),
-                            feedId = 1,
+                            podcastId = 1,
                             duration = "01:50:30"
                         ),
                         pictureUrl = "https://static.libsyn.com/p/assets/c/c/e/a/ccea20418e7aceed27a2322813b393ee/6M_Pod_New_Boink_Vertical_Logo_2024.png"

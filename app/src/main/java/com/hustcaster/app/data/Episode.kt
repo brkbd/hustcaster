@@ -15,7 +15,7 @@ import java.util.Calendar
     indices = [Index("podcast_id")]
 )
 data class Episode(
-    @ColumnInfo("podcast_id") val feedId: Long,
+    @ColumnInfo("podcast_id") val podcastId: Long,
     @ColumnInfo("title") var title: String = "",
     @ColumnInfo("description") var description: String = "",
     @ColumnInfo("pub_date") var pubDate: Calendar? = null,
@@ -26,6 +26,6 @@ data class Episode(
     @ColumnInfo("is_played") var isPlayed: Boolean = false,
     @ColumnInfo("is_updated") var isUpdated: Boolean = false,
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo("item_id")
-    val itemId: Long = 0
+    @ColumnInfo("episode_id")
+    val episodeId: Long = 0
 )

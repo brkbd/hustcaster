@@ -7,6 +7,6 @@ data class PodcastAndEpisodes(
     @Embedded
     val podcast: Podcast,
 
-    @Relation(parentColumn = "id", entityColumn = "feed_id")
+    @Relation(parentColumn = "id", entityColumn = "podcast_id")
     val items: List<Episode> = emptyList()
 )

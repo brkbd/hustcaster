@@ -11,32 +11,32 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface EpisodeDao {
     @Insert
-    suspend fun insertItem(item: Episode)
+    suspend fun insertEpisode(episode: Episode)
 
     @Update
-    suspend fun updateItem(item: Episode)
+    suspend fun updateEpisode(episode: Episode)
 
-    @Query("select * from feedItems")
-    fun queryAllFeedItems(): Flow<List<Episode>>
-
-    @Transaction
-    @Query("select * from feeds where id in (select distinct(feed_id) from feedItems)")
-    fun getFeedAndFeedItems(): Flow<List<PodcastAndEpisodes>>
+    @Query("select * from episodes")
+    fun queryAllEpisodes(): Flow<List<Episode>>
 
     @Transaction
-    @Query("select * from feedItems where is_downloaded=1")
-    fun getDownloadedFeedItems(): Flow<List<Episode>>
+    @Query("select * from podcasts where id in (select distinct(podcast_id) from episodes)")
+    fun getPodcastAndEpisodes(): Flow<List<PodcastAndEpisodes>>
 
     @Transaction
-    @Query("select * from feedItems where is_played=1")
-    fun getPlayedFeedItems(): Flow<List<Episode>>
+    @Query("select * from episodes where is_downloaded=1")
+    fun getDownloadedEpisodes(): Flow<List<Episode>>
 
-    @Query("select * from feedItems where is_updated=1")
-    fun getUpdatedFeedItems(): Flow<List<Episode>>
+    @Transaction
+    @Query("select * from episodes where is_played=1")
+    fun getPlayedEpisodes(): Flow<List<Episode>>
 
-    @Query("select * from feedItems where feed_id=:feedId")
-    fun getEpisodes(feedId: Long): Flow<List<Episode>>
+    @Query("select * from episodes where is_updated=1")
+    fun getUpdatedEpisodes(): Flow<List<Episode>>
+
+    @Query("select * from episodes where podcast_id=:podcastId")
+    fun getEpisodes(podcastId: Long): Flow<List<Episode>>
 
     @Delete
-    suspend fun deleteItem(item: Episode)
+    suspend fun deleteEpisode(episode: Episode)
 }

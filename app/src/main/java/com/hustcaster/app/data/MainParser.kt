@@ -80,14 +80,14 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            currentItem?.let { episodeRepository.saveFeedItem(it) }
+                            currentItem?.let { episodeRepository.saveEpisode(it) }
                             currentItem = null
                         }
                     }
                 }
                 eventType = parser.next()
             }
-            podcastRepository.saveFeed(state.podcast)
+            podcastRepository.savePodcast(state.podcast)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -159,14 +159,14 @@ object MainParser {
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
                             currentItem?.isUpdated=true
-                            currentItem?.let { episodeRepository.saveFeedItem(it) }//add item
+                            currentItem?.let { episodeRepository.saveEpisode(it) }//add item
                             currentItem = null
                         }
                     }
                 }
                 eventType = parser.next()
             }
-            podcastRepository.updateFeed(state.podcast)
+            podcastRepository.updatePodcast(state.podcast)
         } catch (e: Exception) {
             e.printStackTrace()
         }

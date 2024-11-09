@@ -28,9 +28,9 @@ class UpdateWorker(context: Context, workerParameters: WorkerParameters) :
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
             val appDatabase = AppDatabase.getDatabase(applicationContext)
-            val podcastRepository = PodcastRepository.getInstance(appDatabase.feedDao())
-            val episodeRepository = EpisodeRepository.getInstance(appDatabase.feedItemDao())
-            val feedAndFeedItemsList = episodeRepository.getFeedAndFeedItems()
+            val podcastRepository = PodcastRepository.getInstance(appDatabase.podcastDao())
+            val episodeRepository = EpisodeRepository.getInstance(appDatabase.episodeDao())
+            val feedAndFeedItemsList = episodeRepository.getPodcastAndEpisodes()
             runBlocking {
                 launch {
                     feedAndFeedItemsList.collect { items ->

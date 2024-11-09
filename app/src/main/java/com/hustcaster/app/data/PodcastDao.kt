@@ -10,17 +10,17 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PodcastDao {
     @Insert
-    suspend fun insertFeed(podcast: Podcast)
+    suspend fun insertPodcast(podcast: Podcast)
 
     @Update
-    suspend fun updateFeed(newPodcast: Podcast)
+    suspend fun updatePodcast(newPodcast: Podcast)
 
     @Query("select * from podcasts")
-    fun queryAllFeeds(): Flow<List<Podcast>>
+    fun queryAllPodcasts(): Flow<List<Podcast>>
 
-    @Query("select image_url from podcasts where id=:feedId")
-    fun queryFeedPictureUrlById(feedId: Long): Flow<String>
+    @Query("select image_url from podcasts where id=:podcastId")
+    fun getPodcastPictureUrlById(podcastId: Long): Flow<String>
 
     @Delete
-    suspend fun deleteFeed(podcast: Podcast)
+    suspend fun deletePodcast(podcast: Podcast)
 }
