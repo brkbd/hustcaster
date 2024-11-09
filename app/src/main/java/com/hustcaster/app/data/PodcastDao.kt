@@ -8,19 +8,19 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface FeedDao {
+interface PodcastDao {
     @Insert
-    suspend fun insertFeed(feed: Feed)
+    suspend fun insertFeed(podcast: Podcast)
 
     @Update
-    suspend fun updateFeed(newFeed: Feed)
+    suspend fun updateFeed(newPodcast: Podcast)
 
-    @Query("select * from feeds")
-    fun queryAllFeeds(): Flow<List<Feed>>
+    @Query("select * from podcasts")
+    fun queryAllFeeds(): Flow<List<Podcast>>
 
-    @Query("select image_url from feeds where id=:feedId")
+    @Query("select image_url from podcasts where id=:feedId")
     fun queryFeedPictureUrlById(feedId: Long): Flow<String>
 
     @Delete
-    suspend fun deleteFeed(feed: Feed)
+    suspend fun deleteFeed(podcast: Podcast)
 }

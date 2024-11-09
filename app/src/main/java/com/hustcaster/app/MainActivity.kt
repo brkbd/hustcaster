@@ -2,26 +2,21 @@ package com.hustcaster.app
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hustcaster.app.compose.utils.FeedItemView
-import com.hustcaster.app.data.FeedItem
-import com.hustcaster.app.network.fetchRssData
+import com.hustcaster.app.compose.component.EpisodeItem
+import com.hustcaster.app.data.Episode
 import com.hustcaster.app.ui.theme.HustcasterTheme
-import com.hustcaster.app.utils.convertStringToCalendar
 import java.util.Calendar
 
 class MainActivity : ComponentActivity() {
@@ -39,8 +34,8 @@ class MainActivity : ComponentActivity() {
 //                }
                 Column {
                     Spacer(modifier = Modifier.padding(100.dp))
-                    FeedItemView(
-                        feedItem = FeedItem(
+                    EpisodeItem(
+                        episode = Episode(
                             title = "Dodgeball",
                             pubDate = Calendar.getInstance(),
                             feedId = 1,

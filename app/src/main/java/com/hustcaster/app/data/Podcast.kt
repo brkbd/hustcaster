@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey
 import java.util.Calendar
 
 @Entity(
-    tableName = "feeds",
+    tableName = "podcasts",
     indices = [Index("id")]
 )
-data class Feed(
+data class Podcast(
     //record the rss url to check for updates
     @ColumnInfo("rss_url") val rssUrl: String,
     @ColumnInfo("title") var title: String = "",

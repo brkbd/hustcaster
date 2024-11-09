@@ -11,8 +11,8 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.hustcaster.app.data.AppDatabase
-import com.hustcaster.app.data.FeedItemRepository
-import com.hustcaster.app.data.FeedRepository
+import com.hustcaster.app.data.EpisodeRepository
+import com.hustcaster.app.data.PodcastRepository
 import com.hustcaster.app.data.MainParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,14 +28,14 @@ class UpdateWorker(context: Context, workerParameters: WorkerParameters) :
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
             val appDatabase = AppDatabase.getDatabase(applicationContext)
-            val feedRepository = FeedRepository.getInstance(appDatabase.feedDao())
-            val feedItemRepository = FeedItemRepository.getInstance(appDatabase.feedItemDao())
-            val feedAndFeedItemsList = feedItemRepository.getFeedAndFeedItems()
+            val podcastRepository = PodcastRepository.getInstance(appDatabase.feedDao())
+            val episodeRepository = EpisodeRepository.getInstance(appDatabase.feedItemDao())
+            val feedAndFeedItemsList = episodeRepository.getFeedAndFeedItems()
             runBlocking {
                 launch {
                     feedAndFeedItemsList.collect { items ->
                         items.forEach { item ->
-                            MainParser.checkUpdates(item, feedItemRepository, feedRepository)
+                            MainParser.checkUpdates(item, episodeRepository, podcastRepository)
                         }
                     }
                 }

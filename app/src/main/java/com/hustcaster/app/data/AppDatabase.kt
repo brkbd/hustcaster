@@ -2,18 +2,16 @@ package com.hustcaster.app.data
 
 import android.content.Context
 import androidx.room.Database
-import androidx.room.Entity
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.hustcaster.app.utils.Converters
 
-@Database(version = 1, entities = [Feed::class, FeedItem::class])
+@Database(version = 1, entities = [Podcast::class, Episode::class])
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun feedDao(): FeedDao
-    abstract fun feedItemDao(): FeedItemDao
+    abstract fun feedDao(): PodcastDao
+    abstract fun feedItemDao(): EpisodeDao
 
     companion object {
         @Volatile

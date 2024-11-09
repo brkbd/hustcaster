@@ -3,8 +3,8 @@
     <dimen name="duration_icon_padding_vertical">1.8dp</dimen>
     <dimen name="duration_icon_padding_horizontal">10dp</dimen>
     <dimen name="title_additional_infos_padding">10dp</dimen>
-    <dimen name="feed_item_surface_rounded_corner_shape">3dp</dimen>
-    <dimen name="feed_item_surface_shadow_elevation">3dp</dimen>
-    <dimen name="feed_item_padding_horizontal">10dp</dimen>
-    <dimen name="feed_item_padding_between_image_text">10dp</dimen>
+    <dimen name="episode_surface_rounded_corner_shape">3dp</dimen>
+    <dimen name="episode_surface_shadow_elevation">3dp</dimen>
+    <dimen name="episode_padding_horizontal">10dp</dimen>
+    <dimen name="episode_padding_between_image_text">10dp</dimen>
 </resources>

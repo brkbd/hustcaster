@@ -1,8 +1,6 @@
 package com.hustcaster.app.data
 
 import android.os.Build
-import android.util.Log
-import android.util.Xml
 import androidx.annotation.RequiresApi
 import com.hustcaster.app.network.fetchRssData
 import com.hustcaster.app.utils.convertStringToCalendar
@@ -24,17 +22,17 @@ object MainParser {
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun parse(
         rssUrl: String,
-        feedItemRepository: FeedItemRepository,
-        feedRepository: FeedRepository
+        episodeRepository: EpisodeRepository,
+        podcastRepository: PodcastRepository
     ) {
         try {
-            val state = FeedAndFeedItems(Feed(rssUrl))
+            val state = PodcastAndEpisodes(Podcast(rssUrl))
             factory.isNamespaceAware = true
             val parser = factory.newPullParser()
             val xmlData = fetchRssData(rssUrl)
             parser.setInput(StringReader(xmlData))
             var eventType = parser.eventType
-            var currentItem: FeedItem? = null
+            var currentItem: Episode? = null
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
@@ -43,32 +41,32 @@ object MainParser {
                         } else {
                             val nodeName = parser.name
                             when (nodeName) {
-                                ITEM -> currentItem = FeedItem(state.feed.id)
+                                ITEM -> currentItem = Episode(state.podcast.id)
                                 TITLE -> if (currentItem == null) {
-                                    state.feed.title = parser.nextText()
+                                    state.podcast.title = parser.nextText()
                                 } else {
                                     currentItem.title = parser.nextText()
                                 }
 
                                 LINK -> if (currentItem == null) {
-                                    state.feed.link = parser.nextText()
+                                    state.podcast.link = parser.nextText()
                                 }
 
                                 DESCRIPTION -> if (currentItem == null) {
-                                    state.feed.description = parser.nextText()
+                                    state.podcast.description = parser.nextText()
                                 } else {
                                     currentItem.description = parser.nextText()
                                 }
 
                                 PUB_DATE -> if (currentItem == null) {
-                                    state.feed.pubDate = convertStringToCalendar(parser.nextText())
+                                    state.podcast.pubDate = convertStringToCalendar(parser.nextText())
                                 } else {
                                     currentItem.pubDate = convertStringToCalendar(parser.nextText())
-                                    if (state.feed.pubDate == null || state.feed.pubDate!!.before(
+                                    if (state.podcast.pubDate == null || state.podcast.pubDate!!.before(
                                             currentItem.pubDate
                                         )
                                     ) {
-                                        state.feed.pubDate = currentItem.pubDate
+                                        state.podcast.pubDate = currentItem.pubDate
                                     }
                                 }
 
@@ -82,14 +80,14 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            currentItem?.let { feedItemRepository.saveFeedItem(it) }
+                            currentItem?.let { episodeRepository.saveFeedItem(it) }
                             currentItem = null
                         }
                     }
                 }
                 eventType = parser.next()
             }
-            feedRepository.saveFeed(state.feed)
+            podcastRepository.saveFeed(state.podcast)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -98,18 +96,18 @@ object MainParser {
     //need to pass updateRepository
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun checkUpdates(
-        state: FeedAndFeedItems,
-        feedItemRepository: FeedItemRepository,
-        feedRepository: FeedRepository
+        state: PodcastAndEpisodes,
+        episodeRepository: EpisodeRepository,
+        podcastRepository: PodcastRepository
     ) {
         try {
             factory.isNamespaceAware = true
             val parser = factory.newPullParser()
-            val data = fetchRssData(state.feed.rssUrl)
+            val data = fetchRssData(state.podcast.rssUrl)
             parser.setInput(StringReader(data))
-            var currentItem: FeedItem? = null
+            var currentItem: Episode? = null
             var eventType = parser.eventType
-            val lastPubDate = state.feed.pubDate
+            val lastPubDate = state.podcast.pubDate
             var flag = true//decide whether to continue parsing or not
             while (flag && eventType != XmlPullParser.END_DOCUMENT) {
                 when (eventType) {
@@ -119,19 +117,19 @@ object MainParser {
                         } else {
                             val nodeName = parser.name
                             when (nodeName) {
-                                ITEM -> currentItem = FeedItem(state.feed.id)
+                                ITEM -> currentItem = Episode(state.podcast.id)
                                 TITLE -> if (currentItem == null) {
-                                    state.feed.title = parser.nextText()
+                                    state.podcast.title = parser.nextText()
                                 } else {
                                     currentItem.title = parser.nextText()
                                 }
 
                                 LINK -> if (currentItem == null) {
-                                    state.feed.link = parser.nextText()
+                                    state.podcast.link = parser.nextText()
                                 }
 
                                 DESCRIPTION -> if (currentItem == null) {
-                                    state.feed.description = parser.nextText()
+                                    state.podcast.description = parser.nextText()
                                 } else {
                                     currentItem.description = parser.nextText()
                                 }
@@ -142,7 +140,7 @@ object MainParser {
                                     if (pubDate?.after(lastPubDate) == false) {
                                         flag = false
                                     } else {
-                                        state.feed.pubDate = pubDate
+                                        state.podcast.pubDate = pubDate
                                     }
                                 } else {
                                     currentItem.pubDate = convertStringToCalendar(parser.nextText())
@@ -161,14 +159,14 @@ object MainParser {
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
                             currentItem?.isUpdated=true
-                            currentItem?.let { feedItemRepository.saveFeedItem(it) }//add item
+                            currentItem?.let { episodeRepository.saveFeedItem(it) }//add item
                             currentItem = null
                         }
                     }
                 }
                 eventType = parser.next()
             }
-            feedRepository.updateFeed(state.feed)
+            podcastRepository.updateFeed(state.podcast)
         } catch (e: Exception) {
             e.printStackTrace()
         }

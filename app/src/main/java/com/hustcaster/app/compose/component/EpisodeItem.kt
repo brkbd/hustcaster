@@ -1,15 +1,11 @@
-package com.hustcaster.app.compose.utils
+package com.hustcaster.app.compose.component
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -27,23 +23,23 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.hustcaster.app.R
-import com.hustcaster.app.data.FeedItem
+import com.hustcaster.app.data.Episode
 import com.hustcaster.app.ui.theme.HustcasterTheme
 import com.hustcaster.app.utils.dateFormat
 import java.util.Calendar
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun FeedItemView(
-    feedItem: FeedItem,
+fun EpisodeItem(
+    episode: Episode,
     pictureUrl: String,
     modifier: Modifier = Modifier
 ) {
     Surface(
-        shape = RoundedCornerShape(dimensionResource(id = R.dimen.feed_item_surface_rounded_corner_shape)),
-        shadowElevation = dimensionResource(id = R.dimen.feed_item_surface_shadow_elevation),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.episode_surface_rounded_corner_shape)),
+        shadowElevation = dimensionResource(id = R.dimen.episode_surface_shadow_elevation),
         modifier = modifier
-            .padding(horizontal = dimensionResource(id = R.dimen.feed_item_padding_horizontal))
+            .padding(horizontal = dimensionResource(id = R.dimen.episode_padding_horizontal))
             .height(80.dp),
         color = Color.White
     ) {
@@ -54,14 +50,14 @@ fun FeedItemView(
         ) {
             GlideImage(
                 model = pictureUrl,
-                contentDescription = feedItem.description,
+                contentDescription = episode.description,
                 modifier = modifier.size(60.dp),
                 contentScale = ContentScale.Crop
             )
             Column(
-                modifier = modifier.padding(horizontal = dimensionResource(id = R.dimen.feed_item_padding_between_image_text))
+                modifier = modifier.padding(horizontal = dimensionResource(id = R.dimen.episode_padding_between_image_text))
             ) {
-                Text(text = feedItem.title, style = MaterialTheme.typography.titleMedium)
+                Text(text = episode.title, style = MaterialTheme.typography.titleMedium)
                 Row(
                     modifier = modifier.padding(
                         vertical = dimensionResource(
@@ -70,7 +66,7 @@ fun FeedItemView(
                     )
                 ) {
                     Text(
-                        text = dateFormat.format(feedItem.pubDate!!.time),
+                        text = dateFormat.format(episode.pubDate!!.time),
                         style = MaterialTheme.typography.labelSmall
                     )
                     Icon(
@@ -87,7 +83,7 @@ fun FeedItemView(
                             )
                         )
                     )
-                    Text(text = feedItem.duration, style = MaterialTheme.typography.labelSmall)
+                    Text(text = episode.duration, style = MaterialTheme.typography.labelSmall)
                 }
             }
         }
@@ -97,10 +93,10 @@ fun FeedItemView(
 
 @Preview
 @Composable
-fun FeedItemViewPreview() {
+fun EpisodeItemPreview() {
     HustcasterTheme {
-        FeedItemView(
-            feedItem = FeedItem(
+        EpisodeItem(
+            episode = Episode(
                 title = "123",
                 pubDate = Calendar.getInstance(),
                 feedId = 1,

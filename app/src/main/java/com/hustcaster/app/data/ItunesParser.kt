@@ -11,7 +11,7 @@ private const val SUBTITLE = "subtitle"
 
 
 class ItunesParser : FeedParser {
-    override fun parse(xmlPullParser: XmlPullParser, state: FeedAndFeedItems) {
+    override fun parse(xmlPullParser: XmlPullParser, state: PodcastAndEpisodes) {
         val nodeName = xmlPullParser.name
         when (nodeName) {
 //            DURATION -> state.currentFeedItem?.duration = xmlPullParser.nextText()

@@ -10,8 +10,8 @@ import androidx.media3.datasource.cache.NoOpCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
 import androidx.media3.exoplayer.offline.DownloadManager
 import androidx.media3.exoplayer.offline.DownloadRequest
-import com.hustcaster.app.data.FeedItem
-import com.hustcaster.app.data.FeedItemRepository
+import com.hustcaster.app.data.Episode
+import com.hustcaster.app.data.EpisodeRepository
 import java.io.File
 import java.util.concurrent.Executors
 import javax.inject.Singleton
@@ -55,21 +55,21 @@ class Downloader {
 
 
     @OptIn(UnstableApi::class)
-    fun createDownloadRequest(feedItem: FeedItem): DownloadRequest {
-        return DownloadRequest.Builder(feedItem.audioUrl, Uri.parse(feedItem.audioUrl)).build()
+    fun createDownloadRequest(episode: Episode): DownloadRequest {
+        return DownloadRequest.Builder(episode.audioUrl, Uri.parse(episode.audioUrl)).build()
     }
 
-    suspend fun downloadFeedItem(downloadManager: DownloadManager, feedItem: FeedItem) {
-        val downloadRequest = createDownloadRequest(feedItem)
+    suspend fun downloadFeedItem(downloadManager: DownloadManager, episode: Episode) {
+        val downloadRequest = createDownloadRequest(episode)
         downloadManager.addDownload(downloadRequest)
     }
 
     suspend fun updateFeedItem(
-        feedItem: FeedItem,
-        repository: FeedItemRepository
+        episode: Episode,
+        repository: EpisodeRepository
     ) {
-        feedItem.isDownloaded = true
-        repository.updateFeedItem(feedItem)
+        episode.isDownloaded = true
+        repository.updateFeedItem(episode)
     }
 
 

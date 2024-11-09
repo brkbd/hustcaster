@@ -8,14 +8,14 @@ import androidx.room.PrimaryKey
 import java.util.Calendar
 
 @Entity(
-    tableName = "feedItems",
+    tableName = "episodes",
     foreignKeys = [
-        ForeignKey(entity = Feed::class, parentColumns = ["id"], childColumns = ["feed_id"])
+        ForeignKey(entity = Podcast::class, parentColumns = ["id"], childColumns = ["podcast_id"])
     ],
-    indices = [Index("feed_id")]
+    indices = [Index("podcast_id")]
 )
-data class FeedItem(
-    @ColumnInfo("feed_id") val feedId: Long,
+data class Episode(
+    @ColumnInfo("podcast_id") val feedId: Long,
     @ColumnInfo("title") var title: String = "",
     @ColumnInfo("description") var description: String = "",
     @ColumnInfo("pub_date") var pubDate: Calendar? = null,
