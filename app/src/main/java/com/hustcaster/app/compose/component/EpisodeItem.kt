@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.hustcaster.app.R
-import com.hustcaster.app.data.Episode
+import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.ui.theme.HustcasterTheme
 import com.hustcaster.app.utils.dateFormat
 import java.util.Calendar

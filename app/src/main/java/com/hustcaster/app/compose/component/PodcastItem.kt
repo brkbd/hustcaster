@@ -17,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.hustcaster.app.data.Podcast
-import com.hustcaster.app.data.PodcastAndEpisodes
+import com.hustcaster.app.data.model.Podcast
+import com.hustcaster.app.data.model.PodcastAndEpisodes
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable

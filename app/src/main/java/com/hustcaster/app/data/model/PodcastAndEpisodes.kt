@@ -1,4 +1,4 @@
-package com.hustcaster.app.data
+package com.hustcaster.app.data.model
 
 import androidx.room.Embedded
 import androidx.room.Relation

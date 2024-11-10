@@ -1,5 +1,7 @@
-package com.hustcaster.app.data
+package com.hustcaster.app.data.repository
 
+import com.hustcaster.app.data.model.Podcast
+import com.hustcaster.app.data.dao.PodcastDao
 import javax.inject.Singleton
 
 @Singleton

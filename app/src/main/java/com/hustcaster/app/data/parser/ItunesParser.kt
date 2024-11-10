@@ -1,14 +1,13 @@
-package com.hustcaster.app.data
+package com.hustcaster.app.data.parser
 
+import com.hustcaster.app.data.model.Episode
+import com.hustcaster.app.data.model.PodcastAndEpisodes
 import org.xmlpull.v1.XmlPullParser
-
 
 private const val IMAGE = "image"
 private const val IMAGE_HREF = "href"
 private const val AUTHOR = "author"
 private const val DURATION = "duration"
-private const val SUBTITLE = "subtitle"
-
 
 class ItunesParser : FeedParser {
     override fun parse(

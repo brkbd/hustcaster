@@ -5,6 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.hustcaster.app.data.dao.EpisodeDao
+import com.hustcaster.app.data.dao.PodcastDao
+import com.hustcaster.app.data.model.Episode
+import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.utils.Converters
 
 @Database(version = 1, entities = [Podcast::class, Episode::class])

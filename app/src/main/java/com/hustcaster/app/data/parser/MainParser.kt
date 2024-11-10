@@ -1,7 +1,12 @@
-package com.hustcaster.app.data
+package com.hustcaster.app.data.parser
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.hustcaster.app.data.model.Episode
+import com.hustcaster.app.data.model.Podcast
+import com.hustcaster.app.data.model.PodcastAndEpisodes
+import com.hustcaster.app.data.repository.EpisodeRepository
+import com.hustcaster.app.data.repository.PodcastRepository
 import com.hustcaster.app.network.fetchRssData
 import com.hustcaster.app.utils.convertStringToCalendar
 import org.xmlpull.v1.XmlPullParser

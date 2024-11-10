@@ -11,9 +11,9 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.hustcaster.app.data.AppDatabase
-import com.hustcaster.app.data.EpisodeRepository
-import com.hustcaster.app.data.PodcastRepository
-import com.hustcaster.app.data.MainParser
+import com.hustcaster.app.data.repository.EpisodeRepository
+import com.hustcaster.app.data.repository.PodcastRepository
+import com.hustcaster.app.data.parser.MainParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking

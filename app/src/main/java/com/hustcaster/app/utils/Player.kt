@@ -5,7 +5,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadManager
-import com.hustcaster.app.data.Episode
+import com.hustcaster.app.data.model.Episode
 
 @OptIn(UnstableApi::class)
 class Player(

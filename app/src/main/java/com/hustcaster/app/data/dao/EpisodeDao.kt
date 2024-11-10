@@ -1,4 +1,4 @@
-package com.hustcaster.app.data
+package com.hustcaster.app.data.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,6 +6,8 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import com.hustcaster.app.data.model.Episode
+import com.hustcaster.app.data.model.PodcastAndEpisodes
 import kotlinx.coroutines.flow.Flow
 
 @Dao

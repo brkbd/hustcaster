@@ -10,8 +10,8 @@ import androidx.media3.datasource.cache.NoOpCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
 import androidx.media3.exoplayer.offline.DownloadManager
 import androidx.media3.exoplayer.offline.DownloadRequest
-import com.hustcaster.app.data.Episode
-import com.hustcaster.app.data.EpisodeRepository
+import com.hustcaster.app.data.model.Episode
+import com.hustcaster.app.data.repository.EpisodeRepository
 import java.io.File
 import java.util.concurrent.Executors
 import javax.inject.Singleton

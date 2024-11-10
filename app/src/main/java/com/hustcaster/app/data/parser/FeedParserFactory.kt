@@ -1,4 +1,4 @@
-package com.hustcaster.app.data
+package com.hustcaster.app.data.parser
 
 object FeedParserFactory {
     private const val ITUNES = "http://www.itunes.com/dtds/podcast-1.0.dtd"
