@@ -37,7 +37,7 @@ fun PodcastItem(
         shape = RoundedCornerShape(5.dp),
         onClick = onClick,
         modifier = Modifier.width(120.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             GlideImage(
