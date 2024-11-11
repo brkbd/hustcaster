@@ -21,10 +21,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.hustcaster.app.R
 import com.hustcaster.app.data.model.Podcast
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -52,20 +54,27 @@ fun PodcastHomeList(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "我的频道", style = MaterialTheme.typography.titleMedium)
-                Box {
+                Text(
+                    text = stringResource(id = R.string.my_podcasts),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Box(modifier=Modifier.padding(top = 5.dp)) {
                     Row {
-                        Text(text = "更多频道", style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            text = stringResource(id = R.string.more_podcasts),
+                            style = MaterialTheme.typography.titleSmall
+                        )
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = null
+                            contentDescription = null,
+                            modifier=Modifier.size(20.dp)
                         )
                     }
                 }
             }
             Spacer(modifier = Modifier.padding(vertical = 5.dp))
             LazyRow {
-                items(podcasts){podcast->
+                items(podcasts) { podcast ->
                     GlideImage(
                         model = podcast.imageUrl,
                         contentDescription = null,
