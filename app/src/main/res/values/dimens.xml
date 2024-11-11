@@ -9,4 +9,5 @@
     <dimen name="episode_padding_between_image_text">10dp</dimen>
     <dimen name="top_app_bar_icon_padding_horizontal">10dp</dimen>
     <dimen name="top_app_bar_title_padding_start">10dp</dimen>
+    <dimen name="card_side_margin">10dp</dimen>
 </resources>

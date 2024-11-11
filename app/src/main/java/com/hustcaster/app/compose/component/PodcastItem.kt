@@ -22,16 +22,9 @@ import com.hustcaster.app.data.model.PodcastAndEpisodes
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-@Preview
 fun PodcastItem(
-    podcastAndEpisodes: PodcastAndEpisodes = PodcastAndEpisodes(
-        Podcast(
-            rssUrl = "",
-            title = "123",
-            author = "abc"
-        )
-    ),
-    onClick: () -> Unit = {}
+    podcastAndEpisodes: PodcastAndEpisodes,
+    onClick: () -> Unit
 ) {
     Card(
         shape = RoundedCornerShape(5.dp),
@@ -45,7 +38,7 @@ fun PodcastItem(
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp),
+                    .height(150.dp),
                 contentScale = ContentScale.Crop
             )
             Column(modifier = Modifier.padding(5.dp)) {
