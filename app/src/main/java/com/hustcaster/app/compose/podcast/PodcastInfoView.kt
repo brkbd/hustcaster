@@ -1,6 +1,5 @@
 package com.hustcaster.app.compose.podcast
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,22 +10,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.hustcaster.app.R
+import com.hustcaster.app.compose.component.CustomizedTopAppBar
 import com.hustcaster.app.utils.dateFormat
 import java.util.Calendar
 
@@ -106,18 +102,12 @@ fun PodcastTopAppBar(
     onCloseClick: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior
 ) {
-    TopAppBar(
-        modifier = modifier.fillMaxWidth(),
-        title = { },
-        actions = {
-            Icon(
-                imageVector = Icons.Filled.Close,
-                contentDescription = null,
-                modifier = modifier
-                    .clickable { onCloseClick() }
-                    .padding(end = dimensionResource(id = R.dimen.top_app_bar_icon_padding_horizontal))
-            )
-        },
+    CustomizedTopAppBar(
+        title = "",
+        navigationIcon = null,
+        onNavigationIconClick = { },
+        actionIcon = Icons.Filled.Close,
+        onActionIconClick = onCloseClick,
         scrollBehavior = scrollBehavior
     )
 }
