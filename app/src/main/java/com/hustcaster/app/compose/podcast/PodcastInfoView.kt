@@ -21,10 +21,12 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.hustcaster.app.R
 import com.hustcaster.app.utils.dateFormat
 import java.util.Calendar
 
@@ -46,9 +48,9 @@ fun PodcastInfoView(
                 onCloseClick = { onCloseClick() },
                 scrollBehavior = scrollBehavior
             )
-        },
+        }
 
-        ) { innerPadding ->
+    ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             LazyColumn {
                 item {
@@ -113,7 +115,7 @@ fun PodcastTopAppBar(
                 contentDescription = null,
                 modifier = modifier
                     .clickable { onCloseClick() }
-                    .padding(end = 10.dp)
+                    .padding(end = dimensionResource(id = R.dimen.top_app_bar_icon_padding_horizontal))
             )
         },
         scrollBehavior = scrollBehavior

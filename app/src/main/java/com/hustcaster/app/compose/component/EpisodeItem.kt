@@ -36,12 +36,9 @@ fun EpisodeItem(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        shape = RoundedCornerShape(dimensionResource(id = R.dimen.episode_surface_rounded_corner_shape)),
-        shadowElevation = dimensionResource(id = R.dimen.episode_surface_shadow_elevation),
+        color = Color.White,
         modifier = modifier
-            .padding(horizontal = dimensionResource(id = R.dimen.episode_padding_horizontal))
-            .height(80.dp),
-        color = Color.White
+            .height(80.dp)
     ) {
         Row(
             modifier = modifier

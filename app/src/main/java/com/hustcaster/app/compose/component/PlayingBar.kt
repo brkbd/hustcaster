@@ -1,5 +1,6 @@
 package com.hustcaster.app.compose.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,16 +23,15 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 
 @OptIn(ExperimentalGlideComposeApi::class)
-@Preview
 @Composable
 fun PlayingBar(
-    podcastTitle: String = "6 minutes English",
-    podcastImageUrl: String = "",
-    episodeTitle: String = "Episode 1: abc",
-    isPlaying: Boolean = true,
-    progress: Float = 0f,
-    onButtonClick: () -> Unit = {},
-    onBarClick: () -> Unit = {}
+    podcastTitle: String,
+    podcastImageUrl: String,
+    episodeTitle: String,
+    isPlaying: Boolean,
+    progress: Float,
+    onButtonClick: () -> Unit,
+    onBarClick: () -> Unit
 ) {
     Surface(
         onClick = onBarClick,
@@ -44,6 +44,7 @@ fun PlayingBar(
             Row(
                 modifier = Modifier
                     .padding(vertical = 5.dp)
+                    .fillMaxWidth()
             ) {
                 GlideImage(
                     model = podcastImageUrl,
@@ -68,14 +69,15 @@ fun PlayingBar(
                     contentDescription = null,
                     modifier = Modifier
                         .padding(vertical = 10.dp)
-                        .padding(start = 190.dp)
+                        .padding(end = 50.dp)
                         .size(20.dp)
+                        .clickable { onButtonClick() }
                 )
             }
             LinearProgressIndicator(
                 progress = { progress },
                 modifier = Modifier
-                    .height(1.dp)
+                    .height(3.dp)
                     .fillMaxWidth()
             )
         }

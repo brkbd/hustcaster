@@ -26,4 +26,10 @@ object Dimens {
 
     val EpisodePaddingBetweenImageText:Dp
         @Composable get() = dimensionResource(id = R.dimen.episode_padding_between_image_text)
+
+    val TopAppBarIconPaddingHorizontal:Dp
+        @Composable get()= dimensionResource(id = R.dimen.top_app_bar_icon_padding_horizontal)
+
+    val TopAppBarTitlePaddingStart:Dp
+        @Composable get() = dimensionResource(id = R.dimen.top_app_bar_title_padding_start)
 }
