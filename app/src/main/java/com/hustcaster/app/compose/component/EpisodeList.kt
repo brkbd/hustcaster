@@ -31,7 +31,7 @@ fun EpisodeList(
 ) {
     LazyColumn {
         items(episodes) { episode ->
-            EpisodeItem(episode = episode, pictureUrl = imageUrl)
+            EpisodeItem(episode = episode, pictureUrl = imageUrl, onEpisodeClick = {})
         }
     }
 }

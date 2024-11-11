@@ -30,38 +30,12 @@ import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.model.PodcastAndEpisodes
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun PodcastList(
     modifier: Modifier = Modifier,
-    podcasts: List<PodcastAndEpisodes> = listOf(
-        PodcastAndEpisodes(
-            Podcast(rssUrl = "")
-        ),
-        PodcastAndEpisodes(
-            Podcast(rssUrl = "")
-        ),
-        PodcastAndEpisodes(
-            Podcast(rssUrl = "")
-        ),
-        PodcastAndEpisodes(
-            Podcast(rssUrl = "")
-        ),
-        PodcastAndEpisodes(
-            Podcast(rssUrl = "")
-        ),
-        PodcastAndEpisodes(
-            Podcast(rssUrl = "")
-        ),
-        PodcastAndEpisodes(
-            Podcast(rssUrl = "")
-        ),
-        PodcastAndEpisodes(
-            Podcast(rssUrl = "")
-        )
-    ),
-    onBackClick: () -> Unit = {},
-    onPodcastClick: (PodcastAndEpisodes) -> Unit = {}
+    podcasts: List<PodcastAndEpisodes>,
+    onBackClick: () -> Unit,
+    onPodcastClick: (PodcastAndEpisodes) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
