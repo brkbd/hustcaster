@@ -1,5 +1,6 @@
 package com.hustcaster.app.compose.component
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,8 +36,7 @@ fun EpisodeItem(
     pictureUrl: String,
     modifier: Modifier = Modifier
 ) {
-    Surface(
-        color = Color.White,
+    Box(
         modifier = modifier
             .height(80.dp)
     ) {
