@@ -1,5 +1,6 @@
 package com.hustcaster.app.compose.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +41,8 @@ fun PodcastHomeList(
         Podcast(rssUrl = ""),
         Podcast(rssUrl = ""),
         Podcast(rssUrl = "")
-    )
+    ),
+    onMoreClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -58,7 +60,11 @@ fun PodcastHomeList(
                     text = stringResource(id = R.string.my_podcasts),
                     style = MaterialTheme.typography.titleMedium
                 )
-                Box(modifier=Modifier.padding(top = 5.dp)) {
+                Box(
+                    modifier = Modifier
+                        .padding(top = 5.dp)
+                        .clickable { onMoreClick() }
+                ) {
                     Row {
                         Text(
                             text = stringResource(id = R.string.more_podcasts),
@@ -67,7 +73,7 @@ fun PodcastHomeList(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                             contentDescription = null,
-                            modifier=Modifier.size(20.dp)
+                            modifier = Modifier.size(20.dp)
                         )
                     }
                 }

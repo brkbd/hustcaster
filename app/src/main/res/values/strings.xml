@@ -5,4 +5,6 @@
     <string name="my_podcasts">我的频道</string>
     <string name="podcast">播客</string>
     <string name="inbox">订阅</string>
+    <string name="record">最近播放</string>
+    <string name="more_records">更多记录</string>
 </resources>
