@@ -8,5 +8,5 @@ data class PodcastAndEpisodes(
     val podcast: Podcast,
 
     @Relation(parentColumn = "id", entityColumn = "podcast_id")
-    val episodes: List<Episode>
+    val episodes: List<Episode> = emptyList()
 )

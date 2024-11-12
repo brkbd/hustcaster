@@ -20,20 +20,20 @@ interface RecordDao {
     @Query("delete from records")
     suspend fun deleteAllRecords()
 
-    @Query("select * from records where episodeId=:id")
+    @Query("select * from records where episode_id=:id")
     fun getRecordByEpisodeId(id: Long): List<Record>
 
     @Query("select * from records")
     fun getRecords(): List<Record>
 
-    @Query("delete from records where episodeId=:id")
+    @Query("delete from records where episode_id=:id")
     suspend fun deleteRecordById(id: Long)
 
     @Transaction
     @Query("select * from records")
     fun getEpisodeAndRecordListFlow(): Flow<List<EpisodeAndRecord>>
 
-    @Query("select * from records where episodeId=:id")
+    @Query("select * from records where episode_id=:id")
     fun getEpisodeAndRecordById(id: Long): Flow<EpisodeAndRecord>
 
 }
