@@ -29,7 +29,7 @@ import java.util.Calendar
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Preview
 @Composable
-fun PodcastInfoView(
+fun PodcastInfoScreen(
     title: String = "6 minutes English",
     imageUrl: String = "",
     author: String = "abc",

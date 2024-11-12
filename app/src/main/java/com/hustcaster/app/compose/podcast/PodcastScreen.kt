@@ -36,7 +36,7 @@ import java.util.Calendar
 
 @Composable
 @Preview
-fun PodcastView(
+fun PodcastScreen(
     title: String = "6 minute English",
     author: String = "abc",
     imageUrl: String = "",

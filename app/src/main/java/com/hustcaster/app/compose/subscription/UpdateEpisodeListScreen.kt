@@ -18,7 +18,7 @@ import com.hustcaster.app.data.model.Episode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateEpisodeList(
+fun UpdateEpisodeListScreen(
     modifier: Modifier = Modifier,
     episodes: List<Episode>,
     onEpisodeClick: (Episode) -> Unit

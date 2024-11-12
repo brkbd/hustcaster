@@ -7,4 +7,5 @@
     <string name="inbox">订阅</string>
     <string name="record">最近播放</string>
     <string name="more_records">更多记录</string>
+    <string name="home">主页</string>
 </resources>

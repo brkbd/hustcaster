@@ -42,7 +42,8 @@ fun PodcastHomeList(
         Podcast(rssUrl = ""),
         Podcast(rssUrl = "")
     ),
-    onMoreClick: () -> Unit = {}
+    onMoreClick: () -> Unit = {},
+    onPodcastClick: (Podcast) -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -87,7 +88,8 @@ fun PodcastHomeList(
                         modifier = Modifier
                             .size(100.dp)
                             .padding(end = 10.dp)
-                            .clip(RoundedCornerShape(2.dp)),
+                            .clip(RoundedCornerShape(2.dp))
+                            .clickable { onPodcastClick(podcast) },
                         contentScale = ContentScale.Crop
                     )
                 }

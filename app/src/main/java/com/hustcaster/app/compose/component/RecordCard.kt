@@ -57,7 +57,7 @@ fun RecordCard(
                 modifier = Modifier
                     .padding(bottom = 30.dp)
                     .padding(start = 10.dp)
-                    .width(180.dp)
+                    .width(150.dp)
                     .fillMaxHeight(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
@@ -75,7 +75,7 @@ fun RecordCard(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .padding(bottom = 20.dp)
-                    .padding(start = 20.dp)
+                    .padding(start = 10.dp)
             )
         }
     }
