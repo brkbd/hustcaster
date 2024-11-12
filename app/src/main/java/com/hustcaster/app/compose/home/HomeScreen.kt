@@ -16,6 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hustcaster.app.R
 import com.hustcaster.app.compose.component.CustomizedTopAppBar
+import com.hustcaster.app.compose.component.PodcastHomeList
+import com.hustcaster.app.compose.component.RecordHomeList
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.Podcast
 

@@ -1,4 +1,4 @@
-package com.hustcaster.app.compose.home
+package com.hustcaster.app.compose.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hustcaster.app.R
-import com.hustcaster.app.compose.component.RecordCard
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.EpisodeAndRecord
 import com.hustcaster.app.data.model.Record
