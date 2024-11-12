@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.hustcaster.app.compose.component.CustomizedTopAppBar
+import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.utils.dateFormat
 import java.util.Calendar
 

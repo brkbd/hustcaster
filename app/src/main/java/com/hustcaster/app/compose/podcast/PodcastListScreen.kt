@@ -19,7 +19,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hustcaster.app.R
-import com.hustcaster.app.compose.component.CustomizedTopAppBar
+import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.component.PodcastItem
 import com.hustcaster.app.data.model.PodcastAndEpisodes
 

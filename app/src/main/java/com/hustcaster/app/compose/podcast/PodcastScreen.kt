@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.hustcaster.app.R
-import com.hustcaster.app.compose.component.CustomizedTopAppBar
+import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.component.EpisodeList
 import com.hustcaster.app.compose.component.PlayingBar
 import com.hustcaster.app.data.model.Episode

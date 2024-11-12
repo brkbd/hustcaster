@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.hustcaster.app.R
-import com.hustcaster.app.compose.component.CustomizedTopAppBar
+import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.component.EpisodeItem
 import com.hustcaster.app.data.model.Episode
 
