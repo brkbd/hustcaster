@@ -13,11 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.model.PodcastAndEpisodes
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -51,7 +49,7 @@ fun PodcastItem(
                     style = MaterialTheme.typography.labelMedium
                 )
                 Text(
-                    text = podcastAndEpisodes.items.size.toString() + "单集",
+                    text = podcastAndEpisodes.episodes.size.toString() + "单集",
                     style = MaterialTheme.typography.labelSmall
                 )
             }

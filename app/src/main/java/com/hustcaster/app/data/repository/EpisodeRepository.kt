@@ -21,11 +21,9 @@ class EpisodeRepository(
         episodeDao.updateEpisode(episode)
     }
 
-    fun getPodcastAndEpisodes() = episodeDao.getPodcastAndEpisodes()
+    fun getPodcastAndEpisodes() = episodeDao.getPodcastAndEpisodesListFlow()
 
     fun getDownloadedEpisodes() = episodeDao.getDownloadedEpisodes()
-
-    fun getPlayedEpisodes() = episodeDao.getPlayedEpisodes()
 
     fun getEpisodes(podcast: Podcast) = episodeDao.getEpisodes(podcast.id)
 
