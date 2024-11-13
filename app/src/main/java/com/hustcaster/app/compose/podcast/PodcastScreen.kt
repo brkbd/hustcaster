@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -31,115 +30,26 @@ import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.component.EpisodeList
 import com.hustcaster.app.compose.component.PlayingBar
-import com.hustcaster.app.data.model.Episode
-import java.util.Calendar
+import com.hustcaster.app.data.model.PodcastAndEpisodes
+import com.hustcaster.app.viewmodels.PodcastViewModel
 
 @Composable
-@Preview
 fun PodcastScreen(
-    title: String = "6 minute English",
-    author: String = "abc",
-    imageUrl: String = "",
-    description: String = "1111111111111111111111111111111111111111111111111111",
-    episodes: List<Episode> = listOf(
-        Episode(
-            podcastId = 1,
-            title = "111",
-            pubDate = Calendar.getInstance(),
-            duration = "01:50:50"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "222",
-            pubDate = Calendar.getInstance(),
-            duration = "00:51:45"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "111",
-            pubDate = Calendar.getInstance(),
-            duration = "01:50:50"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "222",
-            pubDate = Calendar.getInstance(),
-            duration = "00:51:45"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "111",
-            pubDate = Calendar.getInstance(),
-            duration = "01:50:50"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "222",
-            pubDate = Calendar.getInstance(),
-            duration = "00:51:45"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "111",
-            pubDate = Calendar.getInstance(),
-            duration = "01:50:50"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "222",
-            pubDate = Calendar.getInstance(),
-            duration = "00:51:45"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "111",
-            pubDate = Calendar.getInstance(),
-            duration = "01:50:50"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "222",
-            pubDate = Calendar.getInstance(),
-            duration = "00:51:45"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "111",
-            pubDate = Calendar.getInstance(),
-            duration = "01:50:50"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "222",
-            pubDate = Calendar.getInstance(),
-            duration = "00:51:45"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "111",
-            pubDate = Calendar.getInstance(),
-            duration = "01:50:50"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "222",
-            pubDate = Calendar.getInstance(),
-            duration = "00:51:45"
-        )
-    ),
-    onInfoClick: () -> Unit = {},
-    onBackClick: () -> Unit = {},
-    onPlayAllClick: () -> Unit = {}
+    podcastAndEpisodes: PodcastAndEpisodes,
+    onInfoClick: () -> Unit,
+    onBackClick: () -> Unit,
+    onPlayAllClick: () -> Unit
 ) {
+    val viewModel = PodcastViewModel(podcastAndEpisodes)
     Scaffold(
         topBar = {
             PodcastTopAppBar(onBackClick = onBackClick)
         },
         bottomBar = {
             PlayingBar(
-                podcastTitle = title,
-                podcastImageUrl = imageUrl,
-                episodeTitle = episodes[0].title,
+                podcastTitle = viewModel.title,
+                podcastImageUrl = viewModel.imageUrl,
+                episodeTitle = viewModel.episodes[0].title,
                 isPlaying = true,
                 progress = 5f,
                 onButtonClick = {},
@@ -150,14 +60,14 @@ fun PodcastScreen(
         Box(modifier = Modifier.padding(innerPadding)) {
             Column {
                 PodcastInfoBox(
-                    imageUrl = imageUrl,
-                    title = title,
-                    author = author,
+                    imageUrl = viewModel.imageUrl,
+                    title = viewModel.title,
+                    author = viewModel.author,
                     onInfoClick = onInfoClick,
-                    description = description
+                    description = viewModel.description
                 )
                 PlayAllBar(onPlayAllClick = onPlayAllClick)
-                EpisodeList(episodes = episodes, imageUrl = imageUrl)
+                EpisodeList(episodes = viewModel.episodes, imageUrl = viewModel.imageUrl)
             }
         }
     }
