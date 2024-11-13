@@ -25,15 +25,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.NavigationBarImpl
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RssScreen(
-    rssViewModel: RssViewModel
+    rssViewModel: RssViewModel = hiltViewModel()
 ) {
-    val currentValue=rssViewModel.rssUrlInput.collectAsState()
+    val currentValue = rssViewModel.rssUrlInput.collectAsState()
     Scaffold(
         bottomBar = {
             NavigationBarImpl()

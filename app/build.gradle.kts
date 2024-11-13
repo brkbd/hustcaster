@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     //dagger
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
     //work-manager
     implementation("androidx.work:work-runtime:2.9.0")

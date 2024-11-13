@@ -11,10 +11,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.common.NavigationBarImpl
@@ -24,16 +26,19 @@ import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.Podcast
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    homeViewModel: HomeViewModel = hiltViewModel(),
     onMoreRecordClick: () -> Unit = {},
     onMorePodcastClick: () -> Unit = {},
     onPlayRecordClick: (Episode) -> Unit = {},
     onPodcastClick: (Podcast) -> Unit = {}
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val records = homeViewModel.records.collectAsState()
+    val podcast = homeViewModel.podcasts.collectAsState()
+    val imageUrls = homeViewModel.imageUrls.collectAsState()
     Scaffold(
         topBar = {
             HomeTopAppBar(scrollBehavior = scrollBehavior)
@@ -49,11 +54,14 @@ fun HomeScreen(
                     .padding(horizontal = 20.dp)
             ) {
                 RecordHomeList(
+                    records = records.value,
+                    imageUrls = imageUrls.value,
                     onMoreClick = onMoreRecordClick,
                     onPlayClick = onPlayRecordClick
                 )
                 Spacer(modifier = Modifier.height(50.dp))
                 PodcastHomeList(
+                    podcasts = podcast.value,
                     onMoreClick = onMorePodcastClick,
                     onPodcastClick = onPodcastClick
                 )

@@ -32,18 +32,11 @@ import com.hustcaster.app.data.model.Podcast
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-@Preview
 fun PodcastHomeList(
     modifier: Modifier = Modifier,
-    podcasts: List<Podcast> = listOf(
-        Podcast(rssUrl = ""),
-        Podcast(rssUrl = ""),
-        Podcast(rssUrl = ""),
-        Podcast(rssUrl = ""),
-        Podcast(rssUrl = "")
-    ),
-    onMoreClick: () -> Unit = {},
-    onPodcastClick: (Podcast) -> Unit = {}
+    podcasts: List<Podcast>,
+    onMoreClick: () -> Unit,
+    onPodcastClick: (Podcast) -> Unit
 ) {
     Box(
         modifier = Modifier

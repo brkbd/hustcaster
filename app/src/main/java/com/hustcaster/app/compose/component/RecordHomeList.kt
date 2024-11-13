@@ -23,26 +23,14 @@ import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.EpisodeAndRecord
 import com.hustcaster.app.data.model.Record
 
-@Preview
+
 @Composable
 fun RecordHomeList(
     modifier: Modifier = Modifier,
-    records: List<EpisodeAndRecord> = listOf(
-        EpisodeAndRecord(
-            Record(episodeId = 1),
-            Episode(podcastId = 1, title = "111", description = "111111111111111111111111")
-        ),
-        EpisodeAndRecord(
-            Record(episodeId = 2),
-            Episode(podcastId = 1, title = "222", description = "22222222222222222222222222222222")
-        ),
-        EpisodeAndRecord(
-            Record(episodeId = 3),
-            Episode(podcastId = 1, title = "333", description = "333")
-        )
-    ),
-    onMoreClick: () -> Unit = {},
-    onPlayClick: (Episode) -> Unit = {}
+    records: List<EpisodeAndRecord>,
+    imageUrls: List<String>,
+    onMoreClick: () -> Unit,
+    onPlayClick: (Episode) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -77,37 +65,13 @@ fun RecordHomeList(
                 }
 
             }
-            if (records.size < 3) {
-                records.forEach { record ->
-                    RecordCard(
-                        imageUrl = "",//should call a function in HomeViewModel
-                        title = record.episode.title,
-                        description = record.episode.description
-                    ) {
-                        onPlayClick(record.episode)
-                    }
-                }
-            }else{
+            for (i in records.indices) {
                 RecordCard(
-                    imageUrl = "",//should call a function in HomeViewModel
-                    title = records[0].episode.title,
-                    description = records[0].episode.description
+                    imageUrl = imageUrls[i],
+                    title = records[i].episode.title,
+                    description = records[i].episode.description
                 ) {
-                    onPlayClick(records[0].episode)
-                }
-                RecordCard(
-                    imageUrl = "",//should call a function in HomeViewModel
-                    title = records[1].episode.title,
-                    description = records[1].episode.description
-                ) {
-                    onPlayClick(records[1].episode)
-                }
-                RecordCard(
-                    imageUrl = "",//should call a function in HomeViewModel
-                    title = records[2].episode.title,
-                    description = records[2].episode.description
-                ) {
-                    onPlayClick(records[2].episode)
+                    onPlayClick(records[i].episode)
                 }
             }
         }

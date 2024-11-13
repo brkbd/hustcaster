@@ -1,6 +1,7 @@
 package com.hustcaster.app.data.repository
 
 import com.hustcaster.app.data.dao.RecordDao
+import com.hustcaster.app.data.model.EpisodeAndRecord
 import com.hustcaster.app.data.model.Record
 import javax.inject.Singleton
 
@@ -23,6 +24,19 @@ class RecordRepository(
     fun getEpisodeAndRecordListFlow() = recordDao.getEpisodeAndRecordListFlow()
 
     fun getEpisodeAndRecordById(id: Long) = recordDao.getEpisodeAndRecordById(id)
+
+    fun getThreeLatestRecords() = recordDao.getThreeLatestRecords()
+
+    fun getImageUrlOfRecord(id: Long) = recordDao.getImageUrlByRecordId(id)
+
+    fun getImageUrlsOfRecords(records: List<EpisodeAndRecord>): List<String> {
+        val imageUrls = mutableListOf<String>()
+        records.forEach { record ->
+            imageUrls.add(getImageUrlOfRecord(record.record.id)[0])
+        }
+        return imageUrls
+    }
+
 
     companion object {
         @Volatile
