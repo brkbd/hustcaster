@@ -17,7 +17,7 @@ interface PodcastDao {
     suspend fun updatePodcast(newPodcast: Podcast)
 
     @Query("select * from podcasts")
-    fun queryAllPodcasts(): List<Podcast>
+    fun queryAllPodcasts(): Flow<List<Podcast>>
 
     @Query("select image_url from podcasts where id=:podcastId")
     fun getPodcastPictureUrlById(podcastId: Long): Flow<String>

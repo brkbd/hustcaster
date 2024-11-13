@@ -10,10 +10,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.component.RecordCard
@@ -26,24 +28,11 @@ import com.hustcaster.app.data.model.Record
 @Composable
 fun RecordListScreen(
     modifier: Modifier = Modifier,
-    records: List<EpisodeAndRecord> = listOf(
-        EpisodeAndRecord(
-            Record(episodeId = 1),
-            Episode(podcastId = 1, title = "111", description = "111111111111111111111111")
-        ),
-        EpisodeAndRecord(
-            Record(episodeId = 2),
-            Episode(podcastId = 1, title = "222", description = "22222222222222222222222222222222")
-        ),
-        EpisodeAndRecord(
-            Record(episodeId = 3),
-            Episode(podcastId = 1, title = "333", description = "333")
-        )
-    ),
-    onPlayClick: (Episode) -> Unit = {}
-
+    onPlayClick: (Episode) -> Unit = {},
+    recordListViewModel: RecordListViewModel = hiltViewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val records = recordListViewModel.records.collectAsState()
     Scaffold(
         topBar = {
             RecordListTopAppBar(scrollBehavior = scrollBehavior)
@@ -55,8 +44,10 @@ fun RecordListScreen(
                 .padding(innerPadding)
         ) {
             LazyColumn(modifier = Modifier.padding(horizontal = 10.dp)) {
-                items(records) { record ->
-                    RecordCard {
+                items(records.value) { record ->
+                    RecordCard(
+                        imageUrl = recordListViewModel.getRecordImageUrl(record.record.id)[0]
+                    ) {
                         onPlayClick(record.episode)
                     }
                 }

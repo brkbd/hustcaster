@@ -10,7 +10,10 @@ import com.hustcaster.app.data.repository.PodcastRepository
 import com.hustcaster.app.data.repository.RecordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,24 +22,28 @@ class HomeViewModel @Inject constructor(
     private val recordRepository: RecordRepository,
     private val podcastRepository: PodcastRepository
 ) : ViewModel() {
-    private val _records = MutableStateFlow<List<EpisodeAndRecord>>(emptyList())
-    val records = _records.asStateFlow()
+    val records: StateFlow<List<EpisodeAndRecord>> =
+        recordRepository.getThreeLatestRecords()
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                emptyList()
+            )
 
-    private val _podcasts = MutableStateFlow<List<Podcast>>(emptyList())
-    val podcasts = _podcasts.asStateFlow()
+    val podcasts: StateFlow<List<Podcast>> =
+        podcastRepository.getAllPodcasts()
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                emptyList()
+            )
 
-    private val _imageUrls = MutableStateFlow<List<String>>(emptyList())
-    val imageUrls = _imageUrls.asStateFlow()
+    val imageUrls: StateFlow<List<String>> =
+        recordRepository.getImageUrlsOfRecords(records.value)
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                emptyList()
+            )
 
-    init {
-        refreshData()
-    }
-
-    private fun refreshData() {
-        viewModelScope.launch {
-            _records.value = recordRepository.getThreeLatestRecords()
-            _podcasts.value = podcastRepository.getAllPodcasts()
-            _imageUrls.value = recordRepository.getImageUrlsOfRecords(_records.value)
-        }
-    }
 }
