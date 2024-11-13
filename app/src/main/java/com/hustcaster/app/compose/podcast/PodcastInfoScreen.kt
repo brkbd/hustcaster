@@ -23,21 +23,19 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
+import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.utils.dateFormat
+import com.hustcaster.app.viewmodels.PodcastViewModel
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
-@Preview
 @Composable
 fun PodcastInfoScreen(
-    title: String = "6 minutes English",
-    imageUrl: String = "",
-    author: String = "abc",
-    pubDate: Calendar = Calendar.getInstance(),
-    description: String = "11111111111111111111111111111111222222222222222222222222222233333333333333333333333333333333333",
-    onCloseClick: () -> Unit = {}
+    podcastAndEpisodes: PodcastAndEpisodes,
+    onCloseClick: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val viewModel = PodcastViewModel(podcastAndEpisodes)
     Scaffold(
         topBar = {
             PodcastTopAppBar(
@@ -56,7 +54,7 @@ fun PodcastInfoScreen(
                             .padding(horizontal = 15.dp)
                     ) {
                         GlideImage(
-                            model = imageUrl,
+                            model = viewModel.imageUrl,
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
@@ -64,19 +62,19 @@ fun PodcastInfoScreen(
                         )
                         Spacer(modifier = Modifier.padding(5.dp))
                         Text(
-                            text = title,
+                            text = viewModel.title,
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
                         Spacer(modifier = Modifier.padding(2.dp))
                         Text(
-                            text = author,
+                            text = viewModel.author,
                             style = MaterialTheme.typography.titleSmall,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
                         Spacer(modifier = Modifier.padding(10.dp))
                         Text(
-                            text = "发布日期：${dateFormat.format(pubDate.time)}",
+                            text = "发布日期：${dateFormat.format(viewModel.pubDate?.time ?: "暂无信息")}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Spacer(modifier = Modifier.padding(2.dp))
@@ -86,7 +84,7 @@ fun PodcastInfoScreen(
                             maxLines = Int.MAX_VALUE
                         )
                         Spacer(modifier = Modifier.padding(2.dp))
-                        Text(text = description)
+                        Text(text = viewModel.description)
                     }
 
                 }

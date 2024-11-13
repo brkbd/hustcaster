@@ -16,4 +16,6 @@ class PodcastViewModel(podcastAndEpisodes: PodcastAndEpisodes) {
         get() = podcast.description
     val episodes
         get() = episodeList
+    val pubDate
+        get() = podcast.pubDate
 }
