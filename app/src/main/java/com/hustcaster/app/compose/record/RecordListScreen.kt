@@ -20,8 +20,7 @@ import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.component.RecordCard
 import com.hustcaster.app.data.model.Episode
-import com.hustcaster.app.data.model.EpisodeAndRecord
-import com.hustcaster.app.data.model.Record
+import com.hustcaster.app.viewmodels.RecordListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview

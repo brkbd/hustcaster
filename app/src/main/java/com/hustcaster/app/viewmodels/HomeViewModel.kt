@@ -1,4 +1,4 @@
-package com.hustcaster.app.compose.home
+package com.hustcaster.app.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

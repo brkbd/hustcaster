@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hustcaster.app.R
@@ -24,6 +23,7 @@ import com.hustcaster.app.compose.component.PodcastHomeList
 import com.hustcaster.app.compose.component.RecordHomeList
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.Podcast
+import com.hustcaster.app.viewmodels.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

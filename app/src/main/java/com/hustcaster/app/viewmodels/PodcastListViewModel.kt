@@ -1,9 +1,7 @@
-package com.hustcaster.app.compose.podcast
+package com.hustcaster.app.viewmodels
 
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.data.repository.PodcastRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

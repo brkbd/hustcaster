@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.NavigationBarImpl
+import com.hustcaster.app.viewmodels.RssViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

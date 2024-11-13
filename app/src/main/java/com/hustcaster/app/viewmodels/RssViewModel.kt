@@ -1,4 +1,4 @@
-package com.hustcaster.app.compose.rss
+package com.hustcaster.app.viewmodels
 
 import android.os.Build
 import androidx.annotation.RequiresApi
