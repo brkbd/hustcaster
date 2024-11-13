@@ -19,7 +19,7 @@ import com.hustcaster.app.data.model.Episode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateEpisodeListScreen(
+fun UpdateListScreen(
     modifier: Modifier = Modifier,
     episodes: List<Episode>,
     onEpisodeClick: (Episode) -> Unit
@@ -27,7 +27,7 @@ fun UpdateEpisodeListScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
         topBar = {
-            UpdateEpisodeTopAppBar(scrollBehavior = scrollBehavior)
+            UpdateTopAppBar(scrollBehavior = scrollBehavior)
         },
         bottomBar = {
             NavigationBarImpl()
@@ -47,7 +47,7 @@ fun UpdateEpisodeListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateEpisodeTopAppBar(
+fun UpdateTopAppBar(
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior
 ) {

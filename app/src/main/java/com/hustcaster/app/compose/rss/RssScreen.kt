@@ -1,5 +1,7 @@
 package com.hustcaster.app.compose.rss
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,22 +19,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.NavigationBarImpl
 
-@Preview
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RssScreen(
-    rssUrlInput: String = "",
-    onValueChange: (String) -> Unit = {},
-    onImportClick: () -> Unit = {}
+    rssViewModel: RssViewModel
 ) {
+    val currentValue=rssViewModel.rssUrlInput.collectAsState()
     Scaffold(
         bottomBar = {
             NavigationBarImpl()
@@ -59,13 +60,13 @@ fun RssScreen(
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 TextField(
-                    value = rssUrlInput,
-                    onValueChange = onValueChange,
+                    value = currentValue.value,
+                    onValueChange = rssViewModel::onValueChange,
                     trailingIcon = {
                         Icon(
                             imageVector = Icons.Filled.MailOutline,
                             contentDescription = null,
-                            modifier = Modifier.clickable { onImportClick() }
+                            modifier = Modifier.clickable { rssViewModel.importPodcast() }
                         )
                     },
                     modifier = Modifier.fillMaxWidth()
