@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.hustcaster.app.data.model.Podcast
+import com.hustcaster.app.data.model.PodcastAndEpisodes
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -17,7 +18,7 @@ interface PodcastDao {
     suspend fun updatePodcast(newPodcast: Podcast)
 
     @Query("select * from podcasts")
-    fun queryAllPodcasts(): Flow<List<Podcast>>
+    fun queryAllPodcasts(): Flow<List<PodcastAndEpisodes>>
 
     @Query("select image_url from podcasts where id=:podcastId")
     fun getPodcastPictureUrlById(podcastId: Long): Flow<String>

@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -27,11 +28,12 @@ import com.hustcaster.app.data.model.PodcastAndEpisodes
 @Composable
 fun PodcastListScreen(
     modifier: Modifier = Modifier,
-    podcasts: List<PodcastAndEpisodes>,
     onBackClick: () -> Unit,
-    onPodcastClick: (PodcastAndEpisodes) -> Unit
+    onPodcastClick: (PodcastAndEpisodes) -> Unit,
+    viewModel: PodcastListViewModel
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val podcasts = viewModel.podcasts.collectAsState()
     Scaffold(
         topBar = {
             PodcastListTopAppBar(
@@ -47,7 +49,7 @@ fun PodcastListScreen(
                 horizontalArrangement = Arrangement.spacedBy(5.dp),
                 contentPadding = PaddingValues(dimensionResource(id = R.dimen.card_side_margin))
             ) {
-                items(podcasts) { podcast ->
+                items(podcasts.value) { podcast ->
                     PodcastItem(podcastAndEpisodes = podcast) {
                         onPodcastClick(podcast)
                     }
