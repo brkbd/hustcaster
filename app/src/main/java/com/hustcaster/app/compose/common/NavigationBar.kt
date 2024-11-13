@@ -58,7 +58,7 @@ fun NavigationBarImpl() {
                     contentDescription = null
                 )
             },
-            label = { Text(text = stringResource(id = R.string.url_import)) }
+            label = { Text(text = stringResource(id = R.string.rss)) }
         )
     }
 }
