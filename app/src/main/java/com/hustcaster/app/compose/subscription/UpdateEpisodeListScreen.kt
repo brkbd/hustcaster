@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
+import com.hustcaster.app.compose.common.NavigationBarImpl
 import com.hustcaster.app.compose.component.EpisodeItem
 import com.hustcaster.app.data.model.Episode
 
@@ -27,6 +28,9 @@ fun UpdateEpisodeListScreen(
     Scaffold(
         topBar = {
             UpdateEpisodeTopAppBar(scrollBehavior = scrollBehavior)
+        },
+        bottomBar = {
+            NavigationBarImpl()
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
