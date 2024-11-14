@@ -18,6 +18,8 @@ class PodcastRepository(
 
     fun getAllPodcasts() = podcastDao.queryAllPodcasts()
 
+    fun getPodcastAndEpisodesById(id: Long) = podcastDao.getPodcastAndEpisodesById(id)
+
     companion object {
         @Volatile
         private var instance: PodcastRepository? = null

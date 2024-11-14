@@ -18,7 +18,6 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -26,7 +25,6 @@ import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.utils.dateFormat
 import com.hustcaster.app.viewmodels.PodcastViewModel
-import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable

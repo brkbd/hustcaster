@@ -30,6 +30,7 @@ import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.component.EpisodeList
 import com.hustcaster.app.compose.component.PlayingBar
+import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.viewmodels.PodcastViewModel
 
@@ -38,7 +39,8 @@ fun PodcastScreen(
     podcastAndEpisodes: PodcastAndEpisodes,
     onInfoClick: () -> Unit,
     onBackClick: () -> Unit,
-    onPlayAllClick: () -> Unit
+    onPlayAllClick: () -> Unit,
+    onEpisodeClick: (Episode) -> Unit
 ) {
     val viewModel = PodcastViewModel(podcastAndEpisodes)
     Scaffold(
@@ -67,7 +69,11 @@ fun PodcastScreen(
                     description = viewModel.description
                 )
                 PlayAllBar(onPlayAllClick = onPlayAllClick)
-                EpisodeList(episodes = viewModel.episodes, imageUrl = viewModel.imageUrl)
+                EpisodeList(
+                    episodes = viewModel.episodes,
+                    imageUrl = viewModel.imageUrl,
+                    onEpisodeClick = onEpisodeClick
+                )
             }
         }
     }

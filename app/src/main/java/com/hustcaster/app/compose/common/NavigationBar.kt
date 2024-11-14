@@ -13,23 +13,40 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import com.hustcaster.app.App.Companion.context
 import com.hustcaster.app.R
+import com.hustcaster.app.compose.getTopDestinationRoute
 
 @Preview
 @Composable
 fun NavigationBarImpl() {
+    val navController = staticCompositionLocalOf { NavHostController(context) }.current
     var selectedTab by remember {
-        mutableStateOf(0)
+        mutableIntStateOf(0)
+    }
+    navController.addOnDestinationChangedListener { _, _, _ ->
+        selectedTab = navController.getTopDestinationRoute()
     }
     NavigationBar {
         NavigationBarItem(
             selected = selectedTab == 0,
-            onClick = { /*TODO*/ },
+            onClick = {
+                navController.navigate(NavigationGraph.HOME) {
+                    launchSingleTop = true
+                    restoreState = true
+                    popUpTo(NavigationGraph.HOME) {
+                        saveState = true
+                    }
+                }
+            },
             icon = {
                 Icon(
                     imageVector = if (selectedTab != 0) Icons.Outlined.Home else Icons.Filled.Home,
@@ -40,7 +57,15 @@ fun NavigationBarImpl() {
         )
         NavigationBarItem(
             selected = selectedTab == 1,
-            onClick = { /*TODO*/ },
+            onClick = {
+                navController.navigate(NavigationGraph.SUBSCRIPTION) {
+                    launchSingleTop = true
+                    restoreState = true
+                    popUpTo(NavigationGraph.HOME) {
+                        saveState = true
+                    }
+                }
+            },
             icon = {
                 Icon(
                     imageVector = if (selectedTab != 1) Icons.Outlined.MailOutline else Icons.Filled.MailOutline,
@@ -51,7 +76,15 @@ fun NavigationBarImpl() {
         )
         NavigationBarItem(
             selected = selectedTab == 2,
-            onClick = { /*TODO*/ },
+            onClick = {
+                navController.navigate(NavigationGraph.RSS) {
+                    launchSingleTop = true
+                    restoreState = true
+                    popUpTo(NavigationGraph.HOME) {
+                        saveState = true
+                    }
+                }
+            },
             icon = {
                 Icon(
                     imageVector = if (selectedTab != 2) Icons.Outlined.Star else Icons.Filled.Star,

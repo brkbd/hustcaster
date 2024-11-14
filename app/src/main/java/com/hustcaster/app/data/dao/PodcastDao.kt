@@ -20,6 +20,9 @@ interface PodcastDao {
     @Query("select * from podcasts")
     fun queryAllPodcasts(): Flow<List<PodcastAndEpisodes>>
 
+    @Query("select * from podcasts where id=:id")
+    fun getPodcastAndEpisodesById(id: Long): PodcastAndEpisodes
+
     @Query("select image_url from podcasts where id=:podcastId")
     fun getPodcastPictureUrlById(podcastId: Long): Flow<String>
 

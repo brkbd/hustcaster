@@ -9,29 +9,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.hustcaster.app.data.model.Episode
 import java.util.Calendar
 
-@Preview
 @Composable
 fun EpisodeList(
     modifier: Modifier = Modifier,
-    episodes: List<Episode> = listOf(
-        Episode(
-            podcastId = 1,
-            title = "111",
-            pubDate = Calendar.getInstance(),
-            duration = "01:50:50"
-        ),
-        Episode(
-            podcastId = 1,
-            title = "222",
-            pubDate = Calendar.getInstance(),
-            duration = "00:51:45"
-        )
-    ),
-    imageUrl: String = ""
+    episodes: List<Episode>,
+    imageUrl: String,
+    onEpisodeClick: (Episode) -> Unit
 ) {
     LazyColumn {
         items(episodes) { episode ->
-            EpisodeItem(episode = episode, pictureUrl = imageUrl, onEpisodeClick = {})
+            EpisodeItem(
+                episode = episode,
+                pictureUrl = imageUrl,
+                onEpisodeClick = { onEpisodeClick(episode) })
         }
     }
 }

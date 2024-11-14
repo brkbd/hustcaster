@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hustcaster.app.R
@@ -23,11 +22,10 @@ import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.viewmodels.RecordListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun RecordListScreen(
     modifier: Modifier = Modifier,
-    onPlayClick: (Episode) -> Unit = {},
+    onPlayClick: (Episode) -> Unit,
     recordListViewModel: RecordListViewModel = hiltViewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()

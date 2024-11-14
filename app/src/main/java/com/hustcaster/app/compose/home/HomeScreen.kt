@@ -30,10 +30,10 @@ import com.hustcaster.app.viewmodels.HomeViewModel
 fun HomeScreen(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    onMoreRecordClick: () -> Unit = {},
-    onMorePodcastClick: () -> Unit = {},
-    onPlayRecordClick: (Episode) -> Unit = {},
-    onPodcastClick: (Podcast) -> Unit = {}
+    onMoreRecordClick: () -> Unit,
+    onMorePodcastClick: () -> Unit,
+    onPlayRecordClick: (Episode) -> Unit,
+    onPodcastClick: (Podcast) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val records = homeViewModel.records.collectAsState()
