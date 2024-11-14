@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.model.PodcastAndEpisodes
@@ -17,9 +18,11 @@ interface PodcastDao {
     @Update
     suspend fun updatePodcast(newPodcast: Podcast)
 
+    @Transaction
     @Query("select * from podcasts")
     fun queryAllPodcasts(): Flow<List<PodcastAndEpisodes>>
 
+    @Transaction
     @Query("select * from podcasts where id=:id")
     fun getPodcastAndEpisodesById(id: Long): PodcastAndEpisodes
 

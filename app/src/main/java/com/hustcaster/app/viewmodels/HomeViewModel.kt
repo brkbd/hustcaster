@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hustcaster.app.data.model.EpisodeAndRecord
 import com.hustcaster.app.data.model.Podcast
+import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.data.repository.PodcastRepository
 import com.hustcaster.app.data.repository.RecordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +26,7 @@ class HomeViewModel @Inject constructor(
                 emptyList()
             )
 
-    val podcasts: StateFlow<List<Podcast>> =
+    val podcasts: StateFlow<List<PodcastAndEpisodes>> =
         podcastRepository.getAllPodcasts()
             .stateIn(
                 viewModelScope,

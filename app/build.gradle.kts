@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -46,21 +47,23 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/gradle/incremental.annotation.processors"
         }
     }
 }
 
 dependencies {
+    //ksp
+    ksp(libs.hilt.android.compiler.v2511)
+    ksp(libs.androidx.room.compiler.v250)
     //network
     implementation(libs.okhttp)
     //database
     implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler.v250)
     implementation(libs.androidx.room.ktx)
     //dagger
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.hilt.android.compiler)
     //work-manager
     implementation("androidx.work:work-runtime:2.9.0")
 
@@ -72,6 +75,7 @@ dependencies {
     //glide
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
     annotationProcessor(libs.compiler)
+    
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -13,7 +13,7 @@ import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.model.Record
 import com.hustcaster.app.utils.Converters
 
-@Database(version = 1, entities = [Podcast::class, Episode::class, Record::class])
+@Database(version = 1, entities = [Podcast::class, Episode::class, Record::class], exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun podcastDao(): PodcastDao

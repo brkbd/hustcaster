@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.hustcaster.app.compose.common.NavigationGraph
 import com.hustcaster.app.compose.common.NavigationGraph.PODCAST_ID
@@ -21,6 +22,11 @@ import com.hustcaster.app.compose.rss.RssScreen
 import com.hustcaster.app.compose.subscription.UpdateListScreen
 import com.hustcaster.app.data.AppDatabase
 
+@Composable
+fun HustcasterApp() {
+    val navController = rememberNavController()
+    HustcasterNavHost(navController = navController)
+}
 
 @Composable
 fun HustcasterNavHost(
@@ -33,10 +39,10 @@ fun HustcasterNavHost(
             HomeScreen(
                 onMoreRecordClick = { navController.navigate(NavigationGraph.RECORD) },
                 onMorePodcastClick = { navController.navigate(NavigationGraph.PODCAST_LIST) },
-                onPlayRecordClick = {/*TODO*/ }
+                onPlayRecordClick = { navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId)) }
             ) {
                 navController.navigate(
-                    NavigationGraph.PODCAST.toId(it.id)
+                    NavigationGraph.PODCAST.toId(it.podcast.id)
                 )
             }
         }

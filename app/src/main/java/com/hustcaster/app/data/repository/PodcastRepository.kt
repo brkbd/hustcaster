@@ -2,10 +2,11 @@ package com.hustcaster.app.data.repository
 
 import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.dao.PodcastDao
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PodcastRepository(
+class PodcastRepository @Inject constructor(
     private val podcastDao: PodcastDao
 ) {
     suspend fun savePodcast(podcast: Podcast) = podcastDao.insertPodcast(podcast)

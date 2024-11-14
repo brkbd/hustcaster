@@ -6,10 +6,11 @@ import com.hustcaster.app.data.model.Record
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RecordRepository(
+class RecordRepository @Inject constructor(
     private val recordDao: RecordDao
 ) {
     suspend fun insertRecord(record: Record) = recordDao.insertRecord(record)

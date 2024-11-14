@@ -23,20 +23,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.hustcaster.app.R
 import com.hustcaster.app.data.model.Podcast
+import com.hustcaster.app.data.model.PodcastAndEpisodes
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PodcastHomeList(
     modifier: Modifier = Modifier,
-    podcasts: List<Podcast>,
+    podcasts: List<PodcastAndEpisodes>,
     onMoreClick: () -> Unit,
-    onPodcastClick: (Podcast) -> Unit
+    onPodcastClick: (PodcastAndEpisodes) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -76,7 +76,7 @@ fun PodcastHomeList(
             LazyRow {
                 items(podcasts) { podcast ->
                     GlideImage(
-                        model = podcast.imageUrl,
+                        model = podcast.podcast.imageUrl,
                         contentDescription = null,
                         modifier = Modifier
                             .size(100.dp)
