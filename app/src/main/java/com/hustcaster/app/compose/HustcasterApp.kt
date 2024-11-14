@@ -24,7 +24,7 @@ import com.hustcaster.app.data.AppDatabase
 
 @Composable
 fun HustcasterApp() {
-    val navController = rememberNavController()
+    val navController = NavControllerSingleton.getInstance(rememberNavController())
     HustcasterNavHost(navController = navController)
 }
 

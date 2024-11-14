@@ -1,4 +1,4 @@
-package com.hustcaster.app.data.parser
+package com.hustcaster.app.network.parser
 
 import android.os.Build
 import androidx.annotation.RequiresApi

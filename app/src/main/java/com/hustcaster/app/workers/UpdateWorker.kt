@@ -13,7 +13,7 @@ import androidx.work.WorkerParameters
 import com.hustcaster.app.data.AppDatabase
 import com.hustcaster.app.data.repository.EpisodeRepository
 import com.hustcaster.app.data.repository.PodcastRepository
-import com.hustcaster.app.data.parser.MainParser
+import com.hustcaster.app.network.parser.MainParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking

@@ -4,7 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hustcaster.app.data.parser.MainParser
+import com.hustcaster.app.network.parser.MainParser
 import com.hustcaster.app.data.repository.EpisodeRepository
 import com.hustcaster.app.data.repository.PodcastRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
