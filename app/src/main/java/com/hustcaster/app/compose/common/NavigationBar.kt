@@ -62,7 +62,6 @@ fun NavigationBarImpl() {
         NavigationBarItem(
             selected = selectedTab == 1,
             onClick = {
-                Log.d("debug","selectedTab=$selectedTab")
                 navController.navigate(NavigationGraph.SUBSCRIPTION) {
                     launchSingleTop = true
                     restoreState = true

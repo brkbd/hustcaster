@@ -15,7 +15,7 @@ import java.util.Calendar
     indices = [Index("podcast_id")]
 )
 data class Episode(
-    @ColumnInfo("podcast_id") val podcastId: Long,
+    @ColumnInfo("podcast_id") var podcastId: Long=0,
     @ColumnInfo("title") var title: String = "",
     @ColumnInfo("description") var description: String = "",
     @ColumnInfo("pub_date") var pubDate: Calendar? = null,

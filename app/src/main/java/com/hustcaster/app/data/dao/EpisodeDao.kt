@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface EpisodeDao {
     @Insert
-    suspend fun insertEpisode(episode: Episode)
+    suspend fun insertEpisode(episodes: Episode)
 
     @Update
-    suspend fun updateEpisode(episode: Episode)
+    suspend fun updateEpisode(vararg episodes: Episode)
 
     @Query("select * from episodes")
     fun queryAllEpisodes(): Flow<List<Episode>>

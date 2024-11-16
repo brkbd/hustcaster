@@ -1,7 +1,8 @@
 package com.hustcaster.app.network.parser
 
+import android.util.Log
 import com.hustcaster.app.data.model.Episode
-import com.hustcaster.app.data.model.PodcastAndEpisodes
+import com.hustcaster.app.data.model.Podcast
 import org.xmlpull.v1.XmlPullParser
 
 private const val IMAGE = "image"
@@ -12,18 +13,18 @@ private const val DURATION = "duration"
 class ItunesParser : FeedParser {
     override fun parse(
         xmlPullParser: XmlPullParser,
-        state: PodcastAndEpisodes,
+        podcast: Podcast,
         currentItem: Episode?
     ) {
         val nodeName = xmlPullParser.name
         when (nodeName) {
             DURATION -> currentItem?.duration = xmlPullParser.nextText()
             AUTHOR -> if (currentItem == null) {
-                state.podcast.author = xmlPullParser.nextText()
+                podcast.author = xmlPullParser.nextText()
             }
 
             IMAGE -> if (currentItem == null) {
-                state.podcast.imageUrl = xmlPullParser.getAttributeValue(null, IMAGE_HREF)
+                podcast.imageUrl = xmlPullParser.getAttributeValue(null, IMAGE_HREF)
             }
 
         }

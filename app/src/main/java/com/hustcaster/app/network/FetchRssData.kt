@@ -1,16 +1,22 @@
 package com.hustcaster.app.network
 
+import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
 val client = OkHttpClient()
 
-fun fetchRssData(url: String): String? {
-    val request = Request.Builder()
-        .url(url)
-        .build()
+suspend fun fetchRssData(url: String): String? {
+    return withContext(Dispatchers.IO){
+        val request = Request.Builder()
+            .url(url)
+            .build()
 
-    val response = client.newCall(request).execute()
+        val response = client.newCall(request).execute()
 
-    return response.body?.string()
+        return@withContext response.body?.string()
+    }
+
 }

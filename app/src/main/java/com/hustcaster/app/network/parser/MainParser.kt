@@ -1,14 +1,17 @@
 package com.hustcaster.app.network.parser
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.remember
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.Podcast
-import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.data.repository.EpisodeRepository
 import com.hustcaster.app.data.repository.PodcastRepository
 import com.hustcaster.app.network.fetchRssData
 import com.hustcaster.app.utils.convertStringToCalendar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.StringReader
@@ -30,114 +33,128 @@ object MainParser {
         episodeRepository: EpisodeRepository,
         podcastRepository: PodcastRepository
     ) {
-        try {
-            val state = PodcastAndEpisodes(Podcast(rssUrl))
-            factory.isNamespaceAware = true
-            val parser = factory.newPullParser()
-            val xmlData = fetchRssData(rssUrl)
-            parser.setInput(StringReader(xmlData))
-            var eventType = parser.eventType
-            var currentItem: Episode? = null
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                when (eventType) {
-                    XmlPullParser.START_TAG -> {
-                        if (parser.namespace.isNotEmpty()) {
-                            FeedParserFactory.getParser(parser.namespace)
-                                ?.parse(parser, state, currentItem)
-                        } else {
-                            val nodeName = parser.name
-                            when (nodeName) {
-                                ITEM -> currentItem = Episode(state.podcast.id)
-                                TITLE -> if (currentItem == null) {
-                                    state.podcast.title = parser.nextText()
-                                } else {
-                                    currentItem.title = parser.nextText()
-                                }
+        withContext(Dispatchers.IO) {
+            try {
+                val podcast = Podcast(rssUrl)
+                factory.isNamespaceAware = true
+                val parser = factory.newPullParser()
+                Log.d("debug", rssUrl)
+                val xmlData = fetchRssData(rssUrl)
+                parser.setInput(StringReader(xmlData))
+                var eventType = parser.eventType
+                var currentItem: Episode? = null
+                val episodes = mutableListOf<Episode>()
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+                    when (eventType) {
+                        XmlPullParser.START_TAG -> {
+                            if (parser.namespace.isNotEmpty()) {
+                                FeedParserFactory.getParser(parser.namespace)
+                                    ?.parse(parser, podcast, currentItem)
+                            } else {
+                                val nodeName = parser.name
 
-                                LINK -> if (currentItem == null) {
-                                    state.podcast.link = parser.nextText()
-                                }
-
-                                DESCRIPTION -> if (currentItem == null) {
-                                    state.podcast.description = parser.nextText()
-                                } else {
-                                    currentItem.description = parser.nextText()
-                                }
-
-                                PUB_DATE -> if (currentItem == null) {
-                                    state.podcast.pubDate =
-                                        convertStringToCalendar(parser.nextText())
-                                } else {
-                                    currentItem.pubDate = convertStringToCalendar(parser.nextText())
-                                    if (state.podcast.pubDate == null || state.podcast.pubDate!!.before(
-                                            currentItem.pubDate
-                                        )
-                                    ) {
-                                        state.podcast.pubDate = currentItem.pubDate
+                                when (nodeName) {
+                                    ITEM -> currentItem = Episode()
+                                    TITLE -> if (currentItem == null) {
+                                        podcast.title = parser.nextText()
+                                    } else {
+                                        currentItem.title = parser.nextText()
                                     }
+
+                                    LINK -> if (currentItem == null) {
+                                        podcast.link = parser.nextText()
+                                    }
+
+                                    DESCRIPTION -> if (currentItem == null) {
+                                        podcast.description = parser.nextText()
+                                    } else {
+                                        currentItem.description = parser.nextText()
+                                    }
+
+                                    PUB_DATE -> if (currentItem == null) {
+                                        podcast.pubDate =
+                                            convertStringToCalendar(parser.nextText())
+                                    } else {
+                                        currentItem.pubDate =
+                                            convertStringToCalendar(parser.nextText())
+                                        if (podcast.pubDate == null || podcast.pubDate!!.before(
+                                                currentItem.pubDate
+                                            )
+                                        ) {
+                                            podcast.pubDate = currentItem.pubDate
+                                        }
+                                    }
+
+
+                                    ENCLOSURE -> currentItem?.audioUrl =
+                                        parser.getAttributeValue(null, "url")
+
                                 }
+                            }
+                        }
 
-
-                                ENCLOSURE -> currentItem?.audioUrl =
-                                    parser.getAttributeValue(null, "url")
-
+                        XmlPullParser.END_TAG -> {
+                            if (parser.name == ITEM) {
+                                currentItem?.let { episodes.add(it.copy()) }
+                                currentItem = null
                             }
                         }
                     }
-
-                    XmlPullParser.END_TAG -> {
-                        if (parser.name == ITEM) {
-                            currentItem?.let { episodeRepository.saveEpisode(it) }
-                            currentItem = null
-                        }
-                    }
+                    eventType = parser.next()
                 }
-                eventType = parser.next()
+                podcastRepository.savePodcast(podcast)
+                val podcastId = podcastRepository.getPodcastIdByRssUrl(rssUrl)
+                Log.d("debug", podcastId.toString())
+                episodes.forEach {
+                    it.podcastId = podcastId
+                    episodeRepository.saveEpisode(it)
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            podcastRepository.savePodcast(state.podcast)
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
+
     }
 
     //need to pass updateRepository
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun checkUpdates(
-        state: PodcastAndEpisodes,
+        podcast: Podcast,
         episodeRepository: EpisodeRepository,
         podcastRepository: PodcastRepository
     ) {
         try {
             factory.isNamespaceAware = true
             val parser = factory.newPullParser()
-            val data = fetchRssData(state.podcast.rssUrl)
+            val data = fetchRssData(podcast.rssUrl)
             parser.setInput(StringReader(data))
             var currentItem: Episode? = null
             var eventType = parser.eventType
-            val lastPubDate = state.podcast.pubDate
+            val lastPubDate = podcast.pubDate
             var flag = true//decide whether to continue parsing or not
             while (flag && eventType != XmlPullParser.END_DOCUMENT) {
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
                         if (parser.namespace.isNotEmpty()) {
                             FeedParserFactory.getParser(parser.namespace)
-                                ?.parse(parser, state, currentItem)
+                                ?.parse(parser, podcast, currentItem)
                         } else {
                             val nodeName = parser.name
                             when (nodeName) {
-                                ITEM -> currentItem = Episode(state.podcast.id)
+                                ITEM -> currentItem = Episode(podcast.id)
                                 TITLE -> if (currentItem == null) {
-                                    state.podcast.title = parser.nextText()
+                                    podcast.title = parser.nextText()
                                 } else {
                                     currentItem.title = parser.nextText()
                                 }
 
                                 LINK -> if (currentItem == null) {
-                                    state.podcast.link = parser.nextText()
+                                    podcast.link = parser.nextText()
                                 }
 
                                 DESCRIPTION -> if (currentItem == null) {
-                                    state.podcast.description = parser.nextText()
+                                    podcast.description = parser.nextText()
                                 } else {
                                     currentItem.description = parser.nextText()
                                 }
@@ -148,7 +165,7 @@ object MainParser {
                                     if (pubDate?.after(lastPubDate) == false) {
                                         flag = false
                                     } else {
-                                        state.podcast.pubDate = pubDate
+                                        podcast.pubDate = pubDate
                                     }
                                 } else {
                                     currentItem.pubDate = convertStringToCalendar(parser.nextText())
@@ -167,14 +184,14 @@ object MainParser {
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
                             currentItem?.isUpdated = true
-                            currentItem?.let { episodeRepository.saveEpisode(it) }//add item
+                            currentItem?.let { episodeRepository.saveEpisode(it) }
                             currentItem = null
                         }
                     }
                 }
                 eventType = parser.next()
             }
-            podcastRepository.updatePodcast(state.podcast)
+            podcastRepository.updatePodcast(podcast)
         } catch (e: Exception) {
             e.printStackTrace()
         }
