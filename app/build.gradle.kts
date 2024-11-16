@@ -53,6 +53,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.runtime.livedata)
     //ksp
     ksp(libs.hilt.android.compiler.v2511)
     ksp(libs.androidx.room.compiler.v250)
@@ -75,7 +76,7 @@ dependencies {
     //glide
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
     annotationProcessor(libs.compiler)
-    
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

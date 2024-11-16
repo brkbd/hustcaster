@@ -21,6 +21,10 @@ import com.hustcaster.app.compose.record.RecordListScreen
 import com.hustcaster.app.compose.rss.RssScreen
 import com.hustcaster.app.compose.subscription.UpdateListScreen
 import com.hustcaster.app.data.AppDatabase
+import com.hustcaster.app.data.model.PodcastAndEpisodes
+import com.hustcaster.app.viewmodels.PodcastViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun HustcasterApp() {
@@ -76,11 +80,6 @@ fun HustcasterNavHost(
             })
         ) { backStackEntry ->
             PodcastScreen(
-                podcastAndEpisodes = appDatabase.podcastDao().getPodcastAndEpisodesById(
-                    backStackEntry.arguments?.getLong(
-                        PODCAST_ID
-                    ) ?: 0
-                ),
                 onInfoClick = { navController.navigate(NavigationGraph.PODCAST_INFO) },
                 onBackClick = { navController.navigateUp() },
                 onPlayAllClick = {},
@@ -96,13 +95,7 @@ fun HustcasterNavHost(
                 type = NavType.LongType
             })
         ) { backStackEntry ->
-            PodcastInfoScreen(
-                podcastAndEpisodes = appDatabase.podcastDao().getPodcastAndEpisodesById(
-                    backStackEntry.arguments?.getLong(
-                        PODCAST_ID
-                    ) ?: 0
-                )
-            ) {
+            PodcastInfoScreen {
                 navController.navigateUp()
             }
         }

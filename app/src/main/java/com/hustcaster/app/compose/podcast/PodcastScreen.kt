@@ -1,5 +1,6 @@
 package com.hustcaster.app.compose.podcast
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,10 +21,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.hustcaster.app.R
@@ -36,22 +40,26 @@ import com.hustcaster.app.viewmodels.PodcastViewModel
 
 @Composable
 fun PodcastScreen(
-    podcastAndEpisodes: PodcastAndEpisodes,
+    viewModel: PodcastViewModel = hiltViewModel(),
     onInfoClick: () -> Unit,
     onBackClick: () -> Unit,
     onPlayAllClick: () -> Unit,
     onEpisodeClick: (Episode) -> Unit
 ) {
-    val viewModel = PodcastViewModel(podcastAndEpisodes)
+    val podcastAndEpisodes by viewModel.podcastAndEpisodes.observeAsState()
+    val podcast = podcastAndEpisodes?.podcast
+    val episodes = podcastAndEpisodes?.episodes
+//    Log.e("debug", "Episode list size:${viewModel.episodes?.size ?: 0}")
+//    Log.e("debug", "PodcastId:${viewModel.podcastId}")
     Scaffold(
         topBar = {
             PodcastTopAppBar(onBackClick = onBackClick)
         },
         bottomBar = {
             PlayingBar(
-                podcastTitle = viewModel.title,
-                podcastImageUrl = viewModel.imageUrl,
-                episodeTitle = viewModel.episodes[0].title,
+                podcastTitle = podcast?.title ?: "",
+                podcastImageUrl = podcast?.imageUrl ?: "",
+                episodeTitle = "abc",
                 isPlaying = true,
                 progress = 5f,
                 onButtonClick = {},
@@ -62,16 +70,16 @@ fun PodcastScreen(
         Box(modifier = Modifier.padding(innerPadding)) {
             Column {
                 PodcastInfoBox(
-                    imageUrl = viewModel.imageUrl,
-                    title = viewModel.title,
-                    author = viewModel.author,
+                    imageUrl = podcast?.imageUrl ?: "",
+                    title = podcast?.title ?: "",
+                    author = podcast?.title ?: "",
                     onInfoClick = onInfoClick,
-                    description = viewModel.description
+                    description = podcast?.description ?: ""
                 )
                 PlayAllBar(onPlayAllClick = onPlayAllClick)
                 EpisodeList(
-                    episodes = viewModel.episodes,
-                    imageUrl = viewModel.imageUrl,
+                    episodes = episodes ?: emptyList(),
+                    imageUrl = podcast?.imageUrl ?: "",
                     onEpisodeClick = onEpisodeClick
                 )
             }
@@ -100,11 +108,11 @@ fun PodcastTopAppBar(
 @Composable
 fun PodcastInfoBox(
     modifier: Modifier = Modifier,
-    imageUrl: String = "",
-    title: String = "6 minutes English",
-    author: String = "abc",
-    description: String = "111111111111111111111111111111111111111111111111111111111111",
-    onInfoClick: () -> Unit = {}
+    imageUrl: String,
+    title: String,
+    author: String,
+    description: String,
+    onInfoClick: () -> Unit
 ) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
