@@ -32,12 +32,11 @@ import com.hustcaster.app.viewmodels.PodcastViewModel
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun PodcastInfoScreen(
-    viewModel: PodcastViewModel = hiltViewModel(),
+    viewModel: PodcastViewModel= hiltViewModel(),
     onCloseClick: () -> Unit
 ) {
     val podcastAndEpisodes by viewModel.podcastAndEpisodes.observeAsState()
     val podcast = podcastAndEpisodes?.podcast
-    val episodes = podcastAndEpisodes?.episodes
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
         topBar = {

@@ -86,7 +86,6 @@ fun PodcastScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PodcastTopAppBar(
-    modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -103,7 +102,6 @@ fun PodcastTopAppBar(
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PodcastInfoBox(
-    modifier: Modifier = Modifier,
     imageUrl: String,
     title: String,
     author: String,
@@ -158,7 +156,6 @@ fun PodcastInfoBox(
 
 @Composable
 fun PlayAllBar(
-    modifier: Modifier = Modifier,
     onPlayAllClick: () -> Unit = {}
 ) {
     Surface(

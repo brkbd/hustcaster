@@ -2,7 +2,9 @@ package com.hustcaster.app.compose
 
 import android.app.Activity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -21,10 +23,7 @@ import com.hustcaster.app.compose.record.RecordListScreen
 import com.hustcaster.app.compose.rss.RssScreen
 import com.hustcaster.app.compose.subscription.UpdateListScreen
 import com.hustcaster.app.data.AppDatabase
-import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.viewmodels.PodcastViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @Composable
 fun HustcasterApp() {
@@ -78,7 +77,7 @@ fun HustcasterNavHost(
             arguments = listOf(navArgument(PODCAST_ID) {
                 type = NavType.LongType
             })
-        ) { backStackEntry ->
+        ) {
             PodcastScreen(
                 onInfoClick = { navController.navigate(NavigationGraph.PODCAST_INFO) },
                 onBackClick = { navController.navigateUp() },
@@ -90,12 +89,13 @@ fun HustcasterNavHost(
         }
 
         composable(
-            route = NavigationGraph.PODCAST_INFO.withArgument(PODCAST_ID),
-            arguments = listOf(navArgument(PODCAST_ID) {
-                type = NavType.LongType
-            })
-        ) { backStackEntry ->
-            PodcastInfoScreen {
+            route = NavigationGraph.PODCAST_INFO
+        ) {
+            val parentEntry = remember {
+                navController.getBackStackEntry(NavigationGraph.PODCAST.withArgument(PODCAST_ID))
+            }
+            val viewModel = hiltViewModel<PodcastViewModel>(parentEntry)
+            PodcastInfoScreen(viewModel) {
                 navController.navigateUp()
             }
         }
