@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -35,7 +36,8 @@ fun RecordHomeList(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp)
+            .height(360.dp)
+            .padding(horizontal = 5.dp)
     ) {
         Column {
             Row(
@@ -44,11 +46,11 @@ fun RecordHomeList(
             ) {
                 Text(
                     text = stringResource(id = R.string.record),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleLarge
                 )
                 Box(
                     modifier = Modifier
-                        .padding(top = 5.dp)
+                        .padding(top = 10.dp)
                         .clickable { onMoreClick() }
                 ) {
                     Row {

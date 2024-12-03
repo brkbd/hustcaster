@@ -41,8 +41,8 @@ fun PodcastHomeList(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
-            .padding(horizontal = 10.dp),
+            .height(200.dp)
+            .padding(horizontal = 5.dp),
     ) {
         Column {
             Row(
@@ -52,11 +52,11 @@ fun PodcastHomeList(
             ) {
                 Text(
                     text = stringResource(id = R.string.my_podcasts),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleLarge
                 )
                 Box(
                     modifier = Modifier
-                        .padding(top = 5.dp)
+                        .padding(top = 10.dp)
                         .clickable { onMoreClick() }
                 ) {
                     Row {
@@ -72,14 +72,14 @@ fun PodcastHomeList(
                     }
                 }
             }
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            Spacer(modifier = Modifier.padding(vertical = 10.dp))
             LazyRow {
                 items(podcasts) { podcast ->
                     GlideImage(
                         model = podcast.podcast.imageUrl,
                         contentDescription = null,
                         modifier = Modifier
-                            .size(100.dp)
+                            .size(120.dp)
                             .padding(end = 10.dp)
                             .clip(RoundedCornerShape(2.dp))
                             .clickable { onPodcastClick(podcast) },

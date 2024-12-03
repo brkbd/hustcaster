@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -35,7 +36,7 @@ fun EpisodeItem(
     episode: Episode,
     pictureUrl: String,
     modifier: Modifier = Modifier,
-    onEpisodeClick:()->Unit
+    onEpisodeClick: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -55,7 +56,12 @@ fun EpisodeItem(
             Column(
                 modifier = modifier.padding(horizontal = dimensionResource(id = R.dimen.episode_padding_between_image_text))
             ) {
-                Text(text = episode.title, style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = episode.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
                 Row(
                     modifier = modifier.padding(
                         vertical = dimensionResource(
