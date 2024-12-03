@@ -1,6 +1,5 @@
 package com.hustcaster.app.compose.podcast
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +34,6 @@ import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.component.EpisodeList
 import com.hustcaster.app.compose.component.PlayingBar
 import com.hustcaster.app.data.model.Episode
-import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.viewmodels.PodcastViewModel
 
 @Composable
@@ -49,8 +47,6 @@ fun PodcastScreen(
     val podcastAndEpisodes by viewModel.podcastAndEpisodes.observeAsState()
     val podcast = podcastAndEpisodes?.podcast
     val episodes = podcastAndEpisodes?.episodes
-//    Log.e("debug", "Episode list size:${viewModel.episodes?.size ?: 0}")
-//    Log.e("debug", "PodcastId:${viewModel.podcastId}")
     Scaffold(
         topBar = {
             PodcastTopAppBar(onBackClick = onBackClick)
@@ -61,7 +57,7 @@ fun PodcastScreen(
                 podcastImageUrl = podcast?.imageUrl ?: "",
                 episodeTitle = "abc",
                 isPlaying = true,
-                progress = 5f,
+                progress = 0.5f,
                 onButtonClick = {},
                 onBarClick = {}
             )
@@ -74,7 +70,7 @@ fun PodcastScreen(
                     title = podcast?.title ?: "",
                     author = podcast?.title ?: "",
                     onInfoClick = onInfoClick,
-                    description = podcast?.description ?: ""
+                    description = podcast?.description ?: "暂无介绍"
                 )
                 PlayAllBar(onPlayAllClick = onPlayAllClick)
                 EpisodeList(
@@ -135,12 +131,16 @@ fun PodcastInfoBox(
             Column(modifier = Modifier.padding(top = 10.dp)) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
-                Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                Spacer(modifier = Modifier.padding(vertical = 15.dp))
                 Text(
                     text = "作者：$author",
-                    style = MaterialTheme.typography.labelMedium
+                    style = MaterialTheme.typography.labelMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
                 Text(
