@@ -3,6 +3,7 @@ package com.hustcaster.app.network.parser
 import android.util.Log
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.Podcast
+import com.hustcaster.app.utils.convertDurationStringToLong
 import org.xmlpull.v1.XmlPullParser
 
 private const val IMAGE = "image"
@@ -18,7 +19,7 @@ class ItunesParser : FeedParser {
     ) {
         val nodeName = xmlPullParser.name
         when (nodeName) {
-            DURATION -> currentItem?.duration = xmlPullParser.nextText()
+            DURATION -> currentItem?.duration = convertDurationStringToLong(xmlPullParser.nextText())
             AUTHOR -> if (currentItem == null) {
                 podcast.author = xmlPullParser.nextText()
             }
@@ -30,12 +31,3 @@ class ItunesParser : FeedParser {
         }
     }
 }
-//Duration of the episode, in one of the following formats:
-//
-//hours:minutes:seconds
-//Example: <itunes:duration>1:10:00</itunes:duration>
-//minutes:seconds
-//Example: <itunes:duration>10:00</itunes:duration>
-//total_seconds
-//Example: <itunes:duration>1800</itunes:duration>
-//In the first two formats the values for hours, minutes, or seconds cannot exceed two digits each.

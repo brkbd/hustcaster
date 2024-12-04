@@ -19,7 +19,7 @@ data class Episode(
     @ColumnInfo("title") var title: String = "",
     @ColumnInfo("description") var description: String = "",
     @ColumnInfo("pub_date") var pubDate: Calendar? = null,
-    @ColumnInfo("duration") var duration: String = "",
+    @ColumnInfo("duration") var duration: Long = 0,
     @ColumnInfo("audio_url") var audioUrl: String = "",
     @ColumnInfo("is_downloaded") var isDownloaded: Boolean = false,
     @ColumnInfo("download_url") var downloadUrl: String = "",

@@ -27,6 +27,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.hustcaster.app.R
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.ui.theme.HustcasterTheme
+import com.hustcaster.app.utils.convertLongToDurationString
 import com.hustcaster.app.utils.dateFormat
 import java.util.Calendar
 
@@ -87,7 +88,7 @@ fun EpisodeItem(
                             )
                         )
                     )
-                    Text(text = episode.duration, style = MaterialTheme.typography.labelSmall)
+                    Text(text = convertLongToDurationString(episode.duration) , style = MaterialTheme.typography.labelSmall)
                 }
             }
         }
