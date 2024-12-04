@@ -70,7 +70,7 @@ fun EpisodeItem(
                     )
                 ) {
                     Text(
-                        text = dateFormat.format(episode.pubDate!!.time),
+                        text = episode.pubDate?.time.let { if(it==null) "暂无日期" else dateFormat.format(it) },
                         style = MaterialTheme.typography.labelSmall
                     )
                     Icon(

@@ -11,12 +11,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -49,7 +54,9 @@ enum class RssScreenEvent{
 fun RssScreen(
     rssViewModel: RssViewModel = hiltViewModel()
 ) {
-    val scaffoldState= rememberBottomSheetScaffoldState()
+    val snackbarHostState= remember {
+        SnackbarHostState()
+    }
     val currentValue = rssViewModel.rssUrlInput.collectAsState()
     val sharedFlow=rssViewModel.sharedFlow
     val isImporting= rssViewModel.isImporting.collectAsState()
@@ -58,19 +65,28 @@ fun RssScreen(
         sharedFlow.collect{
             when(it){
                 RssScreenEvent.PODCAST_ALREADY_EXISTS -> {
-                    scaffoldState.snackbarHostState.showSnackbar("Podcast already exists!")
+                    snackbarHostState.showSnackbar("Podcast already exists!", duration = SnackbarDuration.Short)
                 }
                 RssScreenEvent.IS_GETTING_PODCAST -> {
-                    scaffoldState.snackbarHostState.showSnackbar("Start fetching podcast, please wait...")
+                    snackbarHostState.showSnackbar("Start fetching podcast, please wait...", duration = SnackbarDuration.Short)
                 }
                 RssScreenEvent.FINISH_GETTING_PODCAST -> {
-                    scaffoldState.snackbarHostState.showSnackbar("Finish! Please go to home screen to check it out!")
+                    snackbarHostState.showSnackbar("Finish! Please go to home screen to check it out!", duration = SnackbarDuration.Short)
                 }
             }
         }
     }
 
+    if(isImporting.value){
+        CircularProgressIndicator(
+            modifier = Modifier.width(64.dp),
+            color = MaterialTheme.colorScheme.secondary,
+            trackColor = MaterialTheme.colorScheme.surfaceVariant
+        )
+    }
+
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
             Column {
                 PlayingBar(

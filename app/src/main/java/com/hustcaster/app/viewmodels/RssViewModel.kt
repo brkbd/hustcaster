@@ -30,7 +30,7 @@ class RssViewModel @Inject constructor(
     private val _sharedFlow= MutableSharedFlow<RssScreenEvent>()
     val sharedFlow=_sharedFlow
 
-    private val _isImporting=MutableStateFlow<Boolean>(false)
+    private val _isImporting=MutableStateFlow(false)
     val isImporting=_isImporting.asStateFlow()
 
     fun onValueChange(newString: String) {
@@ -59,9 +59,7 @@ class RssViewModel @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun importPodcast() {
-        viewModelScope.launch {
-            MainParser.parse(_rssUrlInput.value,episodeRepository,podcastRepository)
-        }
+    private suspend fun importPodcast() {
+        MainParser.parse(_rssUrlInput.value,episodeRepository,podcastRepository)
     }
 }

@@ -40,6 +40,11 @@ object MainParser {
                 val parser = factory.newPullParser()
                 Log.d("debug", rssUrl)
                 val xmlData = fetchRssData(rssUrl)
+                if (xmlData != null) {
+                    Log.d("debug", "xmlData")
+                }else{
+                    Log.d("debug","null")
+                }
                 parser.setInput(StringReader(xmlData))
                 var eventType = parser.eventType
                 var currentItem: Episode? = null
