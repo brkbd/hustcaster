@@ -28,6 +28,7 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -48,7 +49,6 @@ enum class RssScreenEvent{
     FINISH_GETTING_PODCAST
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RssScreen(
@@ -59,7 +59,7 @@ fun RssScreen(
     }
     val currentValue = rssViewModel.rssUrlInput.collectAsState()
     val sharedFlow=rssViewModel.sharedFlow
-    val isImporting= rssViewModel.isImporting.collectAsState()
+    val isImporting by rssViewModel.isImporting.collectAsState()
 
     LaunchedEffect(sharedFlow) {
         sharedFlow.collect{
@@ -77,13 +77,7 @@ fun RssScreen(
         }
     }
 
-    if(isImporting.value){
-        CircularProgressIndicator(
-            modifier = Modifier.width(64.dp),
-            color = MaterialTheme.colorScheme.secondary,
-            trackColor = MaterialTheme.colorScheme.surfaceVariant
-        )
-    }
+
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -110,8 +104,8 @@ fun RssScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 20.dp),
-                verticalArrangement = Arrangement.Center
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 180.dp)
             ) {
                 Text(
                     text = stringResource(id = R.string.create_podcast_world),
@@ -136,6 +130,18 @@ fun RssScreen(
                     },
                     modifier = Modifier.fillMaxWidth()
                 )
+                Box(modifier = Modifier.align(Alignment.CenterHorizontally)){
+                    if(isImporting){
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .width(64.dp)
+                                .padding(top = 50.dp),
+                            color = MaterialTheme.colorScheme.secondary,
+                            trackColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                    }
+                }
+
             }
         }
     }
