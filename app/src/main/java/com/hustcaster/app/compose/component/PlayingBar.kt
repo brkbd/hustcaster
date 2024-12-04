@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -40,7 +41,7 @@ fun PlayingBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp),
-        color = MaterialTheme.colorScheme.surface
+        color = Color(0x0f00ffff)
     ) {
         Column {
             Row(
@@ -56,10 +57,11 @@ fun PlayingBar(
                         .padding(start = 5.dp)
                         .clip(RoundedCornerShape(2.dp))
                 )
-                Column(modifier = Modifier
+                Column(
+                    modifier = Modifier
                     .padding(start = 15.dp)
                     .padding(top = 5.dp)
-                    .clickable { }) {
+                ) {
                     Text(
                         text = episodeTitle,
                         style = MaterialTheme.typography.titleMedium
@@ -72,8 +74,7 @@ fun PlayingBar(
                 }
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { },
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
                     Icon(

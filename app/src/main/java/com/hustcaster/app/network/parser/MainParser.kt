@@ -104,7 +104,6 @@ object MainParser {
                 }
                 podcastRepository.savePodcast(podcast)
                 val podcastId = podcastRepository.getPodcastIdByRssUrl(rssUrl)
-                Log.d("debug", podcastId.toString())
                 episodes.forEach {
                     it.podcastId = podcastId
                     episodeRepository.saveEpisode(it)
@@ -114,6 +113,10 @@ object MainParser {
                 e.printStackTrace()
             }
         }
+
+    }
+
+    suspend fun checkPodcastExists(url:String){
 
     }
 

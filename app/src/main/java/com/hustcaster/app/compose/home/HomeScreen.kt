@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.common.NavigationBarImpl
+import com.hustcaster.app.compose.component.PlayingBar
 import com.hustcaster.app.compose.component.PodcastHomeList
 import com.hustcaster.app.compose.component.RecordHomeList
 import com.hustcaster.app.data.model.Episode
@@ -45,7 +46,19 @@ fun HomeScreen(
             HomeTopAppBar(scrollBehavior = scrollBehavior)
         },
         bottomBar = {
-            NavigationBarImpl()
+            Column {
+                PlayingBar(
+                    podcastTitle = "",
+                    podcastImageUrl = "",
+                    episodeTitle = "",
+                    isPlaying = true,
+                    progress = 0.5f,
+                    onButtonClick = { /*TODO*/ }) {
+
+                }
+                NavigationBarImpl()
+            }
+
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {

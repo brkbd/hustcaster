@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PodcastViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val podcastRepository: PodcastRepository
 ) : ViewModel() {
     private val podcastId: Long = savedStateHandle[PODCAST_ID] ?: 0

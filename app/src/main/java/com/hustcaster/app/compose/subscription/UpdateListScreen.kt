@@ -1,6 +1,7 @@
 package com.hustcaster.app.compose.subscription
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +16,7 @@ import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.common.NavigationBarImpl
 import com.hustcaster.app.compose.component.EpisodeItem
+import com.hustcaster.app.compose.component.PlayingBar
 import com.hustcaster.app.data.model.Episode
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,7 +32,18 @@ fun UpdateListScreen(
             UpdateTopAppBar(scrollBehavior = scrollBehavior)
         },
         bottomBar = {
-            NavigationBarImpl()
+            Column {
+                PlayingBar(
+                    podcastTitle = "",
+                    podcastImageUrl = "",
+                    episodeTitle = "",
+                    isPlaying = true,
+                    progress = 0.5f,
+                    onButtonClick = { /*TODO*/ }) {
+
+                }
+                NavigationBarImpl()
+            }
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
