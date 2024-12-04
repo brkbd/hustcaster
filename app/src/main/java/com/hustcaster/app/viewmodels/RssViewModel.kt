@@ -1,19 +1,17 @@
 package com.hustcaster.app.viewmodels
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hustcaster.app.compose.rss.RssScreenEvent
-import com.hustcaster.app.network.parser.MainParser
 import com.hustcaster.app.data.repository.EpisodeRepository
 import com.hustcaster.app.data.repository.PodcastRepository
+import com.hustcaster.app.network.parser.MainParser
+import com.hustcaster.app.network.parser.ParseResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -45,9 +43,13 @@ class RssViewModel @Inject constructor(
             }else{
                 _sharedFlow.emit(RssScreenEvent.IS_GETTING_PODCAST)
                 _isImporting.value=true
-                importPodcast()
-                _isImporting.value=false
-                _sharedFlow.emit(RssScreenEvent.FINISH_GETTING_PODCAST)
+                if(importPodcast()==ParseResult.SUCCESS){
+                    _isImporting.value=false
+                    _sharedFlow.emit(RssScreenEvent.FINISH_GETTING_PODCAST)
+                }else{
+                    _isImporting.value=false
+                    _sharedFlow.emit(RssScreenEvent.FAILED_PARSING_DATA)
+                }
             }
         }
     }
@@ -59,7 +61,13 @@ class RssViewModel @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private suspend fun importPodcast() {
+    private suspend fun importPodcast():ParseResult =
         MainParser.parse(_rssUrlInput.value,episodeRepository,podcastRepository)
-    }
+}
+
+enum class RssScreenEvent{
+    PODCAST_ALREADY_EXISTS,
+    IS_GETTING_PODCAST,
+    FINISH_GETTING_PODCAST,
+    FAILED_PARSING_DATA
 }

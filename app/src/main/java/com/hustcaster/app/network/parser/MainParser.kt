@@ -32,18 +32,16 @@ object MainParser {
         rssUrl: String,
         episodeRepository: EpisodeRepository,
         podcastRepository: PodcastRepository
-    ) {
-        withContext(Dispatchers.IO) {
+    ):ParseResult {
+        return withContext(Dispatchers.IO) {
             try {
                 val podcast = Podcast(rssUrl)
                 factory.isNamespaceAware = true
                 val parser = factory.newPullParser()
                 Log.d("debug", rssUrl)
                 val xmlData = fetchRssData(rssUrl)
-                if (xmlData != null) {
-                    Log.d("debug", "xmlData")
-                }else{
-                    Log.d("debug","null")
+                if (xmlData == null) {
+                    ParseResult.FAILURE
                 }
                 parser.setInput(StringReader(xmlData))
                 var eventType = parser.eventType
@@ -113,9 +111,10 @@ object MainParser {
                     it.podcastId = podcastId
                     episodeRepository.saveEpisode(it)
                 }
+                ParseResult.SUCCESS
 
             } catch (e: Exception) {
-                e.printStackTrace()
+                ParseResult.FAILURE
             }
         }
 
@@ -204,4 +203,9 @@ object MainParser {
             e.printStackTrace()
         }
     }
+}
+
+enum class ParseResult{
+    SUCCESS,
+    FAILURE
 }

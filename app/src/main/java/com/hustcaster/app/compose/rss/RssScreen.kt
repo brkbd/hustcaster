@@ -3,7 +3,6 @@ package com.hustcaster.app.compose.rss
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,14 +22,11 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -41,13 +36,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.NavigationBarImpl
 import com.hustcaster.app.compose.component.PlayingBar
+import com.hustcaster.app.viewmodels.RssScreenEvent
 import com.hustcaster.app.viewmodels.RssViewModel
 
-enum class RssScreenEvent{
-    PODCAST_ALREADY_EXISTS,
-    IS_GETTING_PODCAST,
-    FINISH_GETTING_PODCAST
-}
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -65,13 +56,17 @@ fun RssScreen(
         sharedFlow.collect{
             when(it){
                 RssScreenEvent.PODCAST_ALREADY_EXISTS -> {
-                    snackbarHostState.showSnackbar("Podcast already exists!", duration = SnackbarDuration.Short)
+                    snackbarHostState.showSnackbar("Podcast already exists!")
                 }
                 RssScreenEvent.IS_GETTING_PODCAST -> {
-                    snackbarHostState.showSnackbar("Start fetching podcast, please wait...", duration = SnackbarDuration.Short)
+                    snackbarHostState.showSnackbar("Start fetching podcast, please wait...")
                 }
                 RssScreenEvent.FINISH_GETTING_PODCAST -> {
-                    snackbarHostState.showSnackbar("Finish! Please go to home screen to check it out!", duration = SnackbarDuration.Short)
+                    snackbarHostState.showSnackbar("Finish! Please go to home screen to check it out!")
+                }
+
+                RssScreenEvent.FAILED_PARSING_DATA -> {
+                    snackbarHostState.showSnackbar("Something is going wrong when parsing data...")
                 }
             }
         }

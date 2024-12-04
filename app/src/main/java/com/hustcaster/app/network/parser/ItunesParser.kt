@@ -30,3 +30,12 @@ class ItunesParser : FeedParser {
         }
     }
 }
+//Duration of the episode, in one of the following formats:
+//
+//hours:minutes:seconds
+//Example: <itunes:duration>1:10:00</itunes:duration>
+//minutes:seconds
+//Example: <itunes:duration>10:00</itunes:duration>
+//total_seconds
+//Example: <itunes:duration>1800</itunes:duration>
+//In the first two formats the values for hours, minutes, or seconds cannot exceed two digits each.
