@@ -14,6 +14,7 @@ import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.repository.EpisodeRepository
 import com.hustcaster.app.data.repository.PodcastRepository
 import com.hustcaster.app.data.repository.RecordRepository
+import com.hustcaster.app.utils.MediaUtil
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,15 +28,17 @@ private const val TAG = "ExoPlayerHolder"
 private const val FORWARD_INCREMENT_MS = 30000L
 private const val BACKWARD_INCREMENT_MS = 30000L
 
-@Singleton
-class ExoPlayerHolder @Inject constructor(
-    private val recordRepository: RecordRepository,
-    private val podcastRepository: PodcastRepository,
-    private val episodeRepository: EpisodeRepository
-) {
+object ExoPlayerHolder {
 
     private val exoPlayer: ExoPlayer by lazy { createExoPlayer(context) }
 
+    data class Repository(
+        val recordRepository: RecordRepository,
+        val episodeRepository: EpisodeRepository,
+        val podcastRepository: PodcastRepository
+    )
+
+    private lateinit var repository: Repository
 
     data class PlayerState(
         val currentMediaItem: MediaItem = MediaItem.EMPTY,
@@ -50,6 +53,16 @@ class ExoPlayerHolder @Inject constructor(
     private val mutableStateFlow = MutableStateFlow(PlayerState())
     val playerStateFlow = mutableStateFlow.asStateFlow()
 
+    fun setRepository(
+        recordRepository: RecordRepository,
+        episodeRepository: EpisodeRepository,
+        podcastRepository: PodcastRepository
+    ) {
+        repository = Repository(
+            recordRepository, episodeRepository, podcastRepository
+        )
+    }
+
     @Synchronized
     fun get(context: Context): ExoPlayer {
         if (!mutableStateFlow.value.isPlayerAvailable) {
@@ -58,12 +71,12 @@ class ExoPlayerHolder @Inject constructor(
     }
 
     private suspend fun loadEpisodeFromDatabase() {
-        recordRepository.getLatestRecord().filterNotNull()
+        repository.recordRepository.getLatestRecord().filterNotNull()
             .distinctUntilChangedBy { it.episode.episodeId }
             .collect {
                 with(it) {
-                    val podcast = podcastRepository.getPodcastById(it.episode.podcastId)
-                    val mediaSource=episode.
+                    val podcast = repository.podcastRepository.getPodcastById(it.episode.podcastId)
+                    val mediaSource =
                 }
             }
     }
@@ -79,15 +92,12 @@ class ExoPlayerHolder @Inject constructor(
             .setSeekBackIncrementMs(BACKWARD_INCREMENT_MS)
             .build().apply {
                 repeatMode = Player.REPEAT_MODE_ONE
-                addListener(PlayerListener(mutableStateFlow, playerStateFlow))
+                addListener(PlayerListener)
             }
     }
 
 
-    private class PlayerListener(
-        private val mutableStateFlow: MutableStateFlow<PlayerState>,
-        private val playerStateFlow: StateFlow<PlayerState>
-    ) : Player.Listener {
+    private object PlayerListener : Player.Listener {
         override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
             mutableStateFlow.update { it.copy(currentMediaItem = mediaItem ?: MediaItem.EMPTY) }
         }

@@ -13,13 +13,9 @@ import com.hustcaster.app.data.repository.EpisodeRepository
 import com.hustcaster.app.player.cache.DataSourceHolder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class MediaUtil @Inject constructor(
-    private val episodeRepository: EpisodeRepository
-) {
+object MediaUtil {
+    private lateinit var episodeRepository: EpisodeRepository
 
     @OptIn(UnstableApi::class)
     fun MediaItem.toMediaSource(): MediaSource {
@@ -43,6 +39,11 @@ class MediaUtil @Inject constructor(
     fun Episode.toMediaSource(): MediaSource {
         return toMediaItem().toMediaSource()
     }
+
+    fun setEpisodeRepository(episodeRepository: EpisodeRepository) {
+        this.episodeRepository = episodeRepository
+    }
+
 
     @OptIn(UnstableApi::class)
     suspend fun getMediaSourceByEpisodeId(episodeId: Long): MediaSource =
