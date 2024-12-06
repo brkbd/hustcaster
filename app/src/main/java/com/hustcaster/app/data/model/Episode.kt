@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.bumptech.glide.load.model.FileLoader
 import java.util.Calendar
 
 @Entity(
@@ -26,6 +27,7 @@ data class Episode(
     @ColumnInfo("is_downloaded") var isDownloaded: Boolean = false,
     @ColumnInfo("download_url") var downloadUrl: String = "",
     @ColumnInfo("is_updated") var isUpdated: Boolean = false,
+    @ColumnInfo("progress") var progress: Float = 0F,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("episode_id")
     val episodeId: Long = 0
