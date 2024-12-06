@@ -1,17 +1,30 @@
 package com.hustcaster.app.utils
 
 import android.net.Uri
-import android.provider.MediaStore.Audio.Media
+import androidx.annotation.OptIn
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.source.MediaSource
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import com.hustcaster.app.App.Companion.context
 import com.hustcaster.app.data.model.Episode
-import com.hustcaster.app.utils.MediaUtil.toMediaSource
+import com.hustcaster.app.data.repository.EpisodeRepository
+import com.hustcaster.app.player.cache.DataSourceHolder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object MediaUtil {
+@Singleton
+class MediaUtil @Inject constructor(
+    private val episodeRepository: EpisodeRepository
+) {
 
-    fun MediaItem.toMediaSource():MediaSource{
-        val dataSourceFactory
+    @OptIn(UnstableApi::class)
+    fun MediaItem.toMediaSource(): MediaSource {
+        val dataSourceFactory = DataSourceHolder.getCacheFactory(context)
+        return ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(this)
     }
 
     fun Episode.toMediaItem(): MediaItem {
@@ -28,6 +41,22 @@ object MediaUtil {
     }
 
     fun Episode.toMediaSource(): MediaSource {
-        return toMediaItem()
+        return toMediaItem().toMediaSource()
     }
+
+    @OptIn(UnstableApi::class)
+    suspend fun getMediaSourceByEpisodeId(episodeId: Long): MediaSource =
+        withContext(Dispatchers.IO) {
+            val episode = episodeRepository.getEpisodeById(episodeId)
+            val mediaMetadata = with(episode) {
+                MediaMetadata.Builder().setTitle(title).setArtist(author)
+                    .setArtworkUri(Uri.parse(imageUrl)).build()
+            }
+            val mediaItem =
+                MediaItem.Builder().setMediaId(episodeId.toString()).setMediaMetadata(mediaMetadata)
+                    .setUri(episode.audioUrl).build()
+            val dataSourceFactory = DataSourceHolder.getCacheFactory(context)
+            return@withContext ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(mediaItem)
+        }
 }

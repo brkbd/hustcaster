@@ -25,8 +25,11 @@ interface EpisodeDao {
     @Query("select * from podcasts where id in (select distinct(podcast_id) from episodes)")
     fun getPodcastAndEpisodesListFlow(): Flow<List<PodcastAndEpisodes>>
 
+    @Query("select * from episodes where episode_id=:id")
+    fun getEpisodeById(id: Long): Episode
+
     @Query("select image_url from podcasts where id=(select podcast_id from episodes where id=:id)")
-    fun getImageUrlByEpisodeId(id:Long):String
+    fun getImageUrlByEpisodeId(id: Long): String
 
     @Transaction
     @Query("select * from episodes where is_downloaded=1")
