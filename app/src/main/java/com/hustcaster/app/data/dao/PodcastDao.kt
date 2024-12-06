@@ -26,6 +26,9 @@ interface PodcastDao {
     @Query("select * from podcasts where id=:id")
     fun getPodcastAndEpisodesById(id: Long): PodcastAndEpisodes
 
+    @Query("select * from podcasts where id=:id")
+    fun getPodcastById(id: Long): Podcast
+
     @Query("select id from podcasts where rss_url=:url")
     fun getPodcastIdByRssUrl(url: String): Long
 

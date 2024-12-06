@@ -21,6 +21,8 @@ class PodcastRepository @Inject constructor(
 
     fun getPodcastAndEpisodesById(id: Long) = podcastDao.getPodcastAndEpisodesById(id)
 
+    fun getPodcastById(id: Long) = podcastDao.getPodcastById(id)
+
     fun getPodcastIdByRssUrl(url: String) = podcastDao.getPodcastIdByRssUrl(url)
 
     companion object {

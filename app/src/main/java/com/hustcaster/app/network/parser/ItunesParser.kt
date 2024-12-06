@@ -19,13 +19,19 @@ class ItunesParser : FeedParser {
     ) {
         val nodeName = xmlPullParser.name
         when (nodeName) {
-            DURATION -> currentItem?.duration = convertDurationStringToLong(xmlPullParser.nextText())
+            DURATION -> currentItem?.duration =
+                convertDurationStringToLong(xmlPullParser.nextText())
+
             AUTHOR -> if (currentItem == null) {
                 podcast.author = xmlPullParser.nextText()
+            } else {
+                currentItem.author = xmlPullParser.nextText()
             }
 
             IMAGE -> if (currentItem == null) {
                 podcast.imageUrl = xmlPullParser.getAttributeValue(null, IMAGE_HREF)
+            } else {
+                currentItem.imageUrl = xmlPullParser.getAttributeValue(null, IMAGE_HREF)
             }
 
         }

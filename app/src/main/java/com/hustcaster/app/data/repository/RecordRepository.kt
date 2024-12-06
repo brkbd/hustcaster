@@ -6,6 +6,7 @@ import com.hustcaster.app.data.model.Record
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,6 +31,10 @@ class RecordRepository @Inject constructor(
     fun getEpisodeAndRecordById(id: Long) = recordDao.getEpisodeAndRecordById(id)
 
     fun getThreeLatestRecords() = recordDao.getThreeLatestRecords()
+
+    fun getLatestRecord() = recordDao.getEpisodeAndRecordListFlow().mapNotNull {
+        it.last()
+    }
 
     fun getImageUrlOfRecord(id: Long) = recordDao.getImageUrlByRecordId(id)
 
