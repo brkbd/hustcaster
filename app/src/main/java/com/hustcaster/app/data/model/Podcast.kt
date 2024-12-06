@@ -12,7 +12,7 @@ import java.util.Calendar
 )
 data class Podcast(
     //record the rss url to check for updates
-    @ColumnInfo("rss_url") val rssUrl: String,
+    @ColumnInfo("rss_url") val rssUrl: String = "",
     @ColumnInfo("title") var title: String = "",
     @ColumnInfo("link") var link: String = "",
     @ColumnInfo("description") var description: String = "",
