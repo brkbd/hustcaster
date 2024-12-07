@@ -16,6 +16,7 @@ import com.hustcaster.app.compose.common.NavigationGraph.PODCAST_ID
 import com.hustcaster.app.compose.common.NavigationGraph.toId
 import com.hustcaster.app.compose.common.NavigationGraph.withArgument
 import com.hustcaster.app.compose.home.HomeScreen
+import com.hustcaster.app.compose.listen.ListenScreen
 import com.hustcaster.app.compose.podcast.PodcastInfoScreen
 import com.hustcaster.app.compose.podcast.PodcastListScreen
 import com.hustcaster.app.compose.podcast.PodcastScreen
@@ -39,11 +40,9 @@ fun HustcasterNavHost(
     val appDatabase = AppDatabase.getDatabase(LocalContext.current)
     NavHost(navController = navController, startDestination = NavigationGraph.HOME) {
         composable(route = NavigationGraph.HOME) {
-            HomeScreen(
-                onMoreRecordClick = { navController.navigate(NavigationGraph.RECORD) },
+            HomeScreen(onMoreRecordClick = { navController.navigate(NavigationGraph.RECORD) },
                 onMorePodcastClick = { navController.navigate(NavigationGraph.PODCAST_LIST) },
-                onPlayRecordClick = { navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId)) }
-            ) {
+                onPlayRecordClick = { navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId)) }) {
                 navController.navigate(
                     NavigationGraph.PODCAST.toId(it.podcast.id)
                 )
@@ -58,19 +57,14 @@ fun HustcasterNavHost(
             RssScreen()
         }
         composable(route = NavigationGraph.RECORD) {
-            RecordListScreen(
-                onPlayClick = {
-                    navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId))
-                }
-            )
+            RecordListScreen(onPlayClick = {
+                navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId))
+            })
         }
         composable(route = NavigationGraph.PODCAST_LIST) {
-            PodcastListScreen(
-                onBackClick = { navController.navigateUp() },
-                onPodcastClick = {
-                    navController.navigate(NavigationGraph.PODCAST.toId(it.podcast.id))
-                }
-            )
+            PodcastListScreen(onBackClick = { navController.navigateUp() }, onPodcastClick = {
+                navController.navigate(NavigationGraph.PODCAST.toId(it.podcast.id))
+            })
         }
         composable(
             route = NavigationGraph.PODCAST.withArgument(PODCAST_ID),
@@ -78,14 +72,12 @@ fun HustcasterNavHost(
                 type = NavType.LongType
             })
         ) {
-            PodcastScreen(
-                onInfoClick = { navController.navigate(NavigationGraph.PODCAST_INFO) },
+            PodcastScreen(onInfoClick = { navController.navigate(NavigationGraph.PODCAST_INFO) },
                 onBackClick = { navController.navigateUp() },
                 onPlayAllClick = {},
                 onEpisodeClick = {
                     navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId))
-                }
-            )
+                })
         }
 
         composable(
@@ -106,7 +98,11 @@ fun HustcasterNavHost(
                 type = NavType.LongType
             })
         ) { backStackEntry ->
-
+            ListenScreen(
+                onDismiss = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }

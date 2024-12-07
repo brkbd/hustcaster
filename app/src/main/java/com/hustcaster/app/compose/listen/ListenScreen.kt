@@ -8,18 +8,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.CircularProgressIndicator
@@ -57,20 +58,21 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.player.ExoPlayerHolder
 import com.hustcaster.app.utils.convertLongToDurationString
+import com.hustcaster.app.utils.dateFormat
 import com.hustcaster.app.viewmodels.ListenViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListenScreen(
-    onCoverClick: (Long) -> Unit,
-    onDismiss: () -> Unit = {},
+    onDismiss: () -> Unit,
     listenViewModel: ListenViewModel = hiltViewModel(),
 ) {
     val playerState = ExoPlayerHolder.playerStateFlow.collectAsState()
     val viewState = playerState.value
 
+    var showingEpisodeInfo by remember { mutableStateOf(false) }
     var isDragging by remember { mutableStateOf(false) }
     var slider by remember(isDragging) {
         isDragging = false
@@ -96,44 +98,34 @@ fun ListenScreen(
     ) { innerPadding ->
         viewState.run {
             Column(modifier = Modifier.padding(innerPadding)) {
-                Column(
-                    modifier = Modifier.weight(5f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    GlideImage(
-                        model = currentEpisode.imageUrl,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .aspectRatio(1f, true)
-                            .clip(MaterialTheme.shapes.large)
-                            .clickable { onCoverClick(currentEpisode.episodeId) }
+                Box(
+                    modifier = Modifier
+                        .weight(6f)
+                        .clickable { showingEpisodeInfo = !showingEpisodeInfo }) {
+                    if (showingEpisodeInfo) EpisodeInfoPage(
+                        episodeTitle = currentEpisode.title,
+                        podcastTitle = currentPodcast.title,
+                        author = currentEpisode.title,
+                        description = currentEpisode.description,
+                        pubDate = currentEpisode.pubDate
+                    )
+                    else CoverPage(
+                        imageUrl = currentEpisode.imageUrl,
+                        episodeTitle = currentEpisode.title,
+                        podcastTitle = currentPodcast.title
                     )
                 }
                 Column(
                     modifier = Modifier
-                        .weight(3f)
+                        .weight(2f)
                         .fillMaxWidth()
                         .padding(horizontal = 24.dp),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = currentEpisode.title,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
-                    )
-                    Text(
-                        text = currentPodcast.title,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier
-                            .clip(MaterialTheme.shapes.large)
-                            .padding(12.dp, 6.dp)
-                    )
+
                     Slider(
-                        value = 0f,
+                        value = sliderPosition.value,
                         onValueChange = {
                             isDragging = true
                             slider = it
@@ -236,6 +228,80 @@ fun ListenScreen(
             }
         }
 
+    }
+}
+
+@OptIn(ExperimentalGlideComposeApi::class)
+@Composable
+fun CoverPage(
+    imageUrl: String,
+    episodeTitle: String,
+    podcastTitle: String
+) {
+    Column {
+        Column(
+            verticalArrangement = Arrangement.Center
+        ) {
+            GlideImage(
+                model = imageUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .aspectRatio(1f, true)
+                    .clip(MaterialTheme.shapes.large)
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = episodeTitle,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                )
+                Text(
+                    text = podcastTitle,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .clip(MaterialTheme.shapes.large)
+                        .padding(12.dp, 6.dp)
+                )
+            }
+
+        }
+    }
+}
+
+@Composable
+fun EpisodeInfoPage(
+    episodeTitle: String,
+    podcastTitle: String,
+    author: String,
+    description: String,
+    pubDate: Calendar?
+) {
+    LazyColumn {
+        item {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp)
+            ) {
+                Text(text = "本集标题： $episodeTitle")
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(text = "所属博客： $podcastTitle")
+                Text(text = "作者： $author")
+                Text(text = "发布日期： ${dateFormat.format(pubDate?.time ?: "暂无信息")}")
+                Text(text = "节目信息：$description")
+            }
+
+        }
     }
 }
 
