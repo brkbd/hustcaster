@@ -54,6 +54,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.media3.session)
     //ksp
     ksp(libs.hilt.android.compiler.v2511)
     ksp(libs.androidx.room.compiler.v250)
