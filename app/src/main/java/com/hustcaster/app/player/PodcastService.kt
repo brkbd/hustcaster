@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.CommandButton
+import androidx.media3.session.MediaController
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import androidx.media3.session.SessionCommand
@@ -28,7 +29,28 @@ class PodcastService : MediaSessionService() {
 
     override fun onCreate() {
         super.onCreate()
+        MediaControllerUtil.get(this)
+        player = ExoPlayerHolder.get(this)
+        customCommandButtons.apply {
+            put(
+                ButtonID.SHUFFLE_MODE_ON, getShuffleCommandButton(
+                    SessionCommand(ButtonID.SHUFFLE_MODE_ON, Bundle.EMPTY)
+                )
+            )
+            put(
+                ButtonID.SHUFFLE_MODE_OFF, getShuffleCommandButton(
+                    SessionCommand(ButtonID.SHUFFLE_MODE_OFF, Bundle.EMPTY)
+                )
+            )
+        }
+        initSession()
+    }
 
+    override fun onDestroy() {
+        player.release()
+        mediaSession.release()
+        MediaControllerUtil.release()
+        super.onDestroy()
     }
 
     private inner class CustomMediaSessionCallback : MediaSession.Callback {
