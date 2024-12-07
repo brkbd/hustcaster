@@ -15,20 +15,16 @@ import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.repository.EpisodeRepository
 import com.hustcaster.app.data.repository.PodcastRepository
 import com.hustcaster.app.data.repository.RecordRepository
-import com.hustcaster.app.utils.MediaUtil
 import com.hustcaster.app.utils.MediaUtil.toMediaSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
-import javax.inject.Singleton
 
 private const val TAG = "ExoPlayerHolder"
 private const val FORWARD_INCREMENT_MS = 30000L
