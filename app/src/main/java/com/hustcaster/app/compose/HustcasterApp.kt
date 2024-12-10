@@ -72,11 +72,12 @@ fun HustcasterNavHost(
                 type = NavType.LongType
             })
         ) {
-            PodcastScreen(onInfoClick = { navController.navigate(NavigationGraph.PODCAST_INFO) },
+            PodcastScreen(
+                onInfoClick = { navController.navigate(NavigationGraph.PODCAST_INFO) },
                 onBackClick = { navController.navigateUp() },
                 onPlayAllClick = {},
-                onEpisodeClick = {
-                    navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId))
+                navigateToListenPage = {
+                    navController.navigate(NavigationGraph.LISTEN)
                 })
         }
 
@@ -93,11 +94,8 @@ fun HustcasterNavHost(
         }
 
         composable(
-            route = NavigationGraph.LISTEN.withArgument(NavigationGraph.EPISODE_ID),
-            arguments = listOf(navArgument(NavigationGraph.EPISODE_ID) {
-                type = NavType.LongType
-            })
-        ) { backStackEntry ->
+            route = NavigationGraph.LISTEN
+        ) {
             ListenScreen(
                 onDismiss = {
                     navController.navigateUp()

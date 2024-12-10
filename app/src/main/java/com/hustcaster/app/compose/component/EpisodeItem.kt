@@ -1,5 +1,6 @@
 package com.hustcaster.app.compose.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,6 +43,7 @@ fun EpisodeItem(
     Box(
         modifier = modifier
             .height(80.dp)
+            .clickable { onEpisodeClick() }
     ) {
         Row(
             modifier = modifier
@@ -71,7 +73,11 @@ fun EpisodeItem(
                     )
                 ) {
                     Text(
-                        text = episode.pubDate?.time.let { if(it==null) "暂无日期" else dateFormat.format(it) },
+                        text = episode.pubDate?.time.let {
+                            if (it == null) "暂无日期" else dateFormat.format(
+                                it
+                            )
+                        },
                         style = MaterialTheme.typography.labelSmall
                     )
                     Icon(
@@ -88,7 +94,10 @@ fun EpisodeItem(
                             )
                         )
                     )
-                    Text(text = convertLongToDurationString(episode.duration) , style = MaterialTheme.typography.labelSmall)
+                    Text(
+                        text = convertLongToDurationString(episode.duration),
+                        style = MaterialTheme.typography.labelSmall
+                    )
                 }
             }
         }

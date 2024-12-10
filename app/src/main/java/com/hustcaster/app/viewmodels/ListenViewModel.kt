@@ -11,9 +11,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class ListenViewModel : ViewModel() {
+class ListenViewModel @Inject constructor() : ViewModel() {
     private val exoPlayer = ExoPlayerHolder.get(App.context)
     private val mutableStateFlow = MutableStateFlow(ViewState())
     val stateFlow = mutableStateFlow.asStateFlow()
@@ -68,4 +69,5 @@ class ListenViewModel : ViewModel() {
             exoPlayer.play()
         }
     }
+
 }

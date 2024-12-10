@@ -20,8 +20,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -33,8 +35,9 @@ import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.component.EpisodeList
 import com.hustcaster.app.compose.component.PlayingBar
-import com.hustcaster.app.data.model.Episode
+import com.hustcaster.app.player.ExoPlayerHolder
 import com.hustcaster.app.viewmodels.PodcastViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun PodcastScreen(
@@ -42,25 +45,31 @@ fun PodcastScreen(
     onInfoClick: () -> Unit,
     onBackClick: () -> Unit,
     onPlayAllClick: () -> Unit,
-    onEpisodeClick: (Episode) -> Unit
+    navigateToListenPage: () -> Unit
 ) {
     val podcastAndEpisodes by viewModel.podcastAndEpisodes.observeAsState()
     val podcast = podcastAndEpisodes?.podcast
     val episodes = podcastAndEpisodes?.episodes
+    val playerState = ExoPlayerHolder.playerStateFlow.collectAsState()
+
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             PodcastTopAppBar(onBackClick = onBackClick)
         },
         bottomBar = {
-            PlayingBar(
-                podcastTitle = podcast?.title ?: "",
-                podcastImageUrl = podcast?.imageUrl ?: "",
-                episodeTitle = "abc",
-                isPlaying = true,
-                progress = 0.5f,
-                onButtonClick = {},
-                onBarClick = {}
-            )
+            playerState.value.run {
+                PlayingBar(
+                    podcastTitle = currentPodcast.title,
+                    podcastImageUrl = currentEpisode.imageUrl,
+                    episodeTitle = currentEpisode.title,
+                    isPlaying = isPlaying,
+                    progress = currentProgress,
+                    onButtonClick = { viewModel.playOrPause() },
+                    onBarClick = navigateToListenPage
+                )
+            }
+
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
@@ -76,7 +85,12 @@ fun PodcastScreen(
                 EpisodeList(
                     episodes = episodes ?: emptyList(),
                     imageUrl = podcast?.imageUrl ?: "",
-                    onEpisodeClick = onEpisodeClick
+                    onEpisodeClick = { episodeId ->
+                        coroutineScope.launch {
+                            viewModel.onEpisodeClick(episodeId)
+                        }
+                        //navigateToListenPage()
+                    }
                 )
             }
         }
