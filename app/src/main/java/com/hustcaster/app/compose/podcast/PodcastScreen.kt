@@ -79,7 +79,7 @@ fun PodcastScreen(
                     title = podcast?.title ?: "",
                     author = podcast?.title ?: "",
                     onInfoClick = onInfoClick,
-                    description = podcast?.description ?: "暂无介绍"
+                    description = podcast?.description?.trim() ?: "暂无介绍"
                 )
                 PlayAllBar(onPlayAllClick = onPlayAllClick)
                 EpisodeList(

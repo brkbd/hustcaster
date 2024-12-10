@@ -68,7 +68,7 @@ fun RecordHomeList(
                     RecordCard(
                         imageUrl = records[i].episode.imageUrl,
                         title = records[i].episode.title,
-                        description = records[i].episode.description
+                        description = records[i].episode.description.trim()
                     ) {
                         onPlayClick(records[i].episode)
                     }

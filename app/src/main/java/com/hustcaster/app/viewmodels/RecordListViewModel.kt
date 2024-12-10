@@ -22,5 +22,4 @@ class RecordListViewModel @Inject constructor(
         )
 
 
-    fun getRecordImageUrl(id: Long) = recordRepository.getImageUrlOfRecord(id)
 }

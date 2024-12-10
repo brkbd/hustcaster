@@ -27,12 +27,13 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.utils.dateFormat
+import com.hustcaster.app.utils.formatDescription
 import com.hustcaster.app.viewmodels.PodcastViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun PodcastInfoScreen(
-    viewModel: PodcastViewModel= hiltViewModel(),
+    viewModel: PodcastViewModel = hiltViewModel(),
     onCloseClick: () -> Unit
 ) {
     val podcastAndEpisodes by viewModel.podcastAndEpisodes.observeAsState()
@@ -86,7 +87,9 @@ fun PodcastInfoScreen(
                             maxLines = Int.MAX_VALUE
                         )
                         Spacer(modifier = Modifier.padding(2.dp))
-                        Text(text = podcast?.description ?: "")
+                        Text(
+                            text = podcast?.description?.formatDescription() ?: ""
+                        )
                     }
 
                 }

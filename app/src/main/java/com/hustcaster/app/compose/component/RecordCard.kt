@@ -27,15 +27,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.hustcaster.app.utils.formatDescription
 
 @OptIn(ExperimentalGlideComposeApi::class)
-@Preview
 @Composable
 fun RecordCard(
-    imageUrl: String = "",
-    title: String = "Episode 1 dog",
-    description: String = "1111111111111111",
-    onPlayClick: () -> Unit = {}
+    imageUrl: String,
+    title: String,
+    description: String,
+    onPlayClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -55,7 +55,7 @@ fun RecordCard(
             )
             Column(
                 modifier = Modifier
-                    .padding(bottom = 10.dp)
+                    .padding(bottom = 20.dp)
                     .padding(start = 10.dp)
                     .width(170.dp)
                     .fillMaxHeight(),
@@ -68,8 +68,8 @@ fun RecordCard(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = description,
-                    style = MaterialTheme.typography.labelLarge,
+                    text = description.formatDescription(),
+                    style = MaterialTheme.typography.labelMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

@@ -57,9 +57,12 @@ fun HustcasterNavHost(
             RssScreen()
         }
         composable(route = NavigationGraph.RECORD) {
-            RecordListScreen(onPlayClick = {
-                navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId))
-            })
+            RecordListScreen(
+                onPlayClick = {
+                    navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId))
+                },
+                onNavigationIconClick = { navController.navigateUp() }
+            )
         }
         composable(route = NavigationGraph.PODCAST_LIST) {
             PodcastListScreen(onBackClick = { navController.navigateUp() }, onPodcastClick = {

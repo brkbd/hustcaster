@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
@@ -24,26 +26,32 @@ import com.hustcaster.app.viewmodels.RecordListViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecordListScreen(
-    modifier: Modifier = Modifier,
     onPlayClick: (Episode) -> Unit,
+    onNavigationIconClick: () -> Unit,
     recordListViewModel: RecordListViewModel = hiltViewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val records = recordListViewModel.records.collectAsState()
     Scaffold(
         topBar = {
-            RecordListTopAppBar(scrollBehavior = scrollBehavior)
+            RecordListTopAppBar(
+                scrollBehavior = scrollBehavior,
+                onNavigationIconClick = onNavigationIconClick
+            )
         }
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 18.dp)
                 .padding(innerPadding)
         ) {
             LazyColumn(modifier = Modifier.padding(horizontal = 10.dp)) {
                 items(records.value) { record ->
                     RecordCard(
-                        imageUrl = recordListViewModel.getRecordImageUrl(record.record.id)[0]
+                        imageUrl = record.episode.imageUrl,
+                        title = record.episode.title,
+                        description = record.episode.description
                     ) {
                         onPlayClick(record.episode)
                     }
@@ -56,13 +64,13 @@ fun RecordListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecordListTopAppBar(
-    modifier: Modifier = Modifier,
-    scrollBehavior: TopAppBarScrollBehavior
+    scrollBehavior: TopAppBarScrollBehavior,
+    onNavigationIconClick: () -> Unit
 ) {
     CustomizedTopAppBar(
         title = stringResource(id = R.string.record),
-        navigationIcon = null,
-        onNavigationIconClick = { },
+        navigationIcon = Icons.AutoMirrored.Filled.ArrowBack,
+        onNavigationIconClick = onNavigationIconClick,
         actionIcon = null,
         onActionIconClick = { },
         scrollBehavior = scrollBehavior
