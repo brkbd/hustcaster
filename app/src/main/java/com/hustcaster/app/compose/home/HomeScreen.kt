@@ -23,14 +23,12 @@ import com.hustcaster.app.compose.component.PlayingBar
 import com.hustcaster.app.compose.component.PodcastHomeList
 import com.hustcaster.app.compose.component.RecordHomeList
 import com.hustcaster.app.data.model.Episode
-import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.viewmodels.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = hiltViewModel(),
     onMoreRecordClick: () -> Unit,
     onMorePodcastClick: () -> Unit,
@@ -40,7 +38,6 @@ fun HomeScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val records = homeViewModel.records.collectAsState()
     val podcasts = homeViewModel.podcasts.collectAsState()
-    val imageUrls = homeViewModel.imageUrls.collectAsState()
     Scaffold(
         topBar = {
             HomeTopAppBar(scrollBehavior = scrollBehavior)
@@ -69,11 +66,10 @@ fun HomeScreen(
             ) {
                 RecordHomeList(
                     records = records.value,
-                    imageUrls = imageUrls.value,
                     onMoreClick = onMoreRecordClick,
                     onPlayClick = onPlayRecordClick
                 )
-                Spacer(modifier = Modifier.height(50.dp))
+                Spacer(modifier = Modifier.height(10.dp))
                 PodcastHomeList(
                     podcasts = podcasts.value,
                     onMoreClick = onMorePodcastClick,

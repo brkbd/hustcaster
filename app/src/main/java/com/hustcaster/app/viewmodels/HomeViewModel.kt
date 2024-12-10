@@ -34,12 +34,5 @@ class HomeViewModel @Inject constructor(
                 emptyList()
             )
 
-    val imageUrls: StateFlow<List<String>> =
-        recordRepository.getImageUrlsOfRecords(records.value)
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5000),
-                emptyList()
-            )
 
 }

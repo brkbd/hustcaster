@@ -40,8 +40,8 @@ fun RecordCard(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
-            .padding(10.dp)
+            .height(105.dp)
+            .padding(top = 10.dp)
             .clickable { onPlayClick() }
     ) {
         Row {
@@ -49,19 +49,24 @@ fun RecordCard(
                 model = imageUrl,
                 contentDescription = null,
                 modifier = Modifier
-                    .size(120.dp)
+                    .size(90.dp)
                     .clip(RoundedCornerShape(3.dp)),
                 contentScale = ContentScale.Crop
             )
             Column(
                 modifier = Modifier
-                    .padding(bottom = 30.dp)
+                    .padding(bottom = 10.dp)
                     .padding(start = 10.dp)
-                    .width(150.dp)
+                    .width(170.dp)
                     .fillMaxHeight(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = title, style = MaterialTheme.typography.titleLarge)
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
                 Text(
                     text = description,
                     style = MaterialTheme.typography.labelLarge,
@@ -74,6 +79,7 @@ fun RecordCard(
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
+                    .size(40.dp)
                     .padding(bottom = 20.dp)
                     .padding(start = 10.dp)
             )

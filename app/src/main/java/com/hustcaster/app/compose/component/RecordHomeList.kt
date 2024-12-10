@@ -17,26 +17,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hustcaster.app.R
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.EpisodeAndRecord
-import com.hustcaster.app.data.model.Record
 
 
 @Composable
 fun RecordHomeList(
-    modifier: Modifier = Modifier,
     records: List<EpisodeAndRecord>,
-    imageUrls: List<String>,
     onMoreClick: () -> Unit,
     onPlayClick: (Episode) -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(320.dp)
+            .height(350.dp)
             .padding(horizontal = 5.dp)
     ) {
         Column {
@@ -67,15 +63,18 @@ fun RecordHomeList(
                 }
 
             }
-            for (i in records.indices) {
-                RecordCard(
-                    imageUrl = imageUrls[i],
-                    title = records[i].episode.title,
-                    description = records[i].episode.description
-                ) {
-                    onPlayClick(records[i].episode)
+            if (records.isNotEmpty()) {
+                for (i in records.indices) {
+                    RecordCard(
+                        imageUrl = records[i].episode.imageUrl,
+                        title = records[i].episode.title,
+                        description = records[i].episode.description
+                    ) {
+                        onPlayClick(records[i].episode)
+                    }
                 }
             }
+
         }
     }
 }

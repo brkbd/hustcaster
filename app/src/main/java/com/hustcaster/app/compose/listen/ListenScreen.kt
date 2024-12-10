@@ -49,13 +49,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.hustcaster.app.R
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
+import com.hustcaster.app.compose.component.Pause
 import com.hustcaster.app.player.ExoPlayerHolder
 import com.hustcaster.app.utils.convertLongToDurationString
 import com.hustcaster.app.utils.dateFormat
@@ -176,7 +179,7 @@ fun ListenScreen(
                             onClick = { listenViewModel.replay() },
                         ) {
                             Icon(
-                                imageVector = Icons.Outlined.Refresh,
+                                painter = painterResource(id = R.drawable.back),
                                 contentDescription = null,
                                 modifier = Modifier.size(28.dp)
                             )
@@ -201,7 +204,7 @@ fun ListenScreen(
                                 exit = fadeOut()
                             ) {
                                 Icon(
-                                    imageVector = if (isPlaying || isBuffering) Icons.Outlined.Close else Icons.Filled.PlayArrow,
+                                    imageVector = if (isPlaying || isBuffering) Pause else Icons.Filled.PlayArrow,
                                     contentDescription = null,
                                     modifier = Modifier.size(36.dp)
                                 )
@@ -212,7 +215,7 @@ fun ListenScreen(
                             modifier = Modifier.size(48.dp)
                         ) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
+                                painter = painterResource(id = R.drawable.forward),
                                 contentDescription = null,
                                 modifier = Modifier.size(28.dp)
                             )

@@ -10,7 +10,9 @@ import androidx.media3.common.util.UnstableApi
 import com.hustcaster.app.App
 import com.hustcaster.app.compose.common.NavigationGraph.PODCAST_ID
 import com.hustcaster.app.data.model.PodcastAndEpisodes
+import com.hustcaster.app.data.model.Record
 import com.hustcaster.app.data.repository.PodcastRepository
+import com.hustcaster.app.data.repository.RecordRepository
 import com.hustcaster.app.player.ExoPlayerHolder
 import com.hustcaster.app.utils.MediaUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PodcastViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val podcastRepository: PodcastRepository
+    private val podcastRepository: PodcastRepository,
+    private val recordRepository: RecordRepository
 ) : ViewModel() {
     private val exoPlayer = ExoPlayerHolder.get(App.context)
     private val podcastId: Long = savedStateHandle[PODCAST_ID] ?: 0
@@ -55,8 +58,11 @@ class PodcastViewModel @Inject constructor(
     @OptIn(UnstableApi::class)
     suspend fun onEpisodeClick(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
+            recordRepository.insertRecord(Record(episodeId = id))
+        }
+        viewModelScope.launch(Dispatchers.IO) {
             val mediaSource = MediaUtil.getMediaSourceByEpisodeId(id)
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 exoPlayer.stop()
                 exoPlayer.setMediaSource(mediaSource)
                 exoPlayer.prepare()

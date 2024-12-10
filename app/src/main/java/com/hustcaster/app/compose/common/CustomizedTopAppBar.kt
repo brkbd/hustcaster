@@ -2,6 +2,7 @@ package com.hustcaster.app.compose.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import com.hustcaster.app.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +52,7 @@ fun CustomizedTopAppBar(
                     modifier = Modifier
                         .clickable { onNavigationIconClick() }
                         .padding(start = dimensionResource(id = R.dimen.top_app_bar_icon_padding_horizontal))
+                        .size(28.dp)
                 )
             }
 
