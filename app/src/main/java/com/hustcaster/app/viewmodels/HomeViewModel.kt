@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
             )
 
     val podcasts: StateFlow<List<PodcastAndEpisodes>> =
-        podcastRepository.getAllPodcasts()
+        podcastRepository.getAllPodcastsAndEpisodes()
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(5000),

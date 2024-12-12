@@ -29,9 +29,9 @@ class EpisodeRepository @Inject constructor(
 
     fun getEpisodeById(id: Long) = episodeDao.getEpisodeById(id)
 
-    fun getDownloadedEpisodes() = episodeDao.getDownloadedEpisodes()
-
     fun getEpisodes(podcast: Podcast) = episodeDao.getEpisodes(podcast.id)
+
+    fun getUpdateEpisode() = episodeDao.getUpdatedEpisodes()
 
     companion object {
         @Volatile

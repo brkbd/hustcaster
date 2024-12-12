@@ -25,29 +25,29 @@ class RssViewModel @Inject constructor(
     private val _rssUrlInput = MutableStateFlow("")
     val rssUrlInput = _rssUrlInput.asStateFlow()
 
-    private val _sharedFlow= MutableSharedFlow<RssScreenEvent>()
-    val sharedFlow=_sharedFlow
+    private val _sharedFlow = MutableSharedFlow<RssScreenEvent>()
+    val sharedFlow = _sharedFlow
 
-    private val _isImporting=MutableStateFlow(false)
-    val isImporting=_isImporting.asStateFlow()
+    private val _isImporting = MutableStateFlow(false)
+    val isImporting = _isImporting.asStateFlow()
 
     fun onValueChange(newString: String) {
         _rssUrlInput.value = newString
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onImportClick(){
+    fun onImportClick() {
         viewModelScope.launch {
-            if (isPodcastExists()){
+            if (isPodcastExists()) {
                 _sharedFlow.emit(RssScreenEvent.PODCAST_ALREADY_EXISTS)
-            }else{
+            } else {
                 _sharedFlow.emit(RssScreenEvent.IS_GETTING_PODCAST)
-                _isImporting.value=true
-                if(importPodcast()==ParseResult.SUCCESS){
-                    _isImporting.value=false
+                _isImporting.value = true
+                if (importPodcast() == ParseResult.SUCCESS) {
+                    _isImporting.value = false
                     _sharedFlow.emit(RssScreenEvent.FINISH_GETTING_PODCAST)
-                }else{
-                    _isImporting.value=false
+                } else {
+                    _isImporting.value = false
                     _sharedFlow.emit(RssScreenEvent.FAILED_PARSING_DATA)
                 }
             }
@@ -56,16 +56,16 @@ class RssViewModel @Inject constructor(
 
     private suspend fun isPodcastExists(): Boolean {
         return withContext(Dispatchers.IO) {
-            podcastRepository.getPodcastIdByRssUrl(_rssUrlInput.value)!= 0L
+            podcastRepository.getPodcastIdByRssUrl(_rssUrlInput.value) != 0L
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private suspend fun importPodcast():ParseResult =
-        MainParser.parse(_rssUrlInput.value,episodeRepository,podcastRepository)
+    private suspend fun importPodcast(): ParseResult =
+        MainParser.parse(_rssUrlInput.value, episodeRepository, podcastRepository)
 }
 
-enum class RssScreenEvent{
+enum class RssScreenEvent {
     PODCAST_ALREADY_EXISTS,
     IS_GETTING_PODCAST,
     FINISH_GETTING_PODCAST,

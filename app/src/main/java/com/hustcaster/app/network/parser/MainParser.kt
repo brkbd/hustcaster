@@ -32,7 +32,7 @@ object MainParser {
         rssUrl: String,
         episodeRepository: EpisodeRepository,
         podcastRepository: PodcastRepository
-    ):ParseResult {
+    ): ParseResult {
         return withContext(Dispatchers.IO) {
             try {
                 val podcast = Podcast(rssUrl)
@@ -120,9 +120,6 @@ object MainParser {
 
     }
 
-    suspend fun checkPodcastExists(url:String){
-
-    }
 
     //need to pass updateRepository
     @RequiresApi(Build.VERSION_CODES.O)
@@ -140,6 +137,7 @@ object MainParser {
             var eventType = parser.eventType
             val lastPubDate = podcast.pubDate
             var flag = true//decide whether to continue parsing or not
+            val episodes = mutableListOf<Episode>()
             while (flag && eventType != XmlPullParser.END_DOCUMENT) {
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
@@ -191,21 +189,26 @@ object MainParser {
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
                             currentItem?.isUpdated = true
-                            currentItem?.let { episodeRepository.saveEpisode(it) }
+                            currentItem?.let { episodes.add(it.copy()) }
                             currentItem = null
                         }
                     }
                 }
                 eventType = parser.next()
             }
-            podcastRepository.updatePodcast(podcast)
+            podcastRepository.savePodcast(podcast)
+            val podcastId = podcastRepository.getPodcastIdByRssUrl(podcast.rssUrl)
+            episodes.forEach {
+                it.podcastId = podcastId
+                episodeRepository.saveEpisode(it)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 }
 
-enum class ParseResult{
+enum class ParseResult {
     SUCCESS,
     FAILURE
 }

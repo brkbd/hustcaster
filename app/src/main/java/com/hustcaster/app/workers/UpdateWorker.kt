@@ -30,16 +30,14 @@ class UpdateWorker(context: Context, workerParameters: WorkerParameters) :
             val appDatabase = AppDatabase.getDatabase(applicationContext)
             val podcastRepository = PodcastRepository.getInstance(appDatabase.podcastDao())
             val episodeRepository = EpisodeRepository.getInstance(appDatabase.episodeDao())
-            val feedAndFeedItemsList = episodeRepository.getPodcastAndEpisodes()
-//            runBlocking {
-//                launch {
-//                    feedAndFeedItemsList.collect { items ->
-//                        items.forEach { item ->
-//                            MainParser.checkUpdates(item, episodeRepository, podcastRepository)
-//                        }
-//                    }
-//                }
-//            }
+            val podcastList = podcastRepository.getAllPodcasts()
+
+            podcastList.collect { podcasts ->
+                podcasts.forEach { podcast ->
+                    MainParser.checkUpdates(podcast, episodeRepository, podcastRepository)
+                }
+
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Result.failure()

@@ -19,6 +19,8 @@ class PodcastRepository @Inject constructor(
 
     fun getAllPodcasts() = podcastDao.queryAllPodcasts()
 
+    fun getAllPodcastsAndEpisodes()=podcastDao.queryAllPodcastsAndEpisode()
+
     fun getPodcastAndEpisodesById(id: Long) = podcastDao.getPodcastAndEpisodesById(id)
 
     fun getPodcastById(id: Long) = podcastDao.getPodcastById(id)

@@ -20,7 +20,10 @@ interface PodcastDao {
 
     @Transaction
     @Query("select * from podcasts")
-    fun queryAllPodcasts(): Flow<List<PodcastAndEpisodes>>
+    fun queryAllPodcastsAndEpisode(): Flow<List<PodcastAndEpisodes>>
+
+    @Query("select * from podcasts")
+    fun queryAllPodcasts(): Flow<List<Podcast>>
 
     @Transaction
     @Query("select * from podcasts where id=:id")
