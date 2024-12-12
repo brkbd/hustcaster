@@ -25,7 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.hustcaster.app.compose.common.CustomizedTopAppBar
-import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.utils.dateFormat
 import com.hustcaster.app.utils.formatDescription
 import com.hustcaster.app.viewmodels.PodcastViewModel

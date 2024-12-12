@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -29,7 +31,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 @Composable
 fun PlayingBar(
     podcastTitle: String,
-    podcastImageUrl: String,
+    episodeImageUrl: String,
     episodeTitle: String,
     isPlaying: Boolean,
     progress: Float,
@@ -50,26 +52,31 @@ fun PlayingBar(
                     .fillMaxWidth()
             ) {
                 GlideImage(
-                    model = podcastImageUrl,
+                    model = episodeImageUrl,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(60.dp)
-                        .padding(start = 5.dp)
+                        .size(65.dp)
+                        .padding(start = 10.dp)
                         .clip(RoundedCornerShape(2.dp))
                 )
                 Column(
                     modifier = Modifier
-                    .padding(start = 15.dp)
-                    .padding(top = 5.dp)
+                        .padding(start = 15.dp)
+                        .padding(top = 5.dp)
+                        .width(210.dp)//weight
                 ) {
                     Text(
                         text = episodeTitle,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Spacer(modifier = Modifier.padding(vertical = 5.dp))
                     Text(
                         text = podcastTitle,
-                        style = MaterialTheme.typography.labelSmall
+                        style = MaterialTheme.typography.labelSmall,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
                 Row(
@@ -83,7 +90,7 @@ fun PlayingBar(
                         modifier = Modifier
                             .padding(vertical = 12.dp)
                             .padding(end = 30.dp)
-                            .size(30.dp)
+                            .size(28.dp)
                             .clickable { onButtonClick() }
                     )
                 }

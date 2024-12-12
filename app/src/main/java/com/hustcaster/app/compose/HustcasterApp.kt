@@ -40,13 +40,19 @@ fun HustcasterNavHost(
     val appDatabase = AppDatabase.getDatabase(LocalContext.current)
     NavHost(navController = navController, startDestination = NavigationGraph.HOME) {
         composable(route = NavigationGraph.HOME) {
-            HomeScreen(onMoreRecordClick = { navController.navigate(NavigationGraph.RECORD) },
+            HomeScreen(
+                onMoreRecordClick = { navController.navigate(NavigationGraph.RECORD) },
                 onMorePodcastClick = { navController.navigate(NavigationGraph.PODCAST_LIST) },
-                onPlayRecordClick = { navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId)) }) {
-                navController.navigate(
-                    NavigationGraph.PODCAST.toId(it.podcast.id)
-                )
-            }
+                onPlayRecordClick = { navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId)) },
+                onPodcastClick = {
+                    navController.navigate(
+                        NavigationGraph.PODCAST.toId(it.podcast.id)
+                    )
+                },
+                navigateToListenPage = {
+                    navController.navigate(NavigationGraph.LISTEN)
+                }
+            )
         }
         composable(route = NavigationGraph.SUBSCRIPTION) {
             UpdateListScreen(episodes = emptyList()) {

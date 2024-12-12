@@ -17,7 +17,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -45,22 +44,24 @@ import com.hustcaster.app.viewmodels.RssViewModel
 fun RssScreen(
     rssViewModel: RssViewModel = hiltViewModel()
 ) {
-    val snackbarHostState= remember {
+    val snackbarHostState = remember {
         SnackbarHostState()
     }
     val currentValue = rssViewModel.rssUrlInput.collectAsState()
-    val sharedFlow=rssViewModel.sharedFlow
+    val sharedFlow = rssViewModel.sharedFlow
     val isImporting by rssViewModel.isImporting.collectAsState()
 
     LaunchedEffect(sharedFlow) {
-        sharedFlow.collect{
-            when(it){
+        sharedFlow.collect {
+            when (it) {
                 RssScreenEvent.PODCAST_ALREADY_EXISTS -> {
                     snackbarHostState.showSnackbar("Podcast already exists!")
                 }
+
                 RssScreenEvent.IS_GETTING_PODCAST -> {
                     snackbarHostState.showSnackbar("Start fetching podcast, please wait...")
                 }
+
                 RssScreenEvent.FINISH_GETTING_PODCAST -> {
                     snackbarHostState.showSnackbar("Finish! Please go to home screen to check it out!")
                 }
@@ -77,18 +78,7 @@ fun RssScreen(
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
-            Column {
-                PlayingBar(
-                    podcastTitle = "",
-                    podcastImageUrl = "",
-                    episodeTitle = "",
-                    isPlaying = true,
-                    progress = 0.5f,
-                    onButtonClick = { /*TODO*/ }) {
-
-                }
-                NavigationBarImpl()
-            }
+            NavigationBarImpl()
         }
     ) { innerPadding ->
         Box(
@@ -125,8 +115,8 @@ fun RssScreen(
                     },
                     modifier = Modifier.fillMaxWidth()
                 )
-                Box(modifier = Modifier.align(Alignment.CenterHorizontally)){
-                    if(isImporting){
+                Box(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                    if (isImporting) {
                         CircularProgressIndicator(
                             modifier = Modifier
                                 .width(64.dp)

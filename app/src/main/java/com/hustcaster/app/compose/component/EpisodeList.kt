@@ -8,14 +8,13 @@ import com.hustcaster.app.data.model.Episode
 @Composable
 fun EpisodeList(
     episodes: List<Episode>,
-    imageUrl: String,
     onEpisodeClick: (Long) -> Unit
 ) {
     LazyColumn {
         items(episodes) { episode ->
             EpisodeItem(
                 episode = episode,
-                pictureUrl = imageUrl,
+                pictureUrl = episode.imageUrl,
                 onEpisodeClick = { onEpisodeClick(episode.episodeId) })
         }
     }

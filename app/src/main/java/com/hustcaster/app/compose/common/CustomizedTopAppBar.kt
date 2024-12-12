@@ -19,7 +19,6 @@ import com.hustcaster.app.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomizedTopAppBar(
-    modifier: Modifier = Modifier,
     title: String,
     navigationIcon: ImageVector?,
     onNavigationIconClick: () -> Unit,
@@ -52,7 +51,7 @@ fun CustomizedTopAppBar(
                     modifier = Modifier
                         .clickable { onNavigationIconClick() }
                         .padding(start = dimensionResource(id = R.dimen.top_app_bar_icon_padding_horizontal))
-                        .size(28.dp)
+                        .size(30.dp)
                 )
             }
 

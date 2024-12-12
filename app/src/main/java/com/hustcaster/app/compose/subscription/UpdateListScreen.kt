@@ -22,7 +22,6 @@ import com.hustcaster.app.data.model.Episode
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateListScreen(
-    modifier: Modifier = Modifier,
     episodes: List<Episode>,
     onEpisodeClick: (Episode) -> Unit
 ) {
@@ -35,7 +34,7 @@ fun UpdateListScreen(
             Column {
                 PlayingBar(
                     podcastTitle = "",
-                    podcastImageUrl = "",
+                    episodeImageUrl = "",
                     episodeTitle = "",
                     isPlaying = true,
                     progress = 0.5f,

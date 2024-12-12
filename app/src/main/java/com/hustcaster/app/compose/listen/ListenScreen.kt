@@ -18,11 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
@@ -62,6 +59,7 @@ import com.hustcaster.app.compose.component.Pause
 import com.hustcaster.app.player.ExoPlayerHolder
 import com.hustcaster.app.utils.convertLongToDurationString
 import com.hustcaster.app.utils.dateFormat
+import com.hustcaster.app.utils.formatDescription
 import com.hustcaster.app.viewmodels.ListenViewModel
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -241,45 +239,43 @@ fun CoverPage(
     episodeTitle: String,
     podcastTitle: String
 ) {
+
     Column {
+        GlideImage(
+            model = imageUrl,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .aspectRatio(1f, true)
+                .clip(MaterialTheme.shapes.large)
+        )
+
         Column(
-            verticalArrangement = Arrangement.Center
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(top = 50.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            GlideImage(
-                model = imageUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .aspectRatio(1f, true)
-                    .clip(MaterialTheme.shapes.large)
+            Text(
+                text = episodeTitle,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
             )
-
-            Column(
+            Text(
+                text = podcastTitle,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = episodeTitle,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
-                )
-                Text(
-                    text = podcastTitle,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier
-                        .clip(MaterialTheme.shapes.large)
-                        .padding(12.dp, 6.dp)
-                )
-            }
-
+                    .clip(MaterialTheme.shapes.large)
+                    .padding(12.dp, 20.dp)
+            )
         }
+
     }
 }
+
 
 @Composable
 fun EpisodeInfoPage(
@@ -301,7 +297,7 @@ fun EpisodeInfoPage(
                 Text(text = "所属博客： $podcastTitle")
                 Text(text = "作者： $author")
                 Text(text = "发布日期： ${dateFormat.format(pubDate?.time ?: "暂无信息")}")
-                Text(text = "节目信息：$description")
+                Text(text = "节目信息：\n${description.formatDescription()}")
             }
 
         }

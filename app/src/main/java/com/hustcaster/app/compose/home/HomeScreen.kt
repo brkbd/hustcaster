@@ -24,6 +24,7 @@ import com.hustcaster.app.compose.component.PodcastHomeList
 import com.hustcaster.app.compose.component.RecordHomeList
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.PodcastAndEpisodes
+import com.hustcaster.app.player.ExoPlayerHolder
 import com.hustcaster.app.viewmodels.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,26 +34,32 @@ fun HomeScreen(
     onMoreRecordClick: () -> Unit,
     onMorePodcastClick: () -> Unit,
     onPlayRecordClick: (Episode) -> Unit,
-    onPodcastClick: (PodcastAndEpisodes) -> Unit
+    onPodcastClick: (PodcastAndEpisodes) -> Unit,
+    navigateToListenPage: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val records = homeViewModel.records.collectAsState()
     val podcasts = homeViewModel.podcasts.collectAsState()
+    val playerState = ExoPlayerHolder.playerStateFlow.collectAsState()
+
     Scaffold(
         topBar = {
             HomeTopAppBar(scrollBehavior = scrollBehavior)
         },
         bottomBar = {
             Column {
-                PlayingBar(
-                    podcastTitle = "",
-                    podcastImageUrl = "",
-                    episodeTitle = "",
-                    isPlaying = true,
-                    progress = 0.5f,
-                    onButtonClick = { /*TODO*/ }) {
-
+                playerState.value.run {
+                    PlayingBar(
+                        podcastTitle = currentPodcast.title,
+                        episodeImageUrl = currentEpisode.imageUrl,
+                        episodeTitle = currentEpisode.title,
+                        isPlaying = isPlaying,
+                        progress = currentProgress,
+                        onButtonClick = { homeViewModel.playOrPause() },
+                        onBarClick = navigateToListenPage
+                    )
                 }
+
                 NavigationBarImpl()
             }
 

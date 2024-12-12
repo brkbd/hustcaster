@@ -36,6 +36,7 @@ import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.component.EpisodeList
 import com.hustcaster.app.compose.component.PlayingBar
 import com.hustcaster.app.player.ExoPlayerHolder
+import com.hustcaster.app.utils.formatDescription
 import com.hustcaster.app.viewmodels.PodcastViewModel
 import kotlinx.coroutines.launch
 
@@ -61,7 +62,7 @@ fun PodcastScreen(
             playerState.value.run {
                 PlayingBar(
                     podcastTitle = currentPodcast.title,
-                    podcastImageUrl = currentEpisode.imageUrl,
+                    episodeImageUrl = currentEpisode.imageUrl,
                     episodeTitle = currentEpisode.title,
                     isPlaying = isPlaying,
                     progress = currentProgress,
@@ -84,12 +85,11 @@ fun PodcastScreen(
                 PlayAllBar(onPlayAllClick = onPlayAllClick)
                 EpisodeList(
                     episodes = episodes ?: emptyList(),
-                    imageUrl = podcast?.imageUrl ?: "",
                     onEpisodeClick = { episodeId ->
                         coroutineScope.launch {
                             viewModel.onEpisodeClick(episodeId)
                         }
-                        //navigateToListenPage()
+                        navigateToListenPage()
                     }
                 )
             }
@@ -156,7 +156,7 @@ fun PodcastInfoBox(
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
                 Text(
-                    text = description,
+                    text = description.formatDescription(),
                     style = MaterialTheme.typography.labelMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
