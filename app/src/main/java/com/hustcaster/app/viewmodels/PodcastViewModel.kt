@@ -58,6 +58,10 @@ class PodcastViewModel @Inject constructor(
     @OptIn(UnstableApi::class)
     suspend fun onEpisodeClick(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
+            val record = recordRepository.getRecordByEpisodeId(id)
+            record.forEach {
+                recordRepository.deleteRecord(it)
+            }
             recordRepository.insertRecord(Record(episodeId = id))
         }
         viewModelScope.launch(Dispatchers.IO) {

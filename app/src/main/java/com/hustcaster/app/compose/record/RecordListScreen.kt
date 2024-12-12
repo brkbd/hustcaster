@@ -13,6 +13,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,16 +23,18 @@ import com.hustcaster.app.compose.common.CustomizedTopAppBar
 import com.hustcaster.app.compose.component.RecordCard
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.viewmodels.RecordListViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecordListScreen(
-    onPlayClick: (Episode) -> Unit,
+    onPlayClick: () -> Unit,
     onNavigationIconClick: () -> Unit,
     recordListViewModel: RecordListViewModel = hiltViewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val records = recordListViewModel.records.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             RecordListTopAppBar(
@@ -47,13 +50,17 @@ fun RecordListScreen(
                 .padding(innerPadding)
         ) {
             LazyColumn(modifier = Modifier.padding(horizontal = 10.dp)) {
-                items(records.value) { record ->
+                items(records.value.reversed()) { record ->
                     RecordCard(
                         imageUrl = record.episode.imageUrl,
                         title = record.episode.title,
                         description = record.episode.description
                     ) {
-                        onPlayClick(record.episode)
+                        coroutineScope.launch {
+                            recordListViewModel.onRecordClick(record.episode.episodeId)
+                            onPlayClick()
+                        }
+
                     }
                 }
             }

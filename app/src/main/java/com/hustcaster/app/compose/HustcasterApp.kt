@@ -43,7 +43,6 @@ fun HustcasterNavHost(
             HomeScreen(
                 onMoreRecordClick = { navController.navigate(NavigationGraph.RECORD) },
                 onMorePodcastClick = { navController.navigate(NavigationGraph.PODCAST_LIST) },
-                onPlayRecordClick = { navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId)) },
                 onPodcastClick = {
                     navController.navigate(
                         NavigationGraph.PODCAST.toId(it.podcast.id)
@@ -65,15 +64,18 @@ fun HustcasterNavHost(
         composable(route = NavigationGraph.RECORD) {
             RecordListScreen(
                 onPlayClick = {
-                    navController.navigate(NavigationGraph.LISTEN.toId(it.episodeId))
+                    navController.navigate(NavigationGraph.LISTEN)
                 },
                 onNavigationIconClick = { navController.navigateUp() }
             )
         }
         composable(route = NavigationGraph.PODCAST_LIST) {
-            PodcastListScreen(onBackClick = { navController.navigateUp() }, onPodcastClick = {
-                navController.navigate(NavigationGraph.PODCAST.toId(it.podcast.id))
-            })
+            PodcastListScreen(
+                onBackClick = { navController.navigateUp() },
+                onPodcastClick = {
+                    navController.navigate(NavigationGraph.PODCAST.toId(it.podcast.id))
+                }
+            )
         }
         composable(
             route = NavigationGraph.PODCAST.withArgument(PODCAST_ID),

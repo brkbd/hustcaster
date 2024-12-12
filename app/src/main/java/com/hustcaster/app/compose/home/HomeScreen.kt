@@ -12,6 +12,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,10 +23,10 @@ import com.hustcaster.app.compose.common.NavigationBarImpl
 import com.hustcaster.app.compose.component.PlayingBar
 import com.hustcaster.app.compose.component.PodcastHomeList
 import com.hustcaster.app.compose.component.RecordHomeList
-import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.player.ExoPlayerHolder
 import com.hustcaster.app.viewmodels.HomeViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +34,6 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
     onMoreRecordClick: () -> Unit,
     onMorePodcastClick: () -> Unit,
-    onPlayRecordClick: (Episode) -> Unit,
     onPodcastClick: (PodcastAndEpisodes) -> Unit,
     navigateToListenPage: () -> Unit
 ) {
@@ -41,7 +41,7 @@ fun HomeScreen(
     val records = homeViewModel.records.collectAsState()
     val podcasts = homeViewModel.podcasts.collectAsState()
     val playerState = ExoPlayerHolder.playerStateFlow.collectAsState()
-
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             HomeTopAppBar(scrollBehavior = scrollBehavior)
@@ -74,7 +74,12 @@ fun HomeScreen(
                 RecordHomeList(
                     records = records.value,
                     onMoreClick = onMoreRecordClick,
-                    onPlayClick = onPlayRecordClick
+                    onPlayClick = { episode ->
+                        coroutineScope.launch {
+                            homeViewModel.onRecordClick(episode.episodeId)
+                        }
+                        navigateToListenPage()
+                    }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 PodcastHomeList(
