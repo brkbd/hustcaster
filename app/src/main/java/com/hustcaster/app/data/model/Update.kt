@@ -8,5 +8,5 @@ import androidx.room.PrimaryKey
 data class Update(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("record_id") val id:Long=0,
-    @ColumnInfo("episode_id") val episode: Long
+    @ColumnInfo("episode_id") val episodeId: Long
 )

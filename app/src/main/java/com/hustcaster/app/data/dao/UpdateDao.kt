@@ -14,6 +14,10 @@ interface UpdateDao {
     @Insert
     suspend fun insertUpdate(update: Update)
 
+    @Transaction
+    @Insert
+    suspend fun insertAllUpdates(updates:List<Update>)
+
     @Delete
     suspend fun deleteUpdate(update: Update)
 

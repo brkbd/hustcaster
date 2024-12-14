@@ -11,6 +11,8 @@ class UpdateRepository @Inject constructor(
 ) {
     suspend fun insertUpdate(update:Update)=updateDao.insertUpdate(update)
 
+    suspend fun insertAllUpdates(updates:List<Update>)=updateDao.insertAllUpdates(updates)
+
     suspend fun deleteUpdate(update: Update)=updateDao.deleteUpdate(update)
 
     suspend fun deleteAllUpdates()=updateDao.deleteAllUpdates()

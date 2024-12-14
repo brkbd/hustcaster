@@ -4,8 +4,10 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.Podcast
+import com.hustcaster.app.data.model.Update
 import com.hustcaster.app.data.repository.EpisodeRepository
 import com.hustcaster.app.data.repository.PodcastRepository
+import com.hustcaster.app.data.repository.UpdateRepository
 import com.hustcaster.app.network.fetchRssData
 import com.hustcaster.app.utils.convertStringToCalendar
 import kotlinx.coroutines.Dispatchers
@@ -128,7 +130,8 @@ object MainParser {
     suspend fun checkUpdates(
         podcast: Podcast,
         episodeRepository: EpisodeRepository,
-        podcastRepository: PodcastRepository
+        podcastRepository: PodcastRepository,
+        updateRepository: UpdateRepository
     ) {
         try {
             factory.isNamespaceAware = true
@@ -140,6 +143,7 @@ object MainParser {
             val lastPubDate = podcast.pubDate
             var flag = true
             val episodes = mutableListOf<Episode>()
+            val updates= mutableListOf<Update>()
 
             while (flag && eventType != XmlPullParser.END_DOCUMENT) {
                 when (eventType) {
@@ -196,7 +200,7 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            currentItem?.isUpdated = true
+                            currentItem?.let { updates.add(Update(episodeId = it.episodeId)) }
                             currentItem?.let { episodes.add(it.copy()) }
                             currentItem = null
                         }
@@ -210,6 +214,7 @@ object MainParser {
                 it.podcastId = podcastId
                 episodeRepository.saveEpisode(it)
             }
+            updateRepository.insertAllUpdates(updates)
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -26,7 +26,6 @@ data class Episode(
     @ColumnInfo("audio_url") var audioUrl: String = "",
     @ColumnInfo("is_downloaded") var isDownloaded: Boolean = false,
     @ColumnInfo("download_url") var downloadUrl: String = "",
-    @ColumnInfo("is_updated") var isUpdated: Boolean = false,
     @ColumnInfo("progress") var progress: Float = 0F,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("episode_id")
