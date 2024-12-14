@@ -1,12 +1,3 @@
-# 软工_播客软件
+## HustCaster
 
-#### 介绍
-此仓库为hust软件工程小组作品
-
-#### 小组成员
-| 组员姓名      | 任务分工 |
-| ----------- | ----------- |
-| 柯晓豪      | 待定       |
-| 黄思铭      | 待定       |
-| 汪帆        | 待定       |
-| 蔡逸伦      | 待定       |
+A podcast software that can subscribe your podcasts by rss url.
