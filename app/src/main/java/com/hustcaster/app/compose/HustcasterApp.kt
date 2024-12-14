@@ -54,8 +54,8 @@ fun HustcasterNavHost(
             )
         }
         composable(route = NavigationGraph.SUBSCRIPTION) {
-            UpdateListScreen(episodes = emptyList()) {
-
+            UpdateListScreen {
+                navController.navigate(NavigationGraph.LISTEN)
             }
         }
         composable(route = NavigationGraph.RSS) {

@@ -25,7 +25,7 @@ interface RecordDao {
 
 
     @Query("select * from records")
-    fun getRecords(): List<Record>
+    fun getRecords(): Flow<List<Record>>
 
     @Query("delete from records where episode_id=:id")
     suspend fun deleteRecordById(id: Long)

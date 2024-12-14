@@ -51,7 +51,7 @@ fun startUpdatesWork(context: Context) {
         .setRequiredNetworkType(NetworkType.CONNECTED)
         .build()
 
-    val request = PeriodicWorkRequestBuilder<UpdateWorker>(1, TimeUnit.DAYS)
+    val request = PeriodicWorkRequestBuilder<UpdateWorker>(2, TimeUnit.MINUTES)
         .setConstraints(constraints)
         .build()
 

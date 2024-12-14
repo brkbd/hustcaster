@@ -1,6 +1,7 @@
 package com.hustcaster.app.player
 
 import android.content.Context
+import android.util.Log
 import androidx.annotation.OptIn
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
@@ -20,8 +21,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -41,6 +44,7 @@ object ExoPlayerHolder {
     )
 
     private lateinit var repository: Repository
+
 
     data class PlayerState(
         val currentMediaItem: MediaItem = MediaItem.EMPTY,
@@ -76,6 +80,7 @@ object ExoPlayerHolder {
         return exoPlayer
     }
 
+
     private suspend fun updatePlayerProgress() {
         withContext(Dispatchers.Main) {
             while (true) {
@@ -107,11 +112,13 @@ object ExoPlayerHolder {
 
     @OptIn(UnstableApi::class)
     private suspend fun loadEpisodeFromDatabase() {
-        repository.recordRepository.getLatestRecord().filterNotNull()
-            .distinctUntilChangedBy { it.episode.episodeId }
+        repository.recordRepository.getLatestRecord()
+            .map { it?.episodeId?:0L }
+            .distinctUntilChanged()
             .collect {
-                with(it) {
-                    val podcast = repository.podcastRepository.getPodcastById(it.episode.podcastId)
+                if(it != 0L){
+                    val episode= repository.episodeRepository.getEpisodeById(it)
+                    val podcast = repository.podcastRepository.getPodcastById(episode.podcastId)
                     val mediaSource = episode.toMediaSource()
                     mutableStateFlow.update { playerState ->
                         playerState.copy(
@@ -129,6 +136,7 @@ object ExoPlayerHolder {
                         }
                     }
                 }
+
             }
     }
 

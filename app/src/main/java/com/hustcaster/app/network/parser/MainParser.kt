@@ -3,7 +3,6 @@ package com.hustcaster.app.network.parser
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.remember
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.repository.EpisodeRepository
@@ -15,6 +14,7 @@ import kotlinx.coroutines.withContext
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.StringReader
+import java.util.Calendar
 
 private const val ITEM = "item"
 private const val TITLE = "title"
@@ -105,11 +105,16 @@ object MainParser {
                     }
                     eventType = parser.next()
                 }
+                val date=Calendar.getInstance()
+                date.set(2024,Calendar.OCTOBER,30)
+                podcast.pubDate= date
                 podcastRepository.savePodcast(podcast)
                 val podcastId = podcastRepository.getPodcastIdByRssUrl(rssUrl)
                 episodes.forEach {
                     it.podcastId = podcastId
-                    episodeRepository.saveEpisode(it)
+                    if(it.pubDate?.before(date) == true){
+                        episodeRepository.saveEpisode(it)
+                    }
                 }
                 ParseResult.SUCCESS
 
@@ -121,7 +126,6 @@ object MainParser {
     }
 
 
-    //need to pass updateRepository
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun checkUpdates(
         podcast: Podcast,
