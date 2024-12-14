@@ -5,6 +5,7 @@ import com.hustcaster.app.data.AppDatabase
 import com.hustcaster.app.data.dao.EpisodeDao
 import com.hustcaster.app.data.dao.PodcastDao
 import com.hustcaster.app.data.dao.RecordDao
+import com.hustcaster.app.data.dao.UpdateDao
 import com.hustcaster.app.data.repository.PodcastRepository
 import dagger.Module
 import dagger.Provides
@@ -35,5 +36,10 @@ class DatabaseModule {
     @Provides
     fun provideRecordDao(appDatabase: AppDatabase):RecordDao{
         return appDatabase.recordDao()
+    }
+
+    @Provides
+    fun provideUpdateDao(appDatabase: AppDatabase):UpdateDao{
+        return appDatabase.updateDao()
     }
 }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface EpisodeDao {
     @Insert
-    suspend fun insertEpisode(episodes: Episode)
+    suspend fun insertEpisode(episodes: Episode):Long
 
     @Update
     suspend fun updateEpisode(vararg episodes: Episode)
@@ -36,8 +36,6 @@ interface EpisodeDao {
     fun getDownloadedEpisodes(): Flow<List<Episode>>
 
 
-    @Query("select * from episodes where is_updated=1")
-    fun getUpdatedEpisodes(): Flow<List<Episode>>
 
     @Query("select * from episodes where podcast_id=:podcastId")
     fun getEpisodes(podcastId: Long): Flow<List<Episode>>

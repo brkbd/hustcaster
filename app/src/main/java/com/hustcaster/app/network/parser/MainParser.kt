@@ -1,6 +1,7 @@
 package com.hustcaster.app.network.parser
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.Podcast
@@ -106,7 +107,7 @@ object MainParser {
                     eventType = parser.next()
                 }
                 val date=Calendar.getInstance()
-                date.set(2024,Calendar.DECEMBER,11)
+                date.set(2024,Calendar.DECEMBER,1)
                 podcast.pubDate= date
                 podcastRepository.savePodcast(podcast)
                 val podcastId = podcastRepository.getPodcastIdByRssUrl(rssUrl)
@@ -200,7 +201,6 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            currentItem?.let { updates.add(Update(episodeId = it.episodeId)) }
                             currentItem?.let { episodes.add(it.copy()) }
                             currentItem = null
                         }
@@ -210,11 +210,12 @@ object MainParser {
             }
             podcastRepository.updatePodcast(podcast)
             val podcastId = podcast.id
-            episodes.forEach {
-                it.podcastId = podcastId
-                episodeRepository.saveEpisode(it)
+            episodes.forEach { episode ->
+                episode.podcastId = podcastId
+                episodeRepository.saveEpisode(episode).also {
+                    updateRepository.insertUpdate(Update(episodeId = it))
+                }
             }
-            updateRepository.insertAllUpdates(updates)
         } catch (e: Exception) {
             e.printStackTrace()
         }

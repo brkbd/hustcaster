@@ -1,11 +1,8 @@
 package com.hustcaster.app.data.repository
 
-import android.util.Log
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.dao.EpisodeDao
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,9 +10,7 @@ import javax.inject.Singleton
 class EpisodeRepository @Inject constructor(
     private val episodeDao: EpisodeDao
 ) {
-    suspend fun saveEpisode(episode: Episode) {
-        episodeDao.insertEpisode(episode)
-    }
+    suspend fun saveEpisode(episode: Episode) = episodeDao.insertEpisode(episode)
 
     suspend fun removeEpisode(episode: Episode) {
         episodeDao.deleteEpisode(episode)
@@ -30,8 +25,6 @@ class EpisodeRepository @Inject constructor(
     fun getEpisodeById(id: Long) = episodeDao.getEpisodeById(id)
 
     fun getEpisodes(podcast: Podcast) = episodeDao.getEpisodes(podcast.id)
-
-    fun getUpdateEpisode() = episodeDao.getUpdatedEpisodes()
 
     companion object {
         @Volatile

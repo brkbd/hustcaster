@@ -10,6 +10,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.hustcaster.app.data.model.Update
 import com.hustcaster.app.player.PlayerUtilManager
 import com.hustcaster.app.player.PodcastService
 import com.hustcaster.app.player.PodcastServiceConnection
@@ -46,11 +47,12 @@ class App : Application() {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val request = PeriodicWorkRequestBuilder<UpdateWorker>(1, TimeUnit.HOURS)
-            .setConstraints(constraints)
-            .build()
-
-        mWorkManager.enqueueUniquePeriodicWork(UPDATE_WORK_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
+//        val request = PeriodicWorkRequestBuilder<UpdateWorker>(1, TimeUnit.HOURS)
+//            .setConstraints(constraints)
+//            .build()
+        val request= OneTimeWorkRequestBuilder<UpdateWorker>().setConstraints(constraints).build()
+//        mWorkManager.enqueueUniquePeriodicWork(UPDATE_WORK_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
+        mWorkManager.enqueue(request)
     }
 
     companion object {

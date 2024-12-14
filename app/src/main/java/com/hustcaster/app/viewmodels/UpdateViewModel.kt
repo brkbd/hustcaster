@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.UnstableApi
 import com.hustcaster.app.App
-import com.hustcaster.app.data.model.Episode
+import com.hustcaster.app.data.model.EpisodeAndUpdate
 import com.hustcaster.app.data.model.Record
-import com.hustcaster.app.data.repository.EpisodeRepository
 import com.hustcaster.app.data.repository.RecordRepository
+import com.hustcaster.app.data.repository.UpdateRepository
 import com.hustcaster.app.player.ExoPlayerHolder
 import com.hustcaster.app.utils.MediaUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,12 +22,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UpdateViewModel @Inject constructor(
-    private val episodeRepository: EpisodeRepository,
-    private val recordRepository: RecordRepository
+    private val recordRepository: RecordRepository,
+    private val updateRepository: UpdateRepository
 ) : ViewModel() {
     private val exoPlayer = ExoPlayerHolder.get(App.context)
-    val updateEpisodes: StateFlow<List<Episode>> =
-        episodeRepository.getUpdateEpisode().stateIn(
+    val updateEntries: StateFlow<List<EpisodeAndUpdate>> =
+        updateRepository.getAllEpisodeAndUpdates().stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
             emptyList()
@@ -64,12 +64,7 @@ class UpdateViewModel @Inject constructor(
 
     suspend fun onDeleteClick(){
         viewModelScope.launch(Dispatchers.IO) {
-            updateEpisodes.value.forEach {
-                it.isUpdated=false
-            }
-            updateEpisodes.value.forEach{
-                episodeRepository.updateEpisode(it)
-            }
+            updateRepository.deleteAllUpdates()
         }
     }
 }

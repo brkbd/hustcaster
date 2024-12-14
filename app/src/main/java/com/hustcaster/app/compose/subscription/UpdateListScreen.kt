@@ -34,7 +34,7 @@ fun UpdateListScreen(
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val playerState = ExoPlayerHolder.playerStateFlow.collectAsState()
-    val episodes = viewModel.updateEpisodes.collectAsState()
+    val updates = viewModel.updateEntries.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
@@ -65,10 +65,10 @@ fun UpdateListScreen(
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             LazyColumn {
-                items(episodes.value) { episode ->
-                    EpisodeItem(episode = episode, pictureUrl = episode.imageUrl) {
+                items(updates.value) {
+                    EpisodeItem(episode = it.episode, pictureUrl = it.episode.imageUrl) {
                         coroutineScope.launch {
-                            viewModel.onEpisodeClick(episode.episodeId)
+                            viewModel.onEpisodeClick(it.episode.episodeId)
                             navigateToListenScreen()
                         }
                     }
