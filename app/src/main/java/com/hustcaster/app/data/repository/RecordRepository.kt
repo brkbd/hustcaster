@@ -1,14 +1,8 @@
 package com.hustcaster.app.data.repository
 
-import android.util.Log
 import com.hustcaster.app.data.dao.RecordDao
-import com.hustcaster.app.data.model.EpisodeAndRecord
 import com.hustcaster.app.data.model.Record
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,15 +32,7 @@ class RecordRepository @Inject constructor(
         it.lastOrNull()
     }
 
-    fun getImageUrlOfRecord(id: Long) = recordDao.getImageUrlByRecordId(id)
-
-    fun getImageUrlsOfRecords(records: List<EpisodeAndRecord>): Flow<List<String>> {
-        val imageUrls = mutableListOf<String>()
-        records.forEach { record ->
-            imageUrls.add(getImageUrlOfRecord(record.record.id)[0])
-        }
-        return flow { emit(imageUrls) }
-    }
+    private fun getImageUrlOfRecord(id: Long) = recordDao.getImageUrlByRecordId(id)
 
 
     companion object {

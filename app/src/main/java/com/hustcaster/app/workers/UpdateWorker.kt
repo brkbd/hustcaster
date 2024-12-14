@@ -2,6 +2,7 @@ package com.hustcaster.app.workers
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
@@ -32,11 +33,9 @@ class UpdateWorker(context: Context, workerParameters: WorkerParameters) :
             val episodeRepository = EpisodeRepository.getInstance(appDatabase.episodeDao())
             val podcastList = podcastRepository.getAllPodcasts()
 
-            podcastList.collect { podcasts ->
-                podcasts.forEach { podcast ->
-                    MainParser.checkUpdates(podcast, episodeRepository, podcastRepository)
-                }
-
+            podcastList.forEach {  podcast ->
+                Log.d("UpdateWorker",podcast.title)
+                MainParser.checkUpdates(podcast, episodeRepository, podcastRepository)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -46,16 +45,3 @@ class UpdateWorker(context: Context, workerParameters: WorkerParameters) :
     }
 }
 
-fun startUpdatesWork(context: Context) {
-    val constraints = Constraints.Builder()
-        .setRequiredNetworkType(NetworkType.CONNECTED)
-        .build()
-
-    val request = PeriodicWorkRequestBuilder<UpdateWorker>(2, TimeUnit.MINUTES)
-        .setConstraints(constraints)
-        .build()
-
-
-    WorkManager.getInstance(context)
-        .enqueueUniquePeriodicWork(UPDATE_WORK_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
-}

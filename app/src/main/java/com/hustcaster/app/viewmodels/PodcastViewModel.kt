@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.UnstableApi
 import com.hustcaster.app.App
 import com.hustcaster.app.compose.common.NavigationGraph.PODCAST_ID
+import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.PodcastAndEpisodes
 import com.hustcaster.app.data.model.Record
 import com.hustcaster.app.data.repository.PodcastRepository
@@ -42,6 +43,7 @@ class PodcastViewModel @Inject constructor(
             val result = withContext(Dispatchers.IO) {
                 podcastRepository.getPodcastAndEpisodesById(podcastId)
             }
+            result.sortedEpisodesByDate()
             _podcastAndEpisodes.postValue(result)
         }
     }

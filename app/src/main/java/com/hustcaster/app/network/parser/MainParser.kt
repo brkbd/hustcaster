@@ -140,8 +140,9 @@ object MainParser {
             var currentItem: Episode? = null
             var eventType = parser.eventType
             val lastPubDate = podcast.pubDate
-            var flag = true//decide whether to continue parsing or not
+            var flag = true
             val episodes = mutableListOf<Episode>()
+
             while (flag && eventType != XmlPullParser.END_DOCUMENT) {
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
@@ -200,8 +201,9 @@ object MainParser {
                 }
                 eventType = parser.next()
             }
-            podcastRepository.savePodcast(podcast)
-            val podcastId = podcastRepository.getPodcastIdByRssUrl(podcast.rssUrl)
+            podcastRepository.updatePodcast(podcast)
+            Log.d("UpdateWorker","here")
+            val podcastId = podcast.id
             episodes.forEach {
                 it.podcastId = podcastId
                 episodeRepository.saveEpisode(it)

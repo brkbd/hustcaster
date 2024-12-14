@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.Podcast
 import com.hustcaster.app.data.model.PodcastAndEpisodes
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +24,10 @@ interface PodcastDao {
     fun queryAllPodcastsAndEpisode(): Flow<List<PodcastAndEpisodes>>
 
     @Query("select * from podcasts")
-    fun queryAllPodcasts(): Flow<List<Podcast>>
+    fun queryAllPodcastsFlow(): Flow<List<Podcast>>
+
+    @Query("select * from podcasts")
+    fun getAllPodcasts():List<Podcast>
 
     @Transaction
     @Query("select * from podcasts where id=:id")
@@ -37,6 +41,7 @@ interface PodcastDao {
 
     @Query("select image_url from podcasts where id=:podcastId")
     fun getPodcastPictureUrlById(podcastId: Long): Flow<String>
+
 
     @Delete
     suspend fun deletePodcast(podcast: Podcast)

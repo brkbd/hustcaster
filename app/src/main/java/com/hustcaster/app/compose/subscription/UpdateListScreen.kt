@@ -43,7 +43,7 @@ fun UpdateListScreen(
                 playerState.value.run {
                     PlayingBar(
                         podcastTitle = currentPodcast.title,
-                        episodeImageUrl = currentEpisode.title,
+                        episodeImageUrl = currentEpisode.imageUrl,
                         episodeTitle = currentEpisode.title,
                         isPlaying = isPlaying,
                         progress = currentProgress,

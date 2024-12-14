@@ -8,5 +8,9 @@ data class PodcastAndEpisodes(
     val podcast: Podcast,
 
     @Relation(parentColumn = "id", entityColumn = "podcast_id")
-    val episodes: List<Episode> = emptyList()
-)
+    var episodes: List<Episode> = emptyList()
+){
+    fun sortedEpisodesByDate(){
+        episodes=episodes.sortedBy { it.pubDate }.reversed()
+    }
+}

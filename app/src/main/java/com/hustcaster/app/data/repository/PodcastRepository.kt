@@ -17,8 +17,9 @@ class PodcastRepository @Inject constructor(
 
     fun getImageUrlByPodcastId(feedId: Long) = podcastDao.getPodcastPictureUrlById(feedId)
 
-    fun getAllPodcasts() = podcastDao.queryAllPodcasts()
+    fun getAllPodcastsFlow() = podcastDao.queryAllPodcastsFlow()
 
+    fun getAllPodcasts()=podcastDao.getAllPodcasts()
     fun getAllPodcastsAndEpisodes()=podcastDao.queryAllPodcastsAndEpisode()
 
     fun getPodcastAndEpisodesById(id: Long) = podcastDao.getPodcastAndEpisodesById(id)
@@ -26,6 +27,7 @@ class PodcastRepository @Inject constructor(
     fun getPodcastById(id: Long) = podcastDao.getPodcastById(id)
 
     fun getPodcastIdByRssUrl(url: String) = podcastDao.getPodcastIdByRssUrl(url)
+
 
     companion object {
         @Volatile
