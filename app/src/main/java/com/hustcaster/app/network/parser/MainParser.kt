@@ -1,7 +1,6 @@
 package com.hustcaster.app.network.parser
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.hustcaster.app.data.model.Episode
 import com.hustcaster.app.data.model.Podcast
@@ -38,7 +37,6 @@ object MainParser {
                 val podcast = Podcast(rssUrl)
                 factory.isNamespaceAware = true
                 val parser = factory.newPullParser()
-                Log.d("debug", rssUrl)
                 val xmlData = fetchRssData(rssUrl)
                 if (xmlData == null) {
                     ParseResult.FAILURE
@@ -106,7 +104,7 @@ object MainParser {
                     eventType = parser.next()
                 }
                 val date=Calendar.getInstance()
-                date.set(2024,Calendar.OCTOBER,30)
+                date.set(2024,Calendar.DECEMBER,11)
                 podcast.pubDate= date
                 podcastRepository.savePodcast(podcast)
                 val podcastId = podcastRepository.getPodcastIdByRssUrl(rssUrl)
@@ -170,7 +168,6 @@ object MainParser {
                                 }
 
                                 PUB_DATE -> if (currentItem == null) {
-                                    //check updates
                                     val pubDate = convertStringToCalendar(parser.nextText())
                                     if (pubDate?.after(lastPubDate) == false) {
                                         flag = false
@@ -181,6 +178,12 @@ object MainParser {
                                     currentItem.pubDate = convertStringToCalendar(parser.nextText())
                                     if (currentItem.pubDate?.after(lastPubDate) == false) {
                                         flag = false
+                                    }
+                                    if (podcast.pubDate == null || podcast.pubDate!!.before(
+                                            currentItem.pubDate
+                                        )
+                                    ) {
+                                        podcast.pubDate = currentItem.pubDate
                                     }
                                 }
 
@@ -202,7 +205,6 @@ object MainParser {
                 eventType = parser.next()
             }
             podcastRepository.updatePodcast(podcast)
-            Log.d("UpdateWorker","here")
             val podcastId = podcast.id
             episodes.forEach {
                 it.podcastId = podcastId

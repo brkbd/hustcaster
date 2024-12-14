@@ -46,13 +46,11 @@ class App : Application() {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-//        val request = PeriodicWorkRequestBuilder<UpdateWorker>(30, TimeUnit.SECONDS)
-//            .setConstraints(constraints)
-//            .build()
+        val request = PeriodicWorkRequestBuilder<UpdateWorker>(1, TimeUnit.HOURS)
+            .setConstraints(constraints)
+            .build()
 
-        val request= OneTimeWorkRequestBuilder<UpdateWorker>().build()
-//        mWorkManager.enqueueUniquePeriodicWork(UPDATE_WORK_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
-        mWorkManager.enqueue(request)
+        mWorkManager.enqueueUniquePeriodicWork(UPDATE_WORK_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
     }
 
     companion object {

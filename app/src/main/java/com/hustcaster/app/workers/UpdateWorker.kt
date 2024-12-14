@@ -4,22 +4,14 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.work.Constraints
 import androidx.work.CoroutineWorker
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.hustcaster.app.data.AppDatabase
 import com.hustcaster.app.data.repository.EpisodeRepository
 import com.hustcaster.app.data.repository.PodcastRepository
 import com.hustcaster.app.network.parser.MainParser
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.util.concurrent.TimeUnit
 
 const val UPDATE_WORK_TAG = "update_work"
 
@@ -34,7 +26,6 @@ class UpdateWorker(context: Context, workerParameters: WorkerParameters) :
             val podcastList = podcastRepository.getAllPodcasts()
 
             podcastList.forEach {  podcast ->
-                Log.d("UpdateWorker",podcast.title)
                 MainParser.checkUpdates(podcast, episodeRepository, podcastRepository)
             }
         } catch (e: Exception) {
