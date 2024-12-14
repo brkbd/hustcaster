@@ -21,9 +21,9 @@ interface UpdateDao {
     suspend fun deleteAllUpdates()
 
     @Query("select * from updates")
-    suspend fun getAllUpdates():Flow<List<Update>>
+    fun getAllUpdates():Flow<List<Update>>
 
     @Transaction
     @Query("select * from updates")
-    suspend fun getAllEpisodeAndUpdate():Flow<List<EpisodeAndUpdate>>
+    fun getAllEpisodeAndUpdate():Flow<List<EpisodeAndUpdate>>
 }
