@@ -50,7 +50,9 @@ class App : Application() {
         val request = PeriodicWorkRequestBuilder<UpdateWorker>(1, TimeUnit.HOURS)
             .setConstraints(constraints)
             .build()
+//        val request= OneTimeWorkRequestBuilder<UpdateWorker>().setConstraints(constraints).build()
         mWorkManager.enqueueUniquePeriodicWork(UPDATE_WORK_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
+//        mWorkManager.enqueue(request)
     }
 
     companion object {

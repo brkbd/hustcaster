@@ -55,19 +55,19 @@ fun RssScreen(
         sharedFlow.collect {
             when (it) {
                 RssScreenEvent.PODCAST_ALREADY_EXISTS -> {
-                    snackbarHostState.showSnackbar("Podcast already exists!")
+                    snackbarHostState.showSnackbar("目标播客已存在！")
                 }
 
                 RssScreenEvent.IS_GETTING_PODCAST -> {
-                    snackbarHostState.showSnackbar("Start fetching podcast, please wait...")
+                    snackbarHostState.showSnackbar("开始获取数据，请稍等...")
                 }
 
                 RssScreenEvent.FINISH_GETTING_PODCAST -> {
-                    snackbarHostState.showSnackbar("Finish! Please go to home screen to check it out!")
+                    snackbarHostState.showSnackbar("导入成功！请移步主页查看")
                 }
 
                 RssScreenEvent.FAILED_PARSING_DATA -> {
-                    snackbarHostState.showSnackbar("Something is going wrong when parsing data...")
+                    snackbarHostState.showSnackbar("导入失败！")
                 }
             }
         }

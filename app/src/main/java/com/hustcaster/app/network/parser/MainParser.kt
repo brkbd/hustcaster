@@ -99,23 +99,23 @@ object MainParser {
 
                         XmlPullParser.END_TAG -> {
                             if (parser.name == ITEM) {
-                                currentItem?.let { episodes.add(it.copy()) }
+                                currentItem?.let { episodes.add(it.copy(imageUrl = if(it.imageUrl!="") it.imageUrl else podcast.imageUrl)) }
                                 currentItem = null
                             }
                         }
                     }
                     eventType = parser.next()
                 }
-                val date=Calendar.getInstance()
-                date.set(2024,Calendar.DECEMBER,1)
-                podcast.pubDate= date
+//                val date=Calendar.getInstance()
+//                date.set(2024,Calendar.DECEMBER,1)
+//                podcast.pubDate= date
                 podcastRepository.savePodcast(podcast)
                 val podcastId = podcastRepository.getPodcastIdByRssUrl(rssUrl)
                 episodes.forEach {
                     it.podcastId = podcastId
-                    if(it.pubDate?.before(date) == true){
-                        episodeRepository.saveEpisode(it)
-                    }
+//                    if(it.pubDate?.before(date) == true){
+                    episodeRepository.saveEpisode(it)
+//                    }
                 }
                 ParseResult.SUCCESS
 
@@ -201,7 +201,7 @@ object MainParser {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == ITEM) {
-                            currentItem?.let { episodes.add(it.copy()) }
+                            currentItem?.let { episodes.add(it.copy(imageUrl = if(it.imageUrl!="") it.imageUrl else podcast.imageUrl)) }
                             currentItem = null
                         }
                     }
