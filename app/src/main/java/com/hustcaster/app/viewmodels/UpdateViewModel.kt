@@ -61,4 +61,15 @@ class UpdateViewModel @Inject constructor(
             }
         }
     }
+
+    suspend fun onDeleteClick(){
+        viewModelScope.launch(Dispatchers.IO) {
+            updateEpisodes.value.forEach {
+                it.isUpdated=false
+            }
+            updateEpisodes.value.forEach{
+                episodeRepository.updateEpisode(it)
+            }
+        }
+    }
 }

@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
@@ -36,7 +38,12 @@ fun UpdateListScreen(
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
-            UpdateTopAppBar(scrollBehavior = scrollBehavior)
+            UpdateTopAppBar(scrollBehavior = scrollBehavior,
+                onDeleteClick = {
+                    coroutineScope.launch {
+                        viewModel.onDeleteClick()
+                    }
+                })
         },
         bottomBar = {
             Column {
@@ -74,14 +81,15 @@ fun UpdateListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateTopAppBar(
-    scrollBehavior: TopAppBarScrollBehavior
+    scrollBehavior: TopAppBarScrollBehavior,
+    onDeleteClick:()->Unit={}
 ) {
     CustomizedTopAppBar(
         title = stringResource(id = R.string.inbox),
         navigationIcon = null,
         onNavigationIconClick = { },
-        actionIcon = null,
-        onActionIconClick = { },
+        actionIcon = Icons.Filled.Delete,
+        onActionIconClick = onDeleteClick,
         scrollBehavior = scrollBehavior
     )
 }
